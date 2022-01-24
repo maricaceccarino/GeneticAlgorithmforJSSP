@@ -20,6 +20,7 @@ public class InputManager {
     //percentuale che si arrivi un job irregolare per ogni tick di tempo
     public static final int IRREGULAR_JOB_COMPARISON_PERCENTAGE = 5;
     public static final int NO_SOLUTION = -1;
+    public static final int MAX_ACCETTABLE_JOBS =10;
 
     private JobType[] jobTypes = new JobType[JOB_TYPE_SIZE];
 
@@ -102,5 +103,23 @@ public class InputManager {
         }
         return irregularJobs;
 
+    }
+    public List<Job> generateRegularJob (){
+        
+        List<Job> regularJobs = new LinkedList<>();
+        int jobs0 = randomInRange(0, 10);
+        int jobs50 = randomInRange(0, 10);
+        int jobs100 = randomInRange(0, 10);
+        
+        for (int i = 0; i < jobs0; i++) {
+            
+        }
+        for (int i = 0; i < jobs50; i++) {
+            
+        }
+        for (int i = 0; i < jobs100; i++) {
+            
+        }
+        
     }
 }
