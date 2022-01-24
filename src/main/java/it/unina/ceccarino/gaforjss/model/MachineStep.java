@@ -8,12 +8,12 @@ package it.unina.ceccarino.gaforjss.model;
  *
  * @author sommovir
  */
-public class MachineSequence {
+public class MachineStep {
     
     private Machine machine;
     private int time;
 
-    public MachineSequence(Machine machine, int time) {
+    public MachineStep(Machine machine, int time) {
         this.machine = machine;
         this.time = time;
     }

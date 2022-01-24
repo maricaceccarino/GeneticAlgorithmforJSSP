@@ -39,86 +39,86 @@ public class InputManager {
     }
 
     private void initJobType() {
-        this.jobTypes[0] = new JobType(5, 1, new MachineSequence[]{
-            new MachineSequence(Machine.A, 3),
-            new MachineSequence(Machine.B, 3),
-            new MachineSequence(Machine.C, 4),
-            new MachineSequence(Machine.D, 7),
-            new MachineSequence(Machine.E, 4),
-            new MachineSequence(Machine.I, 5)
+        this.jobTypes[0] = new JobType(5, 1, new MachineStep[]{
+            new MachineStep(Machine.A, 3),
+            new MachineStep(Machine.B, 3),
+            new MachineStep(Machine.C, 4),
+            new MachineStep(Machine.D, 7),
+            new MachineStep(Machine.E, 4),
+            new MachineStep(Machine.I, 5)
 
         });
-        this.jobTypes[1] = new JobType(5, 2, new MachineSequence[]{
-            new MachineSequence(Machine.A, 3),
-            new MachineSequence(Machine.B, 3),
-            new MachineSequence(Machine.C, 4),
-            new MachineSequence(Machine.E, 4),
-            new MachineSequence(Machine.G, 8),
-            new MachineSequence(Machine.J, 3)
+        this.jobTypes[1] = new JobType(5, 2, new MachineStep[]{
+            new MachineStep(Machine.A, 3),
+            new MachineStep(Machine.B, 3),
+            new MachineStep(Machine.C, 4),
+            new MachineStep(Machine.E, 4),
+            new MachineStep(Machine.G, 8),
+            new MachineStep(Machine.J, 3)
         });
-        this.jobTypes[2] = new JobType(5, 3, new MachineSequence[]{
-            new MachineSequence(Machine.A, 3),
-            new MachineSequence(Machine.B, 3),
-            new MachineSequence(Machine.C, 4),
-            new MachineSequence(Machine.D, 7),
-            new MachineSequence(Machine.F, 3),
-            new MachineSequence(Machine.I, 5)
+        this.jobTypes[2] = new JobType(5, 3, new MachineStep[]{
+            new MachineStep(Machine.A, 3),
+            new MachineStep(Machine.B, 3),
+            new MachineStep(Machine.C, 4),
+            new MachineStep(Machine.D, 7),
+            new MachineStep(Machine.F, 3),
+            new MachineStep(Machine.I, 5)
         });
-        this.jobTypes[3] = new JobType(5, 4, new MachineSequence[]{
-            new MachineSequence(Machine.A, 3),
-            new MachineSequence(Machine.B, 3),
-            new MachineSequence(Machine.C, 4),
-            new MachineSequence(Machine.D, 7),
-            new MachineSequence(Machine.F, 3),
-            new MachineSequence(Machine.J, 3)
+        this.jobTypes[3] = new JobType(5, 4, new MachineStep[]{
+            new MachineStep(Machine.A, 3),
+            new MachineStep(Machine.B, 3),
+            new MachineStep(Machine.C, 4),
+            new MachineStep(Machine.D, 7),
+            new MachineStep(Machine.F, 3),
+            new MachineStep(Machine.J, 3)
         });
-        this.jobTypes[4] = new JobType(10, 5, new MachineSequence[]{
-            new MachineSequence(Machine.A, 3),
-            new MachineSequence(Machine.B, 3),
-            new MachineSequence(Machine.C, 4),
-            new MachineSequence(Machine.E, 4),
-            new MachineSequence(Machine.H, 6),
-            new MachineSequence(Machine.I, 5)
+        this.jobTypes[4] = new JobType(10, 5, new MachineStep[]{
+            new MachineStep(Machine.A, 3),
+            new MachineStep(Machine.B, 3),
+            new MachineStep(Machine.C, 4),
+            new MachineStep(Machine.E, 4),
+            new MachineStep(Machine.H, 6),
+            new MachineStep(Machine.I, 5)
         });
-         this.jobTypes[5] = new JobType(10, 6, new MachineSequence[]{
-            new MachineSequence(Machine.A, 3),
-            new MachineSequence(Machine.B, 3),
-            new MachineSequence(Machine.C, 4),
-            new MachineSequence(Machine.F, 3),
-            new MachineSequence(Machine.G, 8),
-            new MachineSequence(Machine.J, 3)
+         this.jobTypes[5] = new JobType(10, 6, new MachineStep[]{
+            new MachineStep(Machine.A, 3),
+            new MachineStep(Machine.B, 3),
+            new MachineStep(Machine.C, 4),
+            new MachineStep(Machine.F, 3),
+            new MachineStep(Machine.G, 8),
+            new MachineStep(Machine.J, 3)
         });
-          this.jobTypes[6] = new JobType(10, 7, new MachineSequence[]{
-            new MachineSequence(Machine.A, 3),
-            new MachineSequence(Machine.B, 3),
-            new MachineSequence(Machine.C, 4),
-            new MachineSequence(Machine.F, 3),
-            new MachineSequence(Machine.H, 6),
-            new MachineSequence(Machine.I, 5)
+          this.jobTypes[6] = new JobType(10, 7, new MachineStep[]{
+            new MachineStep(Machine.A, 3),
+            new MachineStep(Machine.B, 3),
+            new MachineStep(Machine.C, 4),
+            new MachineStep(Machine.F, 3),
+            new MachineStep(Machine.H, 6),
+            new MachineStep(Machine.I, 5)
         });
-         this.jobTypes[7] = new JobType(10, 8, new MachineSequence[]{
-            new MachineSequence(Machine.A, 3),
-            new MachineSequence(Machine.B, 3),
-            new MachineSequence(Machine.C, 4),
-            new MachineSequence(Machine.E, 4),
-            new MachineSequence(Machine.H, 6),
-            new MachineSequence(Machine.J, 3)
+         this.jobTypes[7] = new JobType(10, 8, new MachineStep[]{
+            new MachineStep(Machine.A, 3),
+            new MachineStep(Machine.B, 3),
+            new MachineStep(Machine.C, 4),
+            new MachineStep(Machine.E, 4),
+            new MachineStep(Machine.H, 6),
+            new MachineStep(Machine.J, 3)
         });
-          this.jobTypes[8] = new JobType(20, 9, new MachineSequence[]{
-            new MachineSequence(Machine.A, 3),
-            new MachineSequence(Machine.B, 3),
-            new MachineSequence(Machine.C, 4),
-            new MachineSequence(Machine.D, 7),
-            new MachineSequence(Machine.G, 8),
-            new MachineSequence(Machine.I, 5)
+          this.jobTypes[8] = new JobType(20, 9, new MachineStep[]{
+            new MachineStep(Machine.A, 3),
+            new MachineStep(Machine.B, 3),
+            new MachineStep(Machine.C, 4),
+            new MachineStep(Machine.D, 7),
+            new MachineStep(Machine.G, 8),
+            new MachineStep(Machine.I, 5)
         });
-           this.jobTypes[9] = new JobType(20, 10, new MachineSequence[]{
-            new MachineSequence(Machine.A, 3),
-            new MachineSequence(Machine.B, 3),
-            new MachineSequence(Machine.C, 4),
-            new MachineSequence(Machine.F, 3),
-            new MachineSequence(Machine.H, 6),
-            new MachineSequence(Machine.J, 3)
+           this.jobTypes[9] = new JobType(20, 10, new MachineStep[]{
+            new MachineStep(Machine.A, 3),
+            new MachineStep(Machine.B, 3),
+            new MachineStep(Machine.C, 4),
+            new MachineStep(Machine.F, 3),
+            new MachineStep(Machine.H, 6),
+            new MachineStep(Machine.J, 3)
         });
       
 

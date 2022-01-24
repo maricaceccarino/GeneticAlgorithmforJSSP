@@ -16,9 +16,9 @@ public class JobType {
     
     private int generationProbability;
     private int type;
-    private MachineSequence [] sequence = new MachineSequence[InputManager.SEQUENCE_SIZE];
+    private MachineStep [] sequence = new MachineStep[InputManager.SEQUENCE_SIZE];
 
-    public JobType(int generationProbability, int type, MachineSequence [] sequence) {
+    public JobType(int generationProbability, int type, MachineStep [] sequence) {
         this.generationProbability = generationProbability;
         this.type = type;
         this.sequence = Arrays.copyOf(sequence, sequence.length);
@@ -32,7 +32,7 @@ public class JobType {
         return type;
     }
 
-    public MachineSequence[] getSequence() {
+    public MachineStep[] getSequence() {
         return Arrays.copyOf(sequence, sequence.length);
     }
     
