@@ -10,7 +10,7 @@ package it.unina.ceccarino.gaforjss;
  */
 public class Main {
     public static void main(String[] args) {
-        System.out.println("ciao");
+        System.out.println("Welcome to Genetic Algorithm");
     }
    
 }
