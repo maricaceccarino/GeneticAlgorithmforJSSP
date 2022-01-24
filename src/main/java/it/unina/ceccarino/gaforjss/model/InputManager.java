@@ -39,7 +39,7 @@ public class InputManager {
     }
 
     private void initJobType() {
-        this.jobTypes[0] = new JobType(5f, 1, new MachineSequence[]{
+        this.jobTypes[0] = new JobType(5, 1, new MachineSequence[]{
             new MachineSequence(Machine.A, 3),
             new MachineSequence(Machine.B, 3),
             new MachineSequence(Machine.C, 4),
@@ -48,7 +48,7 @@ public class InputManager {
             new MachineSequence(Machine.I, 5)
 
         });
-        this.jobTypes[1] = new JobType(5f, 2, new MachineSequence[]{
+        this.jobTypes[1] = new JobType(5, 2, new MachineSequence[]{
             new MachineSequence(Machine.A, 3),
             new MachineSequence(Machine.B, 3),
             new MachineSequence(Machine.C, 4),
@@ -56,7 +56,7 @@ public class InputManager {
             new MachineSequence(Machine.G, 8),
             new MachineSequence(Machine.J, 3)
         });
-        this.jobTypes[2] = new JobType(5f, 3, new MachineSequence[]{
+        this.jobTypes[2] = new JobType(5, 3, new MachineSequence[]{
             new MachineSequence(Machine.A, 3),
             new MachineSequence(Machine.B, 3),
             new MachineSequence(Machine.C, 4),
@@ -64,7 +64,7 @@ public class InputManager {
             new MachineSequence(Machine.F, 3),
             new MachineSequence(Machine.I, 5)
         });
-        this.jobTypes[3] = new JobType(5f, 4, new MachineSequence[]{
+        this.jobTypes[3] = new JobType(5, 4, new MachineSequence[]{
             new MachineSequence(Machine.A, 3),
             new MachineSequence(Machine.B, 3),
             new MachineSequence(Machine.C, 4),
@@ -72,7 +72,7 @@ public class InputManager {
             new MachineSequence(Machine.F, 3),
             new MachineSequence(Machine.J, 3)
         });
-        this.jobTypes[4] = new JobType(5f, 5, new MachineSequence[]{
+        this.jobTypes[4] = new JobType(10, 5, new MachineSequence[]{
             new MachineSequence(Machine.A, 3),
             new MachineSequence(Machine.B, 3),
             new MachineSequence(Machine.C, 4),
@@ -80,7 +80,7 @@ public class InputManager {
             new MachineSequence(Machine.H, 6),
             new MachineSequence(Machine.I, 5)
         });
-         this.jobTypes[5] = new JobType(5f, 6, new MachineSequence[]{
+         this.jobTypes[5] = new JobType(10, 6, new MachineSequence[]{
             new MachineSequence(Machine.A, 3),
             new MachineSequence(Machine.B, 3),
             new MachineSequence(Machine.C, 4),
@@ -88,7 +88,7 @@ public class InputManager {
             new MachineSequence(Machine.G, 8),
             new MachineSequence(Machine.J, 3)
         });
-          this.jobTypes[6] = new JobType(5f, 7, new MachineSequence[]{
+          this.jobTypes[6] = new JobType(10, 7, new MachineSequence[]{
             new MachineSequence(Machine.A, 3),
             new MachineSequence(Machine.B, 3),
             new MachineSequence(Machine.C, 4),
@@ -96,7 +96,7 @@ public class InputManager {
             new MachineSequence(Machine.H, 6),
             new MachineSequence(Machine.I, 5)
         });
-         this.jobTypes[7] = new JobType(5f, 8, new MachineSequence[]{
+         this.jobTypes[7] = new JobType(10, 8, new MachineSequence[]{
             new MachineSequence(Machine.A, 3),
             new MachineSequence(Machine.B, 3),
             new MachineSequence(Machine.C, 4),
@@ -104,7 +104,7 @@ public class InputManager {
             new MachineSequence(Machine.H, 6),
             new MachineSequence(Machine.J, 3)
         });
-          this.jobTypes[8] = new JobType(5f, 9, new MachineSequence[]{
+          this.jobTypes[8] = new JobType(20, 9, new MachineSequence[]{
             new MachineSequence(Machine.A, 3),
             new MachineSequence(Machine.B, 3),
             new MachineSequence(Machine.C, 4),
@@ -112,7 +112,7 @@ public class InputManager {
             new MachineSequence(Machine.G, 8),
             new MachineSequence(Machine.I, 5)
         });
-           this.jobTypes[9] = new JobType(5f, 10, new MachineSequence[]{
+           this.jobTypes[9] = new JobType(20, 10, new MachineSequence[]{
             new MachineSequence(Machine.A, 3),
             new MachineSequence(Machine.B, 3),
             new MachineSequence(Machine.C, 4),
@@ -168,22 +168,46 @@ public class InputManager {
         return irregularJobs;
 
     }
+    
+    
+    public int [] generateJobTypeRandomBase(){
+        int [] base = new int[100];
+        int i = 0;
+        for (JobType jobType : jobTypes) {
+            if(jobType == null){
+                System.out.println("ERROR: jobType is not initialized.");
+                break;
+            }
+            int generationProbability = jobType.getGenerationProbability();
+            for (int k = 0; k < generationProbability; k++) {
+                base[i] = jobType.getType();
+                i++;
+            }
+                    
+        }
+        return base;
+    }
+    
+    
     public List<Job> generateRegularJob (){
-        
+        int[] base = generateJobTypeRandomBase();
         List<Job> regularJobs = new LinkedList<>();
         int jobs0 = randomInRange(0, 10);
         int jobs50 = randomInRange(0, 10);
         int jobs100 = randomInRange(0, 10);
         
         for (int i = 0; i < jobs0; i++) {
-            
+            int jobTypeIndex = base[randomInRange(0, 100)];
+            Job job = new Job(jobTypes[jobTypeIndex], 0, NO_SOLUTION);
         }
         for (int i = 0; i < jobs50; i++) {
-            
+            int jobTypeIndex = base[randomInRange(0, 100)];
+            Job job = new Job(jobTypes[jobTypeIndex], 49, NO_SOLUTION);
         }
         for (int i = 0; i < jobs100; i++) {
-            
+            int jobTypeIndex = base[randomInRange(0, 100)];
+            Job job = new Job(jobTypes[jobTypeIndex], 99, NO_SOLUTION);
         }
-        
+        return regularJobs;
     }
 }

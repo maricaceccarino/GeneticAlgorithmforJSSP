@@ -4,6 +4,8 @@
  */
 package it.unina.ceccarino.gaforjss;
 
+import it.unina.ceccarino.gaforjss.model.InputManager;
+
 /**
  *
  * @author Marica
@@ -11,6 +13,11 @@ package it.unina.ceccarino.gaforjss;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Welcome to Genetic Algorithm");
+        
+        int[] gg = InputManager.getInstance().generateJobTypeRandomBase();
+        for (int i : gg) {
+            System.out.print(i+" ");
+        }
     }
    
 }

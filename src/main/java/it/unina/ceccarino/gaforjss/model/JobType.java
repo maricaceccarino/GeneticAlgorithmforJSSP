@@ -14,17 +14,17 @@ import java.util.List;
  */
 public class JobType {
     
-    private float generationProbability;
+    private int generationProbability;
     private int type;
     private MachineSequence [] sequence = new MachineSequence[InputManager.SEQUENCE_SIZE];
 
-    public JobType(float generationProbability, int type, MachineSequence [] sequence) {
+    public JobType(int generationProbability, int type, MachineSequence [] sequence) {
         this.generationProbability = generationProbability;
         this.type = type;
         this.sequence = Arrays.copyOf(sequence, sequence.length);
     }
 
-    public float getGenerationProbability() {
+    public int getGenerationProbability() {
         return generationProbability;
     }
 
