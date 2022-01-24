@@ -56,7 +56,71 @@ public class InputManager {
             new MachineSequence(Machine.G, 8),
             new MachineSequence(Machine.J, 3)
         });
-        //TODO completare le definizione dei jobTypes
+        this.jobTypes[2] = new JobType(5f, 3, new MachineSequence[]{
+            new MachineSequence(Machine.A, 3),
+            new MachineSequence(Machine.B, 3),
+            new MachineSequence(Machine.C, 4),
+            new MachineSequence(Machine.D, 7),
+            new MachineSequence(Machine.F, 3),
+            new MachineSequence(Machine.I, 5)
+        });
+        this.jobTypes[3] = new JobType(5f, 4, new MachineSequence[]{
+            new MachineSequence(Machine.A, 3),
+            new MachineSequence(Machine.B, 3),
+            new MachineSequence(Machine.C, 4),
+            new MachineSequence(Machine.D, 7),
+            new MachineSequence(Machine.F, 3),
+            new MachineSequence(Machine.J, 3)
+        });
+        this.jobTypes[4] = new JobType(5f, 5, new MachineSequence[]{
+            new MachineSequence(Machine.A, 3),
+            new MachineSequence(Machine.B, 3),
+            new MachineSequence(Machine.C, 4),
+            new MachineSequence(Machine.E, 4),
+            new MachineSequence(Machine.H, 6),
+            new MachineSequence(Machine.I, 5)
+        });
+         this.jobTypes[5] = new JobType(5f, 6, new MachineSequence[]{
+            new MachineSequence(Machine.A, 3),
+            new MachineSequence(Machine.B, 3),
+            new MachineSequence(Machine.C, 4),
+            new MachineSequence(Machine.F, 3),
+            new MachineSequence(Machine.G, 8),
+            new MachineSequence(Machine.J, 3)
+        });
+          this.jobTypes[6] = new JobType(5f, 7, new MachineSequence[]{
+            new MachineSequence(Machine.A, 3),
+            new MachineSequence(Machine.B, 3),
+            new MachineSequence(Machine.C, 4),
+            new MachineSequence(Machine.F, 3),
+            new MachineSequence(Machine.H, 6),
+            new MachineSequence(Machine.I, 5)
+        });
+         this.jobTypes[7] = new JobType(5f, 8, new MachineSequence[]{
+            new MachineSequence(Machine.A, 3),
+            new MachineSequence(Machine.B, 3),
+            new MachineSequence(Machine.C, 4),
+            new MachineSequence(Machine.E, 4),
+            new MachineSequence(Machine.H, 6),
+            new MachineSequence(Machine.J, 3)
+        });
+          this.jobTypes[8] = new JobType(5f, 9, new MachineSequence[]{
+            new MachineSequence(Machine.A, 3),
+            new MachineSequence(Machine.B, 3),
+            new MachineSequence(Machine.C, 4),
+            new MachineSequence(Machine.D, 7),
+            new MachineSequence(Machine.G, 8),
+            new MachineSequence(Machine.I, 5)
+        });
+           this.jobTypes[9] = new JobType(5f, 10, new MachineSequence[]{
+            new MachineSequence(Machine.A, 3),
+            new MachineSequence(Machine.B, 3),
+            new MachineSequence(Machine.C, 4),
+            new MachineSequence(Machine.F, 3),
+            new MachineSequence(Machine.H, 6),
+            new MachineSequence(Machine.J, 3)
+        });
+      
 
     }
 
