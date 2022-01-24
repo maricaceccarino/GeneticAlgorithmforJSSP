@@ -192,22 +192,36 @@ public class InputManager {
     public List<Job> generateRegularJob (){
         int[] base = generateJobTypeRandomBase();
         List<Job> regularJobs = new LinkedList<>();
-        int jobs0 = randomInRange(0, 10);
-        int jobs50 = randomInRange(0, 10);
-        int jobs100 = randomInRange(0, 10);
+        int jobs0 = randomInRange(3, 10);
+        int jobs50 = randomInRange(3, 10);
+        int jobs100 = randomInRange(3, 10);
         
         for (int i = 0; i < jobs0; i++) {
             int jobTypeIndex = base[randomInRange(0, 100)];
-            Job job = new Job(jobTypes[jobTypeIndex], 0, NO_SOLUTION);
+            Job job = new Job(jobTypes[jobTypeIndex-1], 0, NO_SOLUTION);
+            regularJobs.add(job);
         }
         for (int i = 0; i < jobs50; i++) {
             int jobTypeIndex = base[randomInRange(0, 100)];
-            Job job = new Job(jobTypes[jobTypeIndex], 49, NO_SOLUTION);
+            Job job = new Job(jobTypes[jobTypeIndex-1], 49, NO_SOLUTION);
+            regularJobs.add(job);
         }
         for (int i = 0; i < jobs100; i++) {
             int jobTypeIndex = base[randomInRange(0, 100)];
-            Job job = new Job(jobTypes[jobTypeIndex], 99, NO_SOLUTION);
+            Job job = new Job(jobTypes[jobTypeIndex-1], 99, NO_SOLUTION);
+            regularJobs.add(job);
         }
         return regularJobs;
+    }
+    
+    
+    public List<Job> generatesJobs(){
+        List<Job> jobs = new LinkedList<Job>();
+        
+        jobs.addAll(generateRegularJob());
+        jobs.addAll(generateIrregularJob());
+        
+        return jobs;
+        
     }
 }

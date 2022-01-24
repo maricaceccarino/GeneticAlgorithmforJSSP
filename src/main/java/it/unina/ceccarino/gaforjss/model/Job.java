@@ -43,6 +43,11 @@ public class Job {
     public void setSolutionTime(int solutionTime) {
         this.solutionTime = solutionTime;
     }
+
+    @Override
+    public String toString() {
+        return "[J"+this.jobType.getType() + ", "+this.arrivalTime+"]";
+    }
     
     
     
