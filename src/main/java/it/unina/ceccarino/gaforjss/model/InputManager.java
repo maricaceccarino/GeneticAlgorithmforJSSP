@@ -17,7 +17,7 @@ public class InputManager {
 
     public static final int SEQUENCE_SIZE = 6;
     public static final int JOB_TYPE_SIZE = 10;
-    //percentuale che si arrivi un job irregolare per ogni tick di tempo
+    //percentuale che arrivi un job irregolare per ogni tick di tempo
     public static final int IRREGULAR_JOB_COMPARISON_PERCENTAGE = 5;
     public static final int NO_SOLUTION = -1;
     public static final int MAX_ACCETTABLE_JOBS =10;
@@ -130,8 +130,11 @@ public class InputManager {
     }
 
     /**
-     * Restituisce true, se viene generato un numero casuale minore di
-     * percentage
+     * Costruzione di un metodo per la generazione randomica di ordini Regolari
+     * e Irregolari
+     * Ogni job ha una percentuale di probabilità di essere generato,
+     * per gli ordini irregolari questa è sempre del 5%,mentre per gli 
+     * ordini regolari,questa dipende dal tipo di job.
      *
      * @param percentage la soglia che se viene superata dal numero random, il
      * metodo restituirà false

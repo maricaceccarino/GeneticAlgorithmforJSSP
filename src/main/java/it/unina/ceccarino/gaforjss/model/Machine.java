@@ -5,7 +5,8 @@
 package it.unina.ceccarino.gaforjss.model;
 
 /**
- *
+ *Sono definite le 15 macchine totali,alcune di queste sono della stessa 
+ * tipologia, infatti le macchine A,B,C ,J e I sono 2,anzichè una sola.
  * @author sommovir
  */
 public enum Machine {
