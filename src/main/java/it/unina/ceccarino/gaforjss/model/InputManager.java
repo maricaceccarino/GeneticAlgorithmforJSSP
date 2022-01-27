@@ -38,6 +38,11 @@ public class InputManager {
         initJobType();
     }
 
+    /**
+     * Questo metodo definisce le sequenze dei vari job. Ogni job ha un array
+     * di MachineStep, e ogni MachinStep comprende il tipo di macchina su cui
+     * andrà a alvorare (A..I) e il tempo di lavorazione (un intero). 
+     */
     private void initJobType() {
         this.jobTypes[0] = new JobType(5, 1, new MachineStep[]{
             new MachineStep(Machine.A, 3),
@@ -143,7 +148,9 @@ public class InputManager {
      * Restituisce un numero intero casuale tra min e max .
      *
      * @param min
+     * il valore minimo entro il quale sarà generato il numero casuale
      * @param max
+     * il valore massimo entro il quale sarà generato il numero casuale
      * @return un numero intero casuale tra min e max
      */
     public int randomInRange(int min, int max) {
@@ -153,6 +160,15 @@ public class InputManager {
                 .getAsInt();
     }
 
+    /**
+     * Genera una lista di job irregolari. Viene eseguito un ciclo di 100 unità
+     * temporali, e per ogni unità temporale vi è una probabilità definita
+     * da IRREGULAR_JOB_COMPARISON_PERCENTAGE, che un nuovo job all'istante i
+     * venga generato e incluso nella lista risultante. 
+     * Il tipo di job che verrà generato è anch'esso casuale con probabilità 
+     * uniforme tra i 10 possibili tipi di job
+     * @return 
+     */
     public List<Job> generateIrregularJob() {
 
         List<Job> irregularJobs = new LinkedList<>();
@@ -169,7 +185,20 @@ public class InputManager {
 
     }
     
-    
+    /**
+     * Genera un array di interi spalmando su di esso il numero della tipologia
+     * del job tante volte quante sono le probabilità in centesimi di essere
+     * generato casualmente. Questa metodologia servirà poi per scegliere 
+     * casualmente un job tenendo conto delle rispettive probabilità di essere 
+     * generato. Verrà quindi estratto un indice casuale da 0 a 99, che sarà
+     * utilizzato per estrarre dall'array generato da questa funzione, per
+     * decidere la tipologia di job.
+     * @return 
+     * un array di interi che rappresentano la base decisionale per la tipologia
+     * di job
+     * @see
+     * it.unina.ceccarino.gaforjss.model.InputManager#generateRegularJob() 
+     */
     public int [] generateJobTypeRandomBase(){
         int [] base = new int[100];
         int i = 0;
@@ -188,7 +217,13 @@ public class InputManager {
         return base;
     }
     
-    
+    /**
+     * Genera la lista dei job regolari, ovvero che sono settati all'istante
+     * 0, 50 e 100. In particolare vengono generati tre insiemi di jobs e per
+     * ogni insieme è definito un minimo di 2 job e un massimo di 10 job. 
+     * @return 
+     * La lista di job comprensiva dei 3 insiemi descritti sopra. 
+     */
     public List<Job> generateRegularJob (){
         int[] base = generateJobTypeRandomBase();
         List<Job> regularJobs = new LinkedList<>();
@@ -214,7 +249,11 @@ public class InputManager {
         return regularJobs;
     }
     
-    
+    /**
+     * Genera una lista di Job regolari e irregolari.
+     * @return 
+     * Genera una lista di Jobs
+     */
     public List<Job> generatesJobs(){
         List<Job> jobs = new LinkedList<Job>();
         

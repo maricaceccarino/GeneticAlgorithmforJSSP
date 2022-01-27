@@ -7,6 +7,7 @@ package it.unina.ceccarino.gaforjss;
 import it.unina.ceccarino.gaforjss.algo.GeneticAlgorithm;
 import it.unina.ceccarino.gaforjss.algo.Individual;
 import it.unina.ceccarino.gaforjss.algo.Population;
+import it.unina.ceccarino.gaforjss.model.InputManager;
 
 /**
  *
@@ -18,6 +19,9 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Welcome to Genetic Algorithm");
+        
+        
+        
         //        
         //        int[] gg = InputManager.getInstance().generateJobTypeRandomBase();
         //        for (int i : gg) {
