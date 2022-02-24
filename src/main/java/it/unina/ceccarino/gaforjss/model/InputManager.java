@@ -81,7 +81,7 @@ public class InputManager {
             new MachineStep(Machine.M1, 3),
             new MachineStep(Machine.M2, 3),
             new MachineStep(Machine.M3, 4),
-            new MachineStep(Machine.M8 4),
+            new MachineStep(Machine.M8, 4),
             new MachineStep(Machine.M11, 6),
             new MachineStep(Machine.M12, 5)
         });
