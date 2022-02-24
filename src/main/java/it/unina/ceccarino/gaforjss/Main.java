@@ -21,6 +21,16 @@ public class Main {
         System.out.println("Welcome to Genetic Algorithm");
         
         
+        int[] jobIndividual = InputManager.getInstance().generateJobIndividual();
+        for (int i : jobIndividual) {
+            System.out.print(i+" ");
+        }
+        
+        
+        if(true){
+            return;
+        }
+        
         
         //        
         //        int[] gg = InputManager.getInstance().generateJobTypeRandomBase();

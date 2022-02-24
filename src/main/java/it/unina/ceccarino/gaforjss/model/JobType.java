@@ -14,18 +14,12 @@ import java.util.List;
  */
 public class JobType {
     
-    private int generationProbability;
     private int type;
     private MachineStep [] sequence = new MachineStep[InputManager.SEQUENCE_SIZE];
 
-    public JobType(int generationProbability, int type, MachineStep [] sequence) {
-        this.generationProbability = generationProbability;
+    public JobType(int type, MachineStep [] sequence) {
         this.type = type;
         this.sequence = Arrays.copyOf(sequence, sequence.length);
-    }
-
-    public int getGenerationProbability() {
-        return generationProbability;
     }
 
     public int getType() {

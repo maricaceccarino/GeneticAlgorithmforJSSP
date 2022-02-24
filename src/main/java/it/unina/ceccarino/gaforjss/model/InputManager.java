@@ -17,10 +17,8 @@ public class InputManager {
 
     public static final int SEQUENCE_SIZE = 6;
     public static final int JOB_TYPE_SIZE = 10;
-    //percentuale che arrivi un job irregolare per ogni tick di tempo
-    public static final int IRREGULAR_JOB_COMPARISON_PERCENTAGE = 5;
     public static final int NO_SOLUTION = -1;
-    public static final int MAX_ACCETTABLE_JOBS =10;
+    public static final int NUMBER_OF_ACCETTABLE_JOBS =6;
 
     private JobType[] jobTypes = new JobType[JOB_TYPE_SIZE];
 
@@ -44,87 +42,87 @@ public class InputManager {
      * andrà a alvorare (A..I) e il tempo di lavorazione (un intero). 
      */
     private void initJobType() {
-        this.jobTypes[0] = new JobType(5, 1, new MachineStep[]{
-            new MachineStep(Machine.A, 3),
-            new MachineStep(Machine.B, 3),
-            new MachineStep(Machine.C, 4),
-            new MachineStep(Machine.D, 7),
-            new MachineStep(Machine.E, 4),
-            new MachineStep(Machine.I, 5)
+        this.jobTypes[0] = new JobType(1, new MachineStep[]{
+            new MachineStep(Machine.M1, 3),
+            new MachineStep(Machine.M3, 3),
+            new MachineStep(Machine.M5, 4),
+            new MachineStep(Machine.M6, 7),
+            new MachineStep(Machine.M8, 4),
+            new MachineStep(Machine.M12, 5)
 
         });
-        this.jobTypes[1] = new JobType(5, 2, new MachineStep[]{
-            new MachineStep(Machine.A, 3),
-            new MachineStep(Machine.B, 3),
-            new MachineStep(Machine.C, 4),
-            new MachineStep(Machine.E, 4),
-            new MachineStep(Machine.G, 8),
-            new MachineStep(Machine.J, 3)
-        });
-        this.jobTypes[2] = new JobType(5, 3, new MachineStep[]{
-            new MachineStep(Machine.A, 3),
-            new MachineStep(Machine.B, 3),
-            new MachineStep(Machine.C, 4),
-            new MachineStep(Machine.D, 7),
-            new MachineStep(Machine.F, 3),
-            new MachineStep(Machine.I, 5)
-        });
-        this.jobTypes[3] = new JobType(5, 4, new MachineStep[]{
-            new MachineStep(Machine.A, 3),
-            new MachineStep(Machine.B, 3),
-            new MachineStep(Machine.C, 4),
-            new MachineStep(Machine.D, 7),
-            new MachineStep(Machine.F, 3),
-            new MachineStep(Machine.J, 3)
-        });
-        this.jobTypes[4] = new JobType(10, 5, new MachineStep[]{
-            new MachineStep(Machine.A, 3),
-            new MachineStep(Machine.B, 3),
-            new MachineStep(Machine.C, 4),
-            new MachineStep(Machine.E, 4),
-            new MachineStep(Machine.H, 6),
-            new MachineStep(Machine.I, 5)
-        });
-         this.jobTypes[5] = new JobType(10, 6, new MachineStep[]{
-            new MachineStep(Machine.A, 3),
-            new MachineStep(Machine.B, 3),
-            new MachineStep(Machine.C, 4),
-            new MachineStep(Machine.F, 3),
-            new MachineStep(Machine.G, 8),
-            new MachineStep(Machine.J, 3)
-        });
-          this.jobTypes[6] = new JobType(10, 7, new MachineStep[]{
-            new MachineStep(Machine.A, 3),
-            new MachineStep(Machine.B, 3),
-            new MachineStep(Machine.C, 4),
-            new MachineStep(Machine.F, 3),
-            new MachineStep(Machine.H, 6),
-            new MachineStep(Machine.I, 5)
-        });
-         this.jobTypes[7] = new JobType(10, 8, new MachineStep[]{
-            new MachineStep(Machine.A, 3),
-            new MachineStep(Machine.B, 3),
-            new MachineStep(Machine.C, 4),
-            new MachineStep(Machine.E, 4),
-            new MachineStep(Machine.H, 6),
-            new MachineStep(Machine.J, 3)
-        });
-          this.jobTypes[8] = new JobType(20, 9, new MachineStep[]{
-            new MachineStep(Machine.A, 3),
-            new MachineStep(Machine.B, 3),
-            new MachineStep(Machine.C, 4),
-            new MachineStep(Machine.D, 7),
-            new MachineStep(Machine.G, 8),
-            new MachineStep(Machine.I, 5)
-        });
-           this.jobTypes[9] = new JobType(20, 10, new MachineStep[]{
-            new MachineStep(Machine.A, 3),
-            new MachineStep(Machine.B, 3),
-            new MachineStep(Machine.C, 4),
-            new MachineStep(Machine.F, 3),
-            new MachineStep(Machine.H, 6),
-            new MachineStep(Machine.J, 3)
-        });
+//        this.jobTypes[1] = new JobType(2, new MachineStep[]{
+//            new MachineStep(Machine.A, 3),
+//            new MachineStep(Machine.B, 3),
+//            new MachineStep(Machine.C, 4),
+//            new MachineStep(Machine.E, 4),
+//            new MachineStep(Machine.G, 8),
+//            new MachineStep(Machine.J, 3)
+//        });
+//        this.jobTypes[2] = new JobType(3, new MachineStep[]{
+//            new MachineStep(Machine.A, 3),
+//            new MachineStep(Machine.B, 3),
+//            new MachineStep(Machine.C, 4),
+//            new MachineStep(Machine.D, 7),
+//            new MachineStep(Machine.F, 3),
+//            new MachineStep(Machine.I, 5)
+//        });
+//        this.jobTypes[3] = new JobType(4, new MachineStep[]{
+//            new MachineStep(Machine.A, 3),
+//            new MachineStep(Machine.B, 3),
+//            new MachineStep(Machine.C, 4),
+//            new MachineStep(Machine.D, 7),
+//            new MachineStep(Machine.F, 3),
+//            new MachineStep(Machine.J, 3)
+//        });
+//        this.jobTypes[4] = new JobType(5, new MachineStep[]{
+//            new MachineStep(Machine.A, 3),
+//            new MachineStep(Machine.B, 3),
+//            new MachineStep(Machine.C, 4),
+//            new MachineStep(Machine.E, 4),
+//            new MachineStep(Machine.H, 6),
+//            new MachineStep(Machine.I, 5)
+//        });
+//         this.jobTypes[5] = new JobType(6, new MachineStep[]{
+//            new MachineStep(Machine.A, 3),
+//            new MachineStep(Machine.B, 3),
+//            new MachineStep(Machine.C, 4),
+//            new MachineStep(Machine.F, 3),
+//            new MachineStep(Machine.G, 8),
+//            new MachineStep(Machine.J, 3)
+//        });
+//          this.jobTypes[6] = new JobType(7, new MachineStep[]{
+//            new MachineStep(Machine.A, 3),
+//            new MachineStep(Machine.B, 3),
+//            new MachineStep(Machine.C, 4),
+//            new MachineStep(Machine.F, 3),
+//            new MachineStep(Machine.H, 6),
+//            new MachineStep(Machine.I, 5)
+//        });
+//         this.jobTypes[7] = new JobType(8, new MachineStep[]{
+//            new MachineStep(Machine.A, 3),
+//            new MachineStep(Machine.B, 3),
+//            new MachineStep(Machine.C, 4),
+//            new MachineStep(Machine.E, 4),
+//            new MachineStep(Machine.H, 6),
+//            new MachineStep(Machine.J, 3)
+//        });
+//          this.jobTypes[8] = new JobType(9, new MachineStep[]{
+//            new MachineStep(Machine.A, 3),
+//            new MachineStep(Machine.B, 3),
+//            new MachineStep(Machine.C, 4),
+//            new MachineStep(Machine.D, 7),
+//            new MachineStep(Machine.G, 8),
+//            new MachineStep(Machine.I, 5)
+//        });
+//           this.jobTypes[9] = new JobType(10, new MachineStep[]{
+//            new MachineStep(Machine.A, 3),
+//            new MachineStep(Machine.B, 3),
+//            new MachineStep(Machine.C, 4),
+//            new MachineStep(Machine.F, 3),
+//            new MachineStep(Machine.H, 6),
+//            new MachineStep(Machine.J, 3)
+//        });
       
 
     }
@@ -163,30 +161,31 @@ public class InputManager {
                 .getAsInt();
     }
 
-    /**
-     * Genera una lista di job irregolari. Viene eseguito un ciclo di 100 unità
-     * temporali, e per ogni unità temporale vi è una probabilità definita
-     * da IRREGULAR_JOB_COMPARISON_PERCENTAGE, che un nuovo job all'istante i
-     * venga generato e incluso nella lista risultante. 
-     * Il tipo di job che verrà generato è anch'esso casuale con probabilità 
-     * uniforme tra i 10 possibili tipi di job
-     * @return 
-     */
-    public List<Job> generateIrregularJob() {
-
-        List<Job> irregularJobs = new LinkedList<>();
-        //il for rappresenta tutti gli istanti di tempo da 0 a 99
-        for (int i = 0; i < 100; i++) {
-            //entra nell'if se viene generato un numero casuale < 5 (rappresenta la possibilità di evento del 5%)
-            if (randomInPercentage(IRREGULAR_JOB_COMPARISON_PERCENTAGE)) {
-                int jobTypeIndex = randomInRange(0, 10);
-                Job job = new Job(jobTypes[jobTypeIndex], i, NO_SOLUTION);
-                irregularJobs.add(job);
+    
+    
+    
+    
+    public int [] generateJobIndividual(){
+        int [] result = new int[JOB_TYPE_SIZE * SEQUENCE_SIZE]; //60
+        List<Integer> freePositions = new LinkedList<>();
+        //inizializzazione free position list:
+        for (int i = 0; i < result.length; i++) {
+            freePositions.add(i);
+        }
+        
+        for (int jobTypeIndex = 1; jobTypeIndex <= JOB_TYPE_SIZE; jobTypeIndex++) {
+            System.out.println("JOB TYPE: "+jobTypeIndex);
+            for (int j = 0; j < SEQUENCE_SIZE; j++) {
+                int randomIndex = randomInRange(0,freePositions.size());
+                System.out.println("randomIndex = "+randomIndex);
+                result[freePositions.get(randomIndex)]  = jobTypeIndex;
+                freePositions.remove(randomIndex);
+                System.out.println("freePosition Lenght: "+freePositions.size());
             }
         }
-        return irregularJobs;
-
+        return result;
     }
+    
     
     /**
      * Genera un array di interi spalmando su di esso il numero della tipologia
@@ -202,23 +201,23 @@ public class InputManager {
      * @see
      * it.unina.ceccarino.gaforjss.model.InputManager#generateRegularJob() 
      */
-    public int [] generateJobTypeRandomBase(){
-        int [] base = new int[100];
-        int i = 0;
-        for (JobType jobType : jobTypes) {
-            if(jobType == null){
-                System.out.println("ERROR: jobType is not initialized.");
-                break;
-            }
-            int generationProbability = jobType.getGenerationProbability();
-            for (int k = 0; k < generationProbability; k++) {
-                base[i] = jobType.getType();
-                i++;
-            }
-                    
-        }
-        return base;
-    }
+//    public int [] generateJobTypeRandomBase(){
+//        int [] base = new int[100];
+//        int i = 0;
+//        for (JobType jobType : jobTypes) {
+//            if(jobType == null){
+//                System.out.println("ERROR: jobType is not initialized.");
+//                break;
+//            }
+//            int generationProbability = jobType.getGenerationProbability();
+//            for (int k = 0; k < generationProbability; k++) {
+//                base[i] = jobType.getType();
+//                i++;
+//            }
+//                    
+//        }
+//        return base;
+//    }
     
     /**
      * Genera la lista dei job regolari, ovvero che sono settati all'istante
@@ -227,43 +226,43 @@ public class InputManager {
      * @return 
      * La lista di job comprensiva dei 3 insiemi descritti sopra. 
      */
-    public List<Job> generateRegularJob (){
-        int[] base = generateJobTypeRandomBase();
-        List<Job> regularJobs = new LinkedList<>();
-        int jobs0 = randomInRange(3, 10);
-        int jobs50 = randomInRange(3, 10);
-        int jobs100 = randomInRange(3, 10);
-        
-        for (int i = 0; i < jobs0; i++) {
-            int jobTypeIndex = base[randomInRange(0, 100)];
-            Job job = new Job(jobTypes[jobTypeIndex-1], 0, NO_SOLUTION);
-            regularJobs.add(job);
-        }
-        for (int i = 0; i < jobs50; i++) {
-            int jobTypeIndex = base[randomInRange(0, 100)];
-            Job job = new Job(jobTypes[jobTypeIndex-1], 49, NO_SOLUTION);
-            regularJobs.add(job);
-        }
-        for (int i = 0; i < jobs100; i++) {
-            int jobTypeIndex = base[randomInRange(0, 100)];
-            Job job = new Job(jobTypes[jobTypeIndex-1], 99, NO_SOLUTION);
-            regularJobs.add(job);
-        }
-        return regularJobs;
-    }
+//    public List<Job> generateRegularJob (){
+//        int[] base = generateJobTypeRandomBase();
+//        List<Job> regularJobs = new LinkedList<>();
+//        int jobs0 = randomInRange(3, 10);
+//        int jobs50 = randomInRange(3, 10);
+//        int jobs100 = randomInRange(3, 10);
+//        
+//        for (int i = 0; i < jobs0; i++) {
+//            int jobTypeIndex = base[randomInRange(0, 100)];
+//            Job job = new Job(jobTypes[jobTypeIndex-1], 0, NO_SOLUTION);
+//            regularJobs.add(job);
+//        }
+//        for (int i = 0; i < jobs50; i++) {
+//            int jobTypeIndex = base[randomInRange(0, 100)];
+//            Job job = new Job(jobTypes[jobTypeIndex-1], 49, NO_SOLUTION);
+//            regularJobs.add(job);
+//        }
+//        for (int i = 0; i < jobs100; i++) {
+//            int jobTypeIndex = base[randomInRange(0, 100)];
+//            Job job = new Job(jobTypes[jobTypeIndex-1], 99, NO_SOLUTION);
+//            regularJobs.add(job);
+//        }
+//        return regularJobs;
+//    }
     
     /**
      * Genera una lista di Job regolari e irregolari.
      * @return 
      * Genera una lista di Jobs
      */
-    public List<Job> generatesJobs(){
-        List<Job> jobs = new LinkedList<Job>();
-        
-        jobs.addAll(generateRegularJob());
-        jobs.addAll(generateIrregularJob());
-        
-        return jobs;
-        
-    }
+//    public List<Job> generatesJobs(){
+//        List<Job> jobs = new LinkedList<Job>();
+//        
+//        jobs.addAll(generateRegularJob());
+//        jobs.addAll(generateIrregularJob());
+//        
+//        return jobs;
+//        
+//    }
 }
