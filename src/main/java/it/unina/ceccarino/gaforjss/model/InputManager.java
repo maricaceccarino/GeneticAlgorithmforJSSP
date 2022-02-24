@@ -4,8 +4,10 @@
  */
 package it.unina.ceccarino.gaforjss.model;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -165,24 +167,53 @@ public class InputManager {
     
     
     
-    public int [] generateJobIndividual(){
-        int [] result = new int[JOB_TYPE_SIZE * SEQUENCE_SIZE]; //60
+    public JobIndividual generateJobIndividual(){
+        int N = JOB_TYPE_SIZE * SEQUENCE_SIZE;
+        int [] jobPermutationArray = new int[N]; //60
+        int [] operationSequenceArray = new int[N]; //60
         List<Integer> freePositions = new LinkedList<>();
         //inizializzazione free position list:
-        for (int i = 0; i < result.length; i++) {
+        for (int i = 0; i < jobPermutationArray.length; i++) {
             freePositions.add(i);
         }
         
         for (int jobTypeIndex = 1; jobTypeIndex <= JOB_TYPE_SIZE; jobTypeIndex++) {
-            System.out.println("JOB TYPE: "+jobTypeIndex);
+//            System.out.println("JOB TYPE: "+jobTypeIndex);
             for (int j = 0; j < SEQUENCE_SIZE; j++) {
                 int randomIndex = randomInRange(0,freePositions.size());
-                System.out.println("randomIndex = "+randomIndex);
-                result[freePositions.get(randomIndex)]  = jobTypeIndex;
+//                System.out.println("randomIndex = "+randomIndex);
+                jobPermutationArray[freePositions.get(randomIndex)]  = jobTypeIndex;
                 freePositions.remove(randomIndex);
-                System.out.println("freePosition Lenght: "+freePositions.size());
+//                System.out.println("freePosition Lenght: "+freePositions.size());
             }
         }
+        
+        Map<Integer,Integer> positionMap = new HashMap<>();
+   
+        for (int i = 0; i < N; i++) {
+            int jobType = jobPermutationArray[i];
+            if(positionMap.containsKey(jobType)){
+                positionMap.put(jobType, (positionMap.get(jobType)+1));
+                operationSequenceArray[i] = positionMap.get(jobType);
+            }else{
+                operationSequenceArray[i] = 1;
+                positionMap.put(jobType, 1);
+            }
+            if(jobType == 1){
+                System.out.println("ON MAP:   "+positionMap.get(jobType));
+                System.out.println("ON ARRAY: "+operationSequenceArray[i]);
+            }
+              
+        }
+        
+        // 4 ,  1
+        // 5 ,  2
+        // 1 ,  1
+        
+        
+        
+        
+        JobIndividual result = new JobIndividual(jobPermutationArray, operationSequenceArray, null);
         return result;
     }
     

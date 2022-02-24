@@ -8,6 +8,7 @@ import it.unina.ceccarino.gaforjss.algo.GeneticAlgorithm;
 import it.unina.ceccarino.gaforjss.algo.Individual;
 import it.unina.ceccarino.gaforjss.algo.Population;
 import it.unina.ceccarino.gaforjss.model.InputManager;
+import it.unina.ceccarino.gaforjss.model.JobIndividual;
 
 /**
  *
@@ -20,11 +21,21 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Welcome to Genetic Algorithm");
         
-        
-        int[] jobIndividual = InputManager.getInstance().generateJobIndividual();
+        JobIndividual individual = InputManager.getInstance().generateJobIndividual();
+        int[] jobIndividual = individual.getJobPermutation();
+        System.out.println("JOB PERMUTATION");
         for (int i : jobIndividual) {
             System.out.print(i+" ");
         }
+        System.out.println("\n\n------------------------------");
+        
+        int[] jobOperationSequence = individual.getOperationSequence();
+        System.out.println("JOB OPERATION SEQUENCE");
+        for (int i : jobOperationSequence) {
+            System.out.print(i+" ");
+        }
+        System.out.println("------------------------------");
+        
         
         
         if(true){
