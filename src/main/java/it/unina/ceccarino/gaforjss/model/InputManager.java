@@ -32,7 +32,7 @@ public class InputManager {
         }
         return _instance;
     }
-
+    
     private InputManager() {
         super();
         initJobType();
@@ -41,8 +41,8 @@ public class InputManager {
     /**
      * Questo metodo definisce le sequenze dei vari job. Ogni job ha un array
      * di MachineStep, e ogni MachinStep comprende il tipo di macchina su cui
-     * andrà a alvorare (A..I) e il tempo di lavorazione (un intero). 
-     */
+     * andrà a alvorare (M1 ad M15) e il tempo di lavorazione (un intero). 
+     */ 
     private void initJobType() {
         this.jobTypes[0] = new JobType(1, new MachineStep[]{
             new MachineStep(Machine.M1, 3),
@@ -81,7 +81,7 @@ public class InputManager {
             new MachineStep(Machine.M1, 3),
             new MachineStep(Machine.M2, 3),
             new MachineStep(Machine.M3, 4),
-            new MachineStep(Machine.M8 4),
+            new MachineStep(Machine.M8, 4),
             new MachineStep(Machine.M11, 6),
             new MachineStep(Machine.M12, 5)
         });
