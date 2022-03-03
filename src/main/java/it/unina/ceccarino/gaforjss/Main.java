@@ -30,6 +30,13 @@ public class Main {
         }
         System.out.println("In totale abbiamo: "+InputManager.JOB_TOTAL_QUANTITY);
         
+        System.out.println("--------------------------------------");
+        
+        JobIndividual individuo = InputManager.getInstance().generateJobIndividual();
+        for (int type : individuo.getJobPermutation()) {
+            System.out.print(type+" ");
+        }
+        
         
 //        JobIndividual individual = InputManager.getInstance().generateJobIndividual();
 //        JobType[] jobIndividual = individual.getJobPermutation();

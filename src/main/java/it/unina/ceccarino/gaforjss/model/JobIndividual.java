@@ -11,19 +11,19 @@ package it.unina.ceccarino.gaforjss.model;
 public class JobIndividual {
 
     //primo array
-    private JobType[] jobPermutation;
+    private int[] jobPermutation;
     //secondo array
     private int[] operationSequence;
     //terzo array
     private int[] machinesSelected;
 
-    public JobIndividual(JobType [] jobPermutation, int[] operationSequence, int[] machinesSelected) {
+    public JobIndividual(int [] jobPermutation, int[] operationSequence, int[] machinesSelected) {
         this.jobPermutation = jobPermutation;
         this.operationSequence = operationSequence;
         this.machinesSelected = machinesSelected;
     }
 
-    public JobType [] getJobPermutation() {
+    public int [] getJobPermutation() {
         return jobPermutation;
     }
 

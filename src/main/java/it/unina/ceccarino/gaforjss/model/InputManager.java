@@ -23,7 +23,7 @@ public class InputManager {
     public static final int SEQUENCE_SIZE = 6;
     public static int JOB_TOTAL_QUANTITY = 0;
     public static final int NO_SOLUTION = -1;
-    public static final int NUMBER_OF_ACCETTABLE_JOBS =6;
+//    public static final int NUMBER_OF_ACCETTABLE_JOBS =6;
     public static final int JOB_TYPE_SIZE = 10; //numero di differenti job type esistenti
 
     private JobType[] jobTypes = new JobType[JOB_TYPE_SIZE];
@@ -43,6 +43,10 @@ public class InputManager {
         super();
         initJobType();
         randomizeJobQuantity();
+    }
+    
+    public MachineStep[] getSequenceByJobIndex(int jobType){
+        return this.jobTypes[jobType-1].getSequence();
     }
 
     /**
@@ -175,9 +179,10 @@ public class InputManager {
     
     
     public JobIndividual generateJobIndividual(){
-        int N = JOB_TYPE_SIZE * SEQUENCE_SIZE;
-        JobType [] jobPermutationArray = new JobType[N]; //60
-        int [] operationSequenceArray = new int[N]; //60
+        int N = JOB_TOTAL_QUANTITY * SEQUENCE_SIZE; 
+        System.out.println("N = "+N);
+        int [] jobPermutationArray = new int[N]; 
+        int [] operationSequenceArray = new int[N]; 
         List<Integer> freePositions = new LinkedList<>();
         //inizializzazione free position list:
         for (int i = 0; i < jobPermutationArray.length; i++) {
@@ -186,21 +191,22 @@ public class InputManager {
         
         for (int jobTypeIndex = 1; jobTypeIndex <= JOB_TYPE_SIZE; jobTypeIndex++) {
 //            System.out.println("JOB TYPE: "+jobTypeIndex);
-            for (int j = 0; j < SEQUENCE_SIZE; j++) {
+            for (int j = 0; j < this.jobQuantityMap.get(jobTypeIndex)*SEQUENCE_SIZE; j++) {
                 int randomIndex = randomInRange(0,freePositions.size());
 //                System.out.println("randomIndex = "+randomIndex);
-                jobPermutationArray[freePositions.get(randomIndex)].setType(jobTypeIndex);
+                jobPermutationArray[freePositions.get(randomIndex)] = jobTypeIndex;
                 freePositions.remove(randomIndex);
 //                System.out.println("freePosition Lenght: "+freePositions.size());
             }
         }
         
-        Map<Integer,Integer> positionMap = new HashMap<>();
-        JobType jj;
-        for (int i=0;i<N;i++){
-            jobPermutationArray[i].set_cnt(1);
-            operationSequenceArray[i] = jobPermutationArray[i].get_cnt();
-        }
+        //FINO A QUA
+//        Map<Integer,Integer> positionMap = new HashMap<>();
+//        JobType jj;
+//        for (int i=0;i<N;i++){
+//            jobPermutationArray[i].set_cnt(1);
+//            operationSequenceArray[i] = jobPermutationArray[i].get_cnt();
+//        }
         //           jobPermutationArray[i].set_cnt(1);
         /*
         for (int i = 0; i < N; i++) {
