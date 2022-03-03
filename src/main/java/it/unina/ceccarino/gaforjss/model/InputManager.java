@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Random;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import javax.print.attribute.HashAttributeSet;
 
 
 /**
@@ -200,7 +201,24 @@ public class InputManager {
             }
         }
         
-        //FINO A QUA
+        Map<Integer,Integer> positionMap = new HashMap<>();
+        for (Integer jobType : this.jobQuantityMap.keySet()) {
+            positionMap.put(jobType, 1);
+        }
+        for (int i=0; i<jobPermutationArray.length; i++) {
+            int step = positionMap.get(jobPermutationArray[i]);
+            operationSequenceArray[i] = step;
+            positionMap.put(jobPermutationArray[i],++step);
+        }
+        
+        //type qnt   |   type  step
+        // 1    2    |    1     1
+        // 2    1    |    2     1
+        // 3    2    |    3     1
+        
+        //2 1 3 3 2 1 2 1 1 1 1 2 2 3 3 3 1 2 2 3 2 2 2 2 
+        //1 1 1 2 2 2 3
+
 //        Map<Integer,Integer> positionMap = new HashMap<>();
 //        JobType jj;
 //        for (int i=0;i<N;i++){

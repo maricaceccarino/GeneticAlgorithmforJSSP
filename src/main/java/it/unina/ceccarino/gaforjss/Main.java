@@ -30,12 +30,24 @@ public class Main {
         }
         System.out.println("In totale abbiamo: "+InputManager.JOB_TOTAL_QUANTITY);
         
-        System.out.println("--------------------------------------");
+        System.out.println("-------------------------------------------------");
         
         JobIndividual individuo = InputManager.getInstance().generateJobIndividual();
+        System.out.println(" ** JOB PERMUTATION ARRAY **");
         for (int type : individuo.getJobPermutation()) {
+            System.out.print(type == 10 ? "X " : type+" ");
+        }
+        System.out.println("-------------------------------------------------");
+        System.out.println(" ** JOB OPERATION SEQUENCE **");
+        for (int type : individuo.getOperationSequence()) {
             System.out.print(type+" ");
         }
+        
+        
+        int step = individuo.getStep(25);
+        System.out.println("\nstep = "+step);
+        
+        
         
         
 //        JobIndividual individual = InputManager.getInstance().generateJobIndividual();

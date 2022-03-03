@@ -22,6 +22,27 @@ public class JobIndividual {
         this.operationSequence = operationSequence;
         this.machinesSelected = machinesSelected;
     }
+    
+    /**
+     * Ritorna lo step dell'operazione all'indice operationIndex
+     * @param operationIndex
+     * @return 
+     */
+    public int getStep(int operationIndex){
+        
+        int rawStep = operationSequence[operationIndex];
+        if(rawStep <=6){
+            return rawStep;
+        }
+        else{
+            int jobIndex = rawStep/6;  
+            return rawStep-(6*rawStep);  
+        }
+    }
+    
+    public int getJobStep(int operationIndex){
+        return this.jobPermutation[operationIndex];
+    }
 
     public int [] getJobPermutation() {
         return jobPermutation;
