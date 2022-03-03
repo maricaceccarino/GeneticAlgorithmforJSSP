@@ -9,6 +9,8 @@ import it.unina.ceccarino.gaforjss.algo.Individual;
 import it.unina.ceccarino.gaforjss.algo.Population;
 import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
+import it.unina.ceccarino.gaforjss.model.JobType;
+import java.util.Map;
 
 /**
  *
@@ -21,23 +23,31 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Welcome to Genetic Algorithm");
         
-        JobIndividual individual = InputManager.getInstance().generateJobIndividual();
-        int[] jobIndividual = individual.getJobPermutation();
-        System.out.println("JOB PERMUTATION");
-        for (int i : jobIndividual) {
-            System.out.print(i+" ");
+        
+        Map<Integer, Integer> map = InputManager.getInstance().getJobQuantityMap();
+        for (Integer jobType : map.keySet()) {
+            System.out.println("JOB["+jobType+"] quantity: "+map.get(jobType));
         }
-        System.out.println("\n\n------------------------------");
-        
-        int[] jobOperationSequence = individual.getOperationSequence();
-        System.out.println("JOB OPERATION SEQUENCE");
-        for (int i : jobOperationSequence) {
-            System.out.print(i+" ");
-        }
-        System.out.println("------------------------------");
+        System.out.println("In totale abbiamo: "+InputManager.JOB_TOTAL_QUANTITY);
         
         
-        
+//        JobIndividual individual = InputManager.getInstance().generateJobIndividual();
+//        JobType[] jobIndividual = individual.getJobPermutation();
+//        System.out.println("JOB PERMUTATION");
+//        for (JobType i : jobIndividual) {
+//            System.out.print(i+" ");
+//        }
+//        System.out.println("\n\n------------------------------");
+//        
+//        int[] jobOperationSequence = individual.getOperationSequence();
+//        System.out.println("JOB OPERATION SEQUENCE");
+//        for (int i : jobOperationSequence) {
+//            System.out.print(i+" ");
+//        }
+//        System.out.println("------------------------------");
+//        
+//        
+//        
         if(true){
             return;
         }

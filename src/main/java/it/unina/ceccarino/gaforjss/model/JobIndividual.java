@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package it.unina.ceccarino.gaforjss.model;
-package JobType;
 
 /**
  *

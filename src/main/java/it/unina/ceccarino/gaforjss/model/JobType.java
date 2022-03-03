@@ -42,6 +42,31 @@ public class JobType {
     public MachineStep[] getSequence() {
         return Arrays.copyOf(sequence, sequence.length);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + this.type;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final JobType other = (JobType) obj;
+        if (this.type != other.type) {
+            return false;
+        }
+        return true;
+    }
     
     
     

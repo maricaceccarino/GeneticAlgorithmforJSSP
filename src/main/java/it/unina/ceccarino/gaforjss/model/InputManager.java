@@ -21,11 +21,14 @@ import java.io.InputStreamReader;
 public class InputManager {
 
     public static final int SEQUENCE_SIZE = 6;
-    public static final int JOB_TYPE_SIZE = 10;
+    public static int JOB_TOTAL_QUANTITY = 0;
     public static final int NO_SOLUTION = -1;
     public static final int NUMBER_OF_ACCETTABLE_JOBS =6;
+    public static final int JOB_TYPE_SIZE = 10; //numero di differenti job type esistenti
 
     private JobType[] jobTypes = new JobType[JOB_TYPE_SIZE];
+    
+    private Map<Integer, Integer> jobQuantityMap = new HashMap<>();
 
     private static InputManager _instance = null;
 
@@ -39,6 +42,7 @@ public class InputManager {
     private InputManager() {
         super();
         initJobType();
+        randomizeJobQuantity();
     }
 
     /**
@@ -221,6 +225,27 @@ public class InputManager {
         JobIndividual result = new JobIndividual(jobPermutationArray, operationSequenceArray, null);
         return result;
     }
+    
+    
+    /**
+     * Randomizza una mappa con chiave l'intero rappresentativo di un JobType
+     * e per valore un numero casuale da 1 a 10, rappresentante la quantità
+     * di Job per quel tipo
+     */
+    private void randomizeJobQuantity(){
+        
+        for (JobType jobType : jobTypes) {
+            int randomQuantity = randomInRange(1, 10);
+            jobQuantityMap.put(jobType.getType(), randomQuantity);
+            JOB_TOTAL_QUANTITY+=randomQuantity;
+        }
+    }
+
+    public Map<Integer, Integer> getJobQuantityMap() {
+        return jobQuantityMap;
+    }
+    
+    
     
     
     /**
