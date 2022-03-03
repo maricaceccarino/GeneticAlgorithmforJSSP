@@ -13,7 +13,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import javax.print.attribute.HashAttributeSet;
 
-
 /**
  * pattern singleton
  *
@@ -28,7 +27,7 @@ public class InputManager {
     public static final int JOB_TYPE_SIZE = 10; //numero di differenti job type esistenti
 
     private JobType[] jobTypes = new JobType[JOB_TYPE_SIZE];
-    
+
     private Map<Integer, Integer> jobQuantityMap = new HashMap<>();
 
     private static InputManager _instance = null;
@@ -39,22 +38,22 @@ public class InputManager {
         }
         return _instance;
     }
-    
+
     private InputManager() {
         super();
         initJobType();
         randomizeJobQuantity();
     }
-    
-    public MachineStep[] getSequenceByJobIndex(int jobType){
-        return this.jobTypes[jobType-1].getSequence();
+
+    public MachineStep[] getSequenceByJobIndex(int jobType) {
+        return this.jobTypes[jobType - 1].getSequence();
     }
 
     /**
-     * Questo metodo definisce le sequenze dei vari job. Ogni job ha un array
-     * di MachineStep, e ogni MachinStep comprende il tipo di macchina su cui
-     * andrà a alvorare (M1 ad M15) e il tempo di lavorazione (un intero). 
-     */ 
+     * Questo metodo definisce le sequenze dei vari job. Ogni job ha un array di
+     * MachineStep, e ogni MachinStep comprende il tipo di macchina su cui andrà
+     * a alvorare (M1 ad M15) e il tempo di lavorazione (un intero).
+     */
     private void initJobType() {
         this.jobTypes[0] = new JobType(1, new MachineStep[]{
             new MachineStep(Machine.M1, 3),
@@ -97,7 +96,7 @@ public class InputManager {
             new MachineStep(Machine.M11, 6),
             new MachineStep(Machine.M12, 5)
         });
-         this.jobTypes[5] = new JobType(6, new MachineStep[]{
+        this.jobTypes[5] = new JobType(6, new MachineStep[]{
             new MachineStep(Machine.M1, 3),
             new MachineStep(Machine.M2, 3),
             new MachineStep(Machine.M3, 4),
@@ -105,7 +104,7 @@ public class InputManager {
             new MachineStep(Machine.M10, 8),
             new MachineStep(Machine.M14, 3)
         });
-          this.jobTypes[6] = new JobType(7, new MachineStep[]{
+        this.jobTypes[6] = new JobType(7, new MachineStep[]{
             new MachineStep(Machine.M1, 3),
             new MachineStep(Machine.M2, 3),
             new MachineStep(Machine.M3, 4),
@@ -113,7 +112,7 @@ public class InputManager {
             new MachineStep(Machine.M11, 6),
             new MachineStep(Machine.M12, 5)
         });
-         this.jobTypes[7] = new JobType(8, new MachineStep[]{
+        this.jobTypes[7] = new JobType(8, new MachineStep[]{
             new MachineStep(Machine.M1, 3),
             new MachineStep(Machine.M2, 3),
             new MachineStep(Machine.M3, 4),
@@ -121,7 +120,7 @@ public class InputManager {
             new MachineStep(Machine.M11, 6),
             new MachineStep(Machine.M14, 3)
         });
-          this.jobTypes[8] = new JobType(9, new MachineStep[]{
+        this.jobTypes[8] = new JobType(9, new MachineStep[]{
             new MachineStep(Machine.M1, 3),
             new MachineStep(Machine.M2, 3),
             new MachineStep(Machine.M3, 4),
@@ -129,7 +128,7 @@ public class InputManager {
             new MachineStep(Machine.M10, 8),
             new MachineStep(Machine.M12, 5)
         });
-           this.jobTypes[9] = new JobType(10, new MachineStep[]{
+        this.jobTypes[9] = new JobType(10, new MachineStep[]{
             new MachineStep(Machine.M1, 3),
             new MachineStep(Machine.M2, 3),
             new MachineStep(Machine.M3, 4),
@@ -137,88 +136,57 @@ public class InputManager {
             new MachineStep(Machine.M11, 6),
             new MachineStep(Machine.M14, 3)
         });
-      
 
     }
 
-    /**
-     * Costruzione di un metodo per la generazione randomica di ordini Regolari
-     * e Irregolari
-     * Ogni job ha una percentuale di probabilità di essere generato,
-     * per gli ordini irregolari questa è sempre del 5%,mentre per gli 
-     * ordini regolari,questa dipende dal tipo di job.
-     *
-     * @param percentage la soglia che se viene superata dal numero random, il
-     * metodo restituirà false
-     * @return Restituisce true, se viene generato un numero casuale minore di
-     * percentage, false viceversa
-     */
-    public boolean randomInPercentage(int percentage) {
-        Random random = new Random();
-        float randomInt = random.nextInt(100);
-        return randomInt <= percentage;
-    }
-
-    /**
-     * Restituisce un numero intero casuale tra min e max .
-     *
-     * @param min
-     * il valore minimo entro il quale sarà generato il numero casuale
-     * @param max
-     * il valore massimo entro il quale sarà generato il numero casuale
-     * @return un numero intero casuale tra min e max
-     */
-    public int randomInRange(int min, int max) {
-        Random random = new Random();
-        return random.ints(min, max)
-                .findFirst()
-                .getAsInt();
-    }
-
-    
-    
-    
-    
-    public JobIndividual generateJobIndividual(){
-        int N = JOB_TOTAL_QUANTITY * SEQUENCE_SIZE; 
-        System.out.println("N = "+N);
-        int [] jobPermutationArray = new int[N]; 
-        int [] operationSequenceArray = new int[N]; 
+    public JobIndividual generateJobIndividual() {
+        int N = JOB_TOTAL_QUANTITY * SEQUENCE_SIZE;
+        System.out.println("N = " + N);
+        int[] jobPermutationArray = new int[N];
+        int[] operationSequenceArray = new int[N];
+        Machine[] machinesSelectedArray = new Machine[N];
         List<Integer> freePositions = new LinkedList<>();
         //inizializzazione free position list:
         for (int i = 0; i < jobPermutationArray.length; i++) {
             freePositions.add(i);
         }
-        
+
         for (int jobTypeIndex = 1; jobTypeIndex <= JOB_TYPE_SIZE; jobTypeIndex++) {
 //            System.out.println("JOB TYPE: "+jobTypeIndex);
-            for (int j = 0; j < this.jobQuantityMap.get(jobTypeIndex)*SEQUENCE_SIZE; j++) {
-                int randomIndex = randomInRange(0,freePositions.size());
+            for (int j = 0; j < this.jobQuantityMap.get(jobTypeIndex) * SEQUENCE_SIZE; j++) {
+                int randomIndex = Utils.randomInRange(0, freePositions.size());
 //                System.out.println("randomIndex = "+randomIndex);
                 jobPermutationArray[freePositions.get(randomIndex)] = jobTypeIndex;
                 freePositions.remove(randomIndex);
 //                System.out.println("freePosition Lenght: "+freePositions.size());
             }
         }
-        
-        Map<Integer,Integer> positionMap = new HashMap<>();
+
+        Map<Integer, Integer> positionMap = new HashMap<>();
         for (Integer jobType : this.jobQuantityMap.keySet()) {
             positionMap.put(jobType, 1);
         }
-        for (int i=0; i<jobPermutationArray.length; i++) {
+        for (int i = 0; i < jobPermutationArray.length; i++) {
             int step = positionMap.get(jobPermutationArray[i]);
             operationSequenceArray[i] = step;
-            positionMap.put(jobPermutationArray[i],++step);
+            positionMap.put(jobPermutationArray[i], ++step);
         }
-        
+
+        for (int i = 0; i < operationSequenceArray.length; i++) {
+            int step = getStep(i, operationSequenceArray);
+            int jobType = jobPermutationArray[i];
+            JobType jobt = this.jobTypes[jobType - 1];
+            MachineStep machineSTEP = jobt.getSequence()[step];
+
+            machinesSelectedArray[i] = machineSTEP.getRandomMachine();
+        }
+
         //type qnt   |   type  step
         // 1    2    |    1     1
         // 2    1    |    2     1
         // 3    2    |    3     1
-        
         //2 1 3 3 2 1 2 1 1 1 1 2 2 3 3 3 1 2 2 3 2 2 2 2 
         //1 1 1 2 2 2 3
-
 //        Map<Integer,Integer> positionMap = new HashMap<>();
 //        JobType jj;
 //        for (int i=0;i<N;i++){
@@ -242,49 +210,60 @@ public class InputManager {
             }
               
         }
-        */
+         */
         // 4 ,  1
         // 5 ,  2
         // 1 ,  
-        JobIndividual result = new JobIndividual(jobPermutationArray, operationSequenceArray, null);
+        JobIndividual result = new JobIndividual(jobPermutationArray, operationSequenceArray, machinesSelectedArray);
         return result;
     }
-    
-    
+
     /**
-     * Randomizza una mappa con chiave l'intero rappresentativo di un JobType
-     * e per valore un numero casuale da 1 a 10, rappresentante la quantità
-     * di Job per quel tipo
+     * Ritorna lo step dell'operazione all'indice operationIndex
+     *
+     * @param operationIndex
+     * @return
      */
-    private void randomizeJobQuantity(){
-        
+    private int getStep(int operationIndex, int[] operationSequenceArray) {
+
+        int rawStep = operationSequenceArray[operationIndex];
+        if (rawStep <= 6) {
+            return rawStep-1;
+        } else { 
+            return rawStep % 6;
+        }
+    }
+
+    /**
+     * Randomizza una mappa con chiave l'intero rappresentativo di un JobType e
+     * per valore un numero casuale da 1 a 10, rappresentante la quantità di Job
+     * per quel tipo
+     */
+    private void randomizeJobQuantity() {
+
         for (JobType jobType : jobTypes) {
-            int randomQuantity = randomInRange(1, 10);
+            int randomQuantity = Utils.randomInRange(1, 10);
             jobQuantityMap.put(jobType.getType(), randomQuantity);
-            JOB_TOTAL_QUANTITY+=randomQuantity;
+            JOB_TOTAL_QUANTITY += randomQuantity;
         }
     }
 
     public Map<Integer, Integer> getJobQuantityMap() {
         return jobQuantityMap;
     }
-    
-    
-    
-    
+
     /**
      * Genera un array di interi spalmando su di esso il numero della tipologia
      * del job tante volte quante sono le probabilità in centesimi di essere
-     * generato casualmente. Questa metodologia servirà poi per scegliere 
-     * casualmente un job tenendo conto delle rispettive probabilità di essere 
+     * generato casualmente. Questa metodologia servirà poi per scegliere
+     * casualmente un job tenendo conto delle rispettive probabilità di essere
      * generato. Verrà quindi estratto un indice casuale da 0 a 99, che sarà
      * utilizzato per estrarre dall'array generato da questa funzione, per
      * decidere la tipologia di job.
-     * @return 
-     * un array di interi che rappresentano la base decisionale per la tipologia
-     * di job
-     * @see
-     * it.unina.ceccarino.gaforjss.model.InputManager#generateRegularJob() 
+     *
+     * @return un array di interi che rappresentano la base decisionale per la
+     * tipologia di job
+     * @see it.unina.ceccarino.gaforjss.model.InputManager#generateRegularJob()
      */
 //    public int [] generateJobTypeRandomBase(){
 //        int [] base = new int[100];
@@ -303,13 +282,12 @@ public class InputManager {
 //        }
 //        return base;
 //    }
-    
     /**
-     * Genera la lista dei job regolari, ovvero che sono settati all'istante
-     * 0, 50 e 100. In particolare vengono generati tre insiemi di jobs e per
-     * ogni insieme è definito un minimo di 2 job e un massimo di 10 job. 
-     * @return 
-     * La lista di job comprensiva dei 3 insiemi descritti sopra. 
+     * Genera la lista dei job regolari, ovvero che sono settati all'istante 0,
+     * 50 e 100. In particolare vengono generati tre insiemi di jobs e per ogni
+     * insieme è definito un minimo di 2 job e un massimo di 10 job.
+     *
+     * @return La lista di job comprensiva dei 3 insiemi descritti sopra.
      */
 //    public List<Job> generateRegularJob (){
 //        int[] base = generateJobTypeRandomBase();
@@ -335,11 +313,10 @@ public class InputManager {
 //        }
 //        return regularJobs;
 //    }
-    
     /**
      * Genera una lista di Job regolari e irregolari.
-     * @return 
-     * Genera una lista di Jobs
+     *
+     * @return Genera una lista di Jobs
      */
 //    public List<Job> generatesJobs(){
 //        List<Job> jobs = new LinkedList<Job>();

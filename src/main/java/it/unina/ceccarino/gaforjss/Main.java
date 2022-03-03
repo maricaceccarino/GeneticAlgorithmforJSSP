@@ -10,6 +10,7 @@ import it.unina.ceccarino.gaforjss.algo.Population;
 import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import it.unina.ceccarino.gaforjss.model.JobType;
+import it.unina.ceccarino.gaforjss.model.Machine;
 import java.util.Map;
 
 /**
@@ -43,10 +44,11 @@ public class Main {
             System.out.print(type+" ");
         }
         
-        
-        int step = individuo.getStep(25);
-        System.out.println("\nstep = "+step);
-        
+        System.out.println("-------------------------------------------------");
+        System.out.println(" ** MACHINE SEQUENCE **");
+        for (Machine machine : individuo.getMachinesSelected()) {
+            System.out.print(machine.getCode()+" ");
+        }
         
         
         

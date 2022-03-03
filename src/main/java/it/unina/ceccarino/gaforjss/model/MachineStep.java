@@ -21,6 +21,20 @@ public class MachineStep {
     public Machine getMachine() {
         return machine;
     }
+    
+    public Machine getRandomMachine(){
+        if(this.machine.getAlternativeCode() == null){
+            return this.machine;
+        }else{
+            Machine other = Machine.of(this.machine.getAlternativeCode());
+            int randomino = Utils.randomInRange(0, 100);
+            if(randomino >= 50){
+                return other;
+            }else{
+                return this.machine;
+            }
+        }
+    }
 
     public void setMachine(Machine machine) {
         this.machine = machine;

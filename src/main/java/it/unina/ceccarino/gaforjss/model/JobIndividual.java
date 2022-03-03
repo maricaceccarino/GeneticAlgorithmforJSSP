@@ -15,9 +15,9 @@ public class JobIndividual {
     //secondo array
     private int[] operationSequence;
     //terzo array
-    private int[] machinesSelected;
+    private Machine[] machinesSelected;
 
-    public JobIndividual(int [] jobPermutation, int[] operationSequence, int[] machinesSelected) {
+    public JobIndividual(int [] jobPermutation, int[] operationSequence, Machine[] machinesSelected) {
         this.jobPermutation = jobPermutation;
         this.operationSequence = operationSequence;
         this.machinesSelected = machinesSelected;
@@ -32,11 +32,10 @@ public class JobIndividual {
         
         int rawStep = operationSequence[operationIndex];
         if(rawStep <=6){
-            return rawStep;
+            return rawStep-1;
         }
         else{
-            int jobIndex = rawStep/6;  
-            return rawStep-(6*rawStep);  
+            return rawStep%6;
         }
     }
     
@@ -52,7 +51,7 @@ public class JobIndividual {
         return operationSequence;
     }
 
-    public int[] getMachinesSelected() {
+    public Machine[] getMachinesSelected() {
         return machinesSelected;
     }
     
