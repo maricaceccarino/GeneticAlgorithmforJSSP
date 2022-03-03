@@ -6,7 +6,7 @@ package it.unina.ceccarino.gaforjss.model;
 
 /**
  *
- * @author sommovir
+ * @author Marica
  */
 public class MachineStep {
     

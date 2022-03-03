@@ -9,6 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 
 /**
  * pattern singleton
@@ -169,7 +172,7 @@ public class InputManager {
     
     public JobIndividual generateJobIndividual(){
         int N = JOB_TYPE_SIZE * SEQUENCE_SIZE;
-        int [] jobPermutationArray = new int[N]; //60
+        JobType [] jobPermutationArray = new JobType[N]; //60
         int [] operationSequenceArray = new int[N]; //60
         List<Integer> freePositions = new LinkedList<>();
         //inizializzazione free position list:
@@ -182,14 +185,20 @@ public class InputManager {
             for (int j = 0; j < SEQUENCE_SIZE; j++) {
                 int randomIndex = randomInRange(0,freePositions.size());
 //                System.out.println("randomIndex = "+randomIndex);
-                jobPermutationArray[freePositions.get(randomIndex)]  = jobTypeIndex;
+                jobPermutationArray[freePositions.get(randomIndex)].setType(jobTypeIndex);
                 freePositions.remove(randomIndex);
 //                System.out.println("freePosition Lenght: "+freePositions.size());
             }
         }
         
         Map<Integer,Integer> positionMap = new HashMap<>();
-   
+        JobType jj;
+        for (int i=0;i<N;i++){
+            jobPermutationArray[i].set_cnt(1);
+            operationSequenceArray[i] = jobPermutationArray[i].get_cnt();
+        }
+        //           jobPermutationArray[i].set_cnt(1);
+        /*
         for (int i = 0; i < N; i++) {
             int jobType = jobPermutationArray[i];
             if(positionMap.containsKey(jobType)){
@@ -205,14 +214,10 @@ public class InputManager {
             }
               
         }
-        
+        */
         // 4 ,  1
         // 5 ,  2
-        // 1 ,  1
-        
-        
-        
-        
+        // 1 ,  
         JobIndividual result = new JobIndividual(jobPermutationArray, operationSequenceArray, null);
         return result;
     }
