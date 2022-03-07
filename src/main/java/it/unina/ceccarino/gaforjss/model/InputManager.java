@@ -188,13 +188,7 @@ public class InputManager {
         }
 
         
-        // COMPLETION TIME 
-        
-        Map<Machine, Integer> supportMap = new HashMap<>();
-        
-        for (Machine machine : Machine.values()) {
-            supportMap.put(machine, 0);
-        }
+      
         
 
         
