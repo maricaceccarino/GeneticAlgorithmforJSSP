@@ -144,6 +144,7 @@ public class InputManager {
         System.out.println("N = " + N);
         int[] jobPermutationArray = new int[N];
         int[] operationSequenceArray = new int[N];
+        int[] complationArray = new int[N];
         Machine[] machinesSelectedArray = new Machine[N];
         List<Integer> freePositions = new LinkedList<>();
         //inizializzazione free position list:
@@ -181,6 +182,28 @@ public class InputManager {
             machinesSelectedArray[i] = machineSTEP.getRandomMachine();
         }
 
+        
+        // COMPLETION TIME 
+        
+        Map<Machine, Integer> supportMap = new HashMap<>();
+        
+        for (Machine machine : Machine.values()) {
+            supportMap.put(machine, 0);
+        }
+        
+        for (int i = 0; i < N; i++) {
+           int job = jobPermutationArray[i];
+           int step = getStep(operationSequenceArray[i], operationSequenceArray);
+           int time = this.jobTypes[job-1].getSequence()[step-1].getTime();
+           
+           complationArray[i] = time;
+            
+            
+        }
+        
+        
+        
+        
         //type qnt   |   type  step
         // 1    2    |    1     1
         // 2    1    |    2     1
