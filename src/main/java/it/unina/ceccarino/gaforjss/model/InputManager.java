@@ -145,6 +145,10 @@ public class InputManager {
 
     }
 
+    public int getDimension(){
+        return JOB_TOTAL_QUANTITY * SEQUENCE_SIZE;
+    }
+    
     public JobIndividual generateJobIndividual() {
         int N = JOB_TOTAL_QUANTITY * SEQUENCE_SIZE;
         System.out.println("N = " + N);
