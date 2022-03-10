@@ -6,6 +6,7 @@
 package it.unina.ceccarino.gaforjss.model;
 
 import static it.unina.ceccarino.gaforjss.model.InputManager.JOB_TOTAL_QUANTITY;
+import static it.unina.ceccarino.gaforjss.model.InputManager.JOB_TYPE_SIZE;
 import static it.unina.ceccarino.gaforjss.model.InputManager.SEQUENCE_SIZE;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,37 +30,59 @@ public class JobIndividual {
     // riempie la cella è deciso.
     private Machine[] machinesSelected;
     private static int N = JOB_TOTAL_QUANTITY * SEQUENCE_SIZE;
-    int[] complationArray = new int[N];
+    private int[] completionArray = new int[N];
 
     public JobIndividual(int[] jobPermutation, int[] operationSequence, Machine[] machinesSelected) {
         this.jobPermutation = jobPermutation;
         this.operationSequence = operationSequence;
         this.machinesSelected = machinesSelected;
-        initComplationArray();
+        initCompletionArray();
 
     }
 
-    private final void initComplationArray() {
+    private final void initCompletionArray() {
 
         // array 4 ,Completationtime 
-        Map<Machine, Integer> supportMap = new HashMap<>();
+        Map<Machine, Integer> machineEndTimeMap = new HashMap<>();
+        //per ogni job(chiave) si memorizza il tempo di completamento della fase precedente
+        Map<Integer, Integer> previousJobStepEndTimeMap = new HashMap<>();
 
+        //inizializza per ogni macchina un tempo iniziale 0
         for (Machine machine : Machine.values()) {
-            supportMap.put(machine, 0);
+            machineEndTimeMap.put(machine, 0);
+        }
+
+        //inizilizzo per ogni jobtype un valore 0 come tempo di attesa della fase precedente
+        for (int i = 1; i <= JOB_TYPE_SIZE; i++) {
+            previousJobStepEndTimeMap.put(i, 0);
         }
 
         for (int i = 0; i < N; i++) {
-            if(i == 10){
-                break;
-            }
+//            if(i == 10){
+//                break;
+//            }
             System.out.println("-------------------------------------------------");
             int job = this.jobPermutation[i];
-            int operationSequence = this.operationSequence[i];
+            int previousOperationEndTime = previousJobStepEndTimeMap.get(job);
             int step = getStep(this.operationSequence[i]);
+            System.out.println("STEP = " + step);
+            Machine currentMachine = this.machinesSelected[i];
+            int freeMachineTime = machineEndTimeMap.get(currentMachine);
+            int time = InputManager.getInstance().getJobTypes()[job - 1].getSequence()[step].getTime();
+
             System.out.println("JOB = " + job);
             System.out.println("OP SEQUENCE: " + operationSequence);
             System.out.println("STEP = " + step);
-            int time = InputManager.getInstance().getJobTypes()[job - 1].getSequence()[step].getTime();
+
+            //  a [i]  = max(tempo_completamento_operazione_precedente, tempo_in_cui_si_libera_la_macchina) + tempo_processamento_operazione_corrente
+            
+            int value = Utils.max(previousOperationEndTime, freeMachineTime) +time;
+            completionArray[i] = value;
+            
+            previousJobStepEndTimeMap.put(job, value);
+            machineEndTimeMap.put(currentMachine, value);
+            
+            
 
             //aggiorna il tempo in cui si libera la macchina i, sommando il tempo di completamento del dato
             //job al dato step, + il tempo che già sulla mappa. 
@@ -67,25 +90,25 @@ public class JobIndividual {
             // 4  1   5
             //time = 3, alla M2
             //alla posizione M2 -> valore (M2) + time = 1 + 3
-            Machine machineSelected = this.machinesSelected[i];
-            System.out.println("MACHINE: "+machineSelected.getCode());
-            
-            complationArray[i] += time + supportMap.get(this.machinesSelected[i]);
-            supportMap.put(this.machinesSelected[i], supportMap.get(this.machinesSelected[i]) + time);
+//            System.out.println("MACHINE: " + machineSelected.getCode());
 
-            for (int j = i + 1; j < N; j++) {
-                if (this.jobPermutation[i] == job) {
-                    complationArray[j] = complationArray[i];
-                }
-            }
+            
+//            machineEndTimeMap.put(this.machinesSelected[i], machineEndTimeMap.get(this.machinesSelected[i]) + time);
+
+//            for (int j = i + 1; j < N; j++) {
+//                if (this.jobPermutation[i] == job) {
+//                    completionArray[j] = completionArray[i];
+//                }
+//            }
 
         }
     }
 
     /**
      * Ritorna lo step dell'operazione (quale operazione di un determinato job
-     * si deve esaguire) all'indice operationIndex
-     * Viene contato quante volte quel valore dell'array JobPermutation appare
+     * si deve esaguire) all'indice operationIndex Viene contato quante volte
+     * quel valore dell'array JobPermutation appare
+     *
      * @param operationIndex
      * @return
      */
@@ -118,7 +141,7 @@ public class JobIndividual {
     }
 
     public int[] getComplationArray() {
-        return complationArray;
+        return completionArray;
     }
 
 }
