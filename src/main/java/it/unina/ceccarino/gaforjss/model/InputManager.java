@@ -236,13 +236,13 @@ public class InputManager {
      * @param operationIndex
      * @return
      */
-    private int getStep(int operationIndex, int[] operationSequenceArray) {
+    public int getStep(int operationIndex, int[] operationSequenceArray) {
 
         int rawStep = operationSequenceArray[operationIndex];
         if (rawStep <= 6) {
             return rawStep - 1;
         } else {
-            return rawStep % 6;
+            return (rawStep-1) % 6;
         }
     }
 

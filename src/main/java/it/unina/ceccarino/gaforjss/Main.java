@@ -21,9 +21,16 @@ public class Main {
 
     public static void main(String[] args) {
         
-        for (int i = 0; i < 100; i++) {
-            System.out.println("RANDOM: "+Utils.randomInRange(1, 10));
-        }
+        //TEST GET STEP
+        
+//        int [] operations = new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17};
+//        for (int i = 0; i < operations.length; i++) {
+//            int step = InputManager.getInstance().getStep(i, operations);
+//            System.out.println("operation: "+operations[i]+" ---> step: "+step);
+//        }
+//            
+        
+        
         
         System.out.println("Welcome to Genetic Algorithm");
 

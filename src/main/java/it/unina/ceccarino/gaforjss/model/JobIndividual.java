@@ -64,7 +64,7 @@ public class JobIndividual {
             System.out.println("-------------------------------------------------");
             int job = this.jobPermutation[i];
             int previousOperationEndTime = previousJobStepEndTimeMap.get(job);
-            int step = getStep(this.operationSequence[i]);
+            int step = InputManager.getInstance().getStep(i,this.operationSequence);
             System.out.println("STEP = " + step);
             Machine currentMachine = this.machinesSelected[i];
             int freeMachineTime = machineEndTimeMap.get(currentMachine);
@@ -112,17 +112,17 @@ public class JobIndividual {
      * @param operationIndex
      * @return
      */
-    public int getStep(int rawStep) {
-//operazione che aiuta a capire che step viene realizzato, quando i numeri sono
-//da 1 a 6 ovviamente è semplice capire la corrispondenza all'operazione,negli
-//altri casi si fa una divisione per 6 e l'operatore % restituisce il 
-//resto della divisione,come numero intero,questo sarà lo step assegnato.
-        if (rawStep <= 6) {
-            return rawStep - 1;
-        } else {
-            return rawStep % 6;
-        }
-    }
+//    public int getStep(int rawStep) {
+////operazione che aiuta a capire che step viene realizzato, quando i numeri sono
+////da 1 a 6 ovviamente è semplice capire la corrispondenza all'operazione,negli
+////altri casi si fa una divisione per 6 e l'operatore % restituisce il 
+////resto della divisione,come numero intero,questo sarà lo step assegnato.
+//        if (rawStep <= 6) {
+//            return rawStep - 1;
+//        } else {
+//            return rawStep % 6;
+//        }
+//    }
 
     public int getJobStep(int operationIndex) {
         return this.jobPermutation[operationIndex];
