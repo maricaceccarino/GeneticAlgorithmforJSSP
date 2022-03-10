@@ -15,12 +15,11 @@ import javax.print.attribute.HashAttributeSet;
 
 /**
  * pattern singleton
- *
- * @author marica
+
  */
 public class InputManager {
 
-    public static final int SEQUENCE_SIZE = 6;
+    public static final int SEQUENCE_SIZE = 6; //ogni job è fatto da 6 operazioni
     public static int JOB_TOTAL_QUANTITY = 0;
     public static final int NO_SOLUTION = -1;
 //    public static final int NUMBER_OF_ACCETTABLE_JOBS =6;
@@ -56,9 +55,10 @@ public class InputManager {
     
 
     /**
-     * Questo metodo definisce le sequenze dei vari job. Ogni job ha un array di
-     * MachineStep, e ogni MachinStep comprende il tipo di macchina su cui andrà
-     * a alvorare (M1 ad M15) e il tempo di lavorazione (un intero).
+     * Questo metodo definisce le sequenze di operazioni dei vari job. 
+     * Ogni job ha un array di MachineStep, e ogni MachinStep comprende il tipo
+     * di macchina su cui andrà a alvorare (M1 ad M15) e il tempo di lavorazione 
+     * (un intero).
      */
     private void initJobType() {
         this.jobTypes[0] = new JobType(1, new MachineStep[]{
@@ -144,11 +144,12 @@ public class InputManager {
         });
 
     }
-
+//la dimensione della stringa è data dal prodotto della quantità totale di job 
+//generati moltiplicati per 6,ovvero il numero di operazioni di ogni job
     public int getDimension(){
         return JOB_TOTAL_QUANTITY * SEQUENCE_SIZE;
     }
-    
+    //la lunghezza degli array è sempre la stessa e pari ad N
     public JobIndividual generateJobIndividual() {
         int N = JOB_TOTAL_QUANTITY * SEQUENCE_SIZE;
         System.out.println("N = " + N);
@@ -253,9 +254,12 @@ public class InputManager {
     }
 
     /**
-     * Randomizza una mappa con chiave l'intero rappresentativo di un JobType e
-     * per valore un numero casuale da 1 a 10, rappresentante la quantità di Job
-     * per quel tipo
+     * Questo metodo randomizza una mappa con chiave l'intero rappresentativo 
+     * di un JobType e per valore un numero casuale da 1 a 10, 
+     * rappresentante la quantità di Job per quel tipo.Ogni tipologia di Job quindi,
+     * può essere generata in una quantità da 1 a 10. La totalità dei Job non 
+     * sarà mai superiore a 10x10.
+     
      */
     private void randomizeJobQuantity() {
 

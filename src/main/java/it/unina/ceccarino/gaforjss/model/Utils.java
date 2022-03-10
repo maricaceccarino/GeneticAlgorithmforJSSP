@@ -8,16 +8,13 @@ import java.util.Random;
 
 /**
  *
- * @author Luca
+ * @author Marica
  */
 public class Utils {
     /**
      * Costruzione di un metodo per la generazione randomica di ordini Regolari
      * e Irregolari
-     * Ogni job ha una percentuale di probabilità di essere generato,
-     * per gli ordini irregolari questa è sempre del 5%,mentre per gli 
-     * ordini regolari,questa dipende dal tipo di job.
-     *
+     * 
      * @param percentage la soglia che se viene superata dal numero random, il
      * metodo restituirà false
      * @return Restituisce true, se viene generato un numero casuale minore di

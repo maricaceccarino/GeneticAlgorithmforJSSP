@@ -21,7 +21,9 @@ public class MachineStep {
     public Machine getMachine() {
         return machine;
     }
-    
+    //Quando per l'esecuzione di un'operazione è possibile scegliere tra 2
+    // possibili macchine,la scelta verrà fatta in maniera randomica,
+    //la scelta delle 2 macchine è equiprobabile.
     public Machine getRandomMachine(){
         if(this.machine.getAlternativeCode() == null){
             return this.machine;

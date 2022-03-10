@@ -6,7 +6,6 @@ package it.unina.ceccarino.gaforjss.model;
 
 /**
  *
- * @author Marica
  */
 public class Job {
     

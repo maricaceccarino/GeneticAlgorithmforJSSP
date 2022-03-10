@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -11,15 +12,21 @@ import java.util.Map;
 
 /**
  *
- * @author marica
  */
 public class JobIndividual {
 
-    //primo array
+    //primo array Job permutation ,viene costruita una stringa di lunghezza
+    // pari al numero di job generati x 6 (numero di operazioni per ogni job)
+    // tale stringa è riempita con valori (da 1 a 10) che rappresentano la 
+    // tipologia di job.
     private int[] jobPermutation;
-    //secondo array
+    //secondo array OperationSequence,viene costruita una stringa della stessa 
+    //lunghezza,
     private int[] operationSequence;
-    //terzo array
+    //terzo array di MachineSelected,rappresenta la macchina sulla quale 
+    //l'operazione deve essere eseguita.Quando l'operazione è vincolata ad
+    //essere realizzata solo su una determinata macchina,il valore con cui si 
+    // riempie la cella è deciso.
     private Machine[] machinesSelected;
     private static int N = JOB_TOTAL_QUANTITY * SEQUENCE_SIZE;
     int[] complationArray = new int[N];
@@ -28,13 +35,13 @@ public class JobIndividual {
         this.jobPermutation = jobPermutation;
         this.operationSequence = operationSequence;
         this.machinesSelected = machinesSelected;
-        initCompletionArray();
+        initComplationArray();
 
     }
 
-    private final void initCompletionArray() {
+    private final void initComplationArray() {
 
-        // COMPLETION TIME 
+        // array 4 ,Completationtime 
         Map<Machine, Integer> supportMap = new HashMap<>();
 
         for (Machine machine : Machine.values()) {
@@ -76,13 +83,17 @@ public class JobIndividual {
     }
 
     /**
-     * Ritorna lo step dell'operazione all'indice operationIndex
-     *
+     * Ritorna lo step dell'operazione (quale operazione di un determinato job
+     * si deve esaguire) all'indice operationIndex
+     * Viene contato quante volte quel valore dell'array JobPermutation appare
      * @param operationIndex
      * @return
      */
     public int getStep(int rawStep) {
-
+//operazione che aiuta a capire che step viene realizzato, quando i numeri sono
+//da 1 a 6 ovviamente è semplice capire la corrispondenza all'operazione,negli
+//altri casi si fa una divisione per 6 e l'operatore % restituisce il 
+//resto della divisione,come numero intero,questo sarà lo step assegnato.
         if (rawStep <= 6) {
             return rawStep - 1;
         } else {

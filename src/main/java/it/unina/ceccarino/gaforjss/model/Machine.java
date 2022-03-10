@@ -5,8 +5,9 @@
 package it.unina.ceccarino.gaforjss.model;
 
 /**
- * Sono definite le 15 macchine totali,alcune di queste sono della stessa
- * tipologia, infatti le macchine A,B,C ,J e I sono 2,anzichè una sola.
+ * Si definiscono 15 macchine di 10 tipologie differenti,le macchine di tipologia 
+ * 1,3, 5,12 e 14  hanno una alternativa nella scelta,mentre le macchine di
+ * tipologia 7,8,9,10 e 11 sono macchine uniche.
  *
  * @author Marica
  */
