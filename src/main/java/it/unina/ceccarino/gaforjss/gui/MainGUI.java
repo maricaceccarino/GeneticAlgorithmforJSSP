@@ -20,6 +20,8 @@ public class MainGUI extends javax.swing.JFrame {
      */
     public MainGUI() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Titolo Finestra");
         this.individualModel1.addRowElement(InputManager.getInstance().generateJobIndividual());
         int N = InputManager.getInstance().getDimension();
         for (int i = 0; i < N; i++) {
@@ -29,6 +31,7 @@ public class MainGUI extends javax.swing.JFrame {
         JTableHeader header = this.jTable1.getTableHeader();
         header.setDefaultRenderer(new IndividualHeaderRenderer(this.jTable1));
         this.jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        
     }
 
     /**

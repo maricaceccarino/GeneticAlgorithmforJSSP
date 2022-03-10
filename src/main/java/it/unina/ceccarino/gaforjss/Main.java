@@ -8,6 +8,7 @@ import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import it.unina.ceccarino.gaforjss.model.JobType;
 import it.unina.ceccarino.gaforjss.model.Machine;
+import it.unina.ceccarino.gaforjss.model.Utils;
 import java.util.Map;
 
 /**
@@ -19,6 +20,11 @@ public class Main {
     public static int maxGenerations = 100; // massimo num. di iterazioni per la terminazione
 
     public static void main(String[] args) {
+        
+        for (int i = 0; i < 100; i++) {
+            System.out.println("RANDOM: "+Utils.randomInRange(1, 10));
+        }
+        
         System.out.println("Welcome to Genetic Algorithm");
 
         Map<Integer, Integer> map = InputManager.getInstance().getJobQuantityMap();
