@@ -87,6 +87,11 @@ public abstract class AbstractLCTableModel<T> extends AbstractTableModel {
         datas.remove(i);
         fireTableRowsDeleted(i, i);
     }
+    
+    public void clear(){
+        datas.clear();
+        fireTableRowsDeleted(0, 0);
+    }
 
 
     @Override

@@ -15,7 +15,7 @@ import java.util.LinkedList;
  *
  * @author sommovir
  */
-public class IndividualModel extends AbstractLCTableModel<JobIndividual> {
+public class PopulationModel extends AbstractLCTableModel<JobIndividual> {
 
     private static String[] labels;
 
@@ -32,13 +32,13 @@ public class IndividualModel extends AbstractLCTableModel<JobIndividual> {
 
     }
 
-    public IndividualModel() {
+    public PopulationModel() {
         super(labels, new LinkedList<JobIndividual>());
     }
 
     @Override
     public int getRowCount() {
-        return 4;
+        return this.datas.size();
     }
 
     @Override
@@ -48,27 +48,11 @@ public class IndividualModel extends AbstractLCTableModel<JobIndividual> {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        if(datas.isEmpty()){
+        if (datas.isEmpty()) {
             return null;
         }
-        switch (rowIndex) {
-            case 0: {
-                return this.datas.get(0).getJobPermutation()[columnIndex];
-            }
-            case 1: {
-                return this.datas.get(0).getOperationSequence()[columnIndex];
-            }
-            case 2: {
-                return this.datas.get(0).getMachinesSelected()[columnIndex];
-            }
-            case 3: {
-                return this.datas.get(0).getComplationArray()[columnIndex];
-            }
-            default: {
-                return null;
-            }
+        return this.datas.get(rowIndex).getJobPermutation()[columnIndex];
 
-        }
     }
 
 }

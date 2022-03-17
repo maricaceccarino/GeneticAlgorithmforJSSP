@@ -25,6 +25,7 @@ public class InputManager {
 //    public static final int NUMBER_OF_ACCETTABLE_JOBS =6;
     public static final int JOB_TYPE_SIZE = 10; //numero di differenti job type esistenti
     public static final int LIMIT = 25; // AGGIUNGI COMMENTO PLZ
+    public static int POPULATION_SIZE = 100;
 
     private JobType[] jobTypes = new JobType[JOB_TYPE_SIZE];
 
@@ -45,6 +46,14 @@ public class InputManager {
         randomizeJobQuantity();
     }
 
+    public static int getPopulationSize() {
+        return POPULATION_SIZE;
+    }
+    
+    public static void setPopulationSize(int populationSize) {
+        POPULATION_SIZE = populationSize;
+    }
+    
     public MachineStep[] getSequenceByJobIndex(int jobType) {
         return this.jobTypes[jobType - 1].getSequence();
     }
@@ -150,6 +159,20 @@ public class InputManager {
         return JOB_TOTAL_QUANTITY * SEQUENCE_SIZE;
     }
 
+    /**
+     * Restituisce la popolazione di JobIndividual di dimensione POPULATION_SIZE
+     * @return 
+     */
+    public JobIndividual [] generatePopulation(){
+        JobIndividual [] population = new JobIndividual[POPULATION_SIZE];
+        for (int i = 0; i < POPULATION_SIZE; i++) {
+            population[i] = generateJobIndividual();
+        }
+        return population;
+    }
+    
+    
+    
     //la lunghezza degli array è sempre la stessa e pari ad N
     public JobIndividual generateJobIndividual() {
         int N = JOB_TOTAL_QUANTITY * SEQUENCE_SIZE;

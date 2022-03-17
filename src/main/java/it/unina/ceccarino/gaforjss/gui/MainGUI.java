@@ -6,6 +6,8 @@ package it.unina.ceccarino.gaforjss.gui;
 
 import it.unina.ceccarino.gaforjss.gui.mr.IndividualHeaderRenderer;
 import it.unina.ceccarino.gaforjss.model.InputManager;
+import it.unina.ceccarino.gaforjss.model.JobIndividual;
+import java.beans.Beans;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 
@@ -20,18 +22,25 @@ public class MainGUI extends javax.swing.JFrame {
      */
     public MainGUI() {
         initComponents();
-        this.setLocationRelativeTo(null);
-        this.setTitle("Titolo Finestra");
-        this.individualModel1.addRowElement(InputManager.getInstance().generateJobIndividual());
-        int N = InputManager.getInstance().getDimension();
-        for (int i = 0; i < N; i++) {
-            this.jTable1.getColumnModel().getColumn(i).setMinWidth(30);
-            this.jTable1.getColumnModel().getColumn(i).setMaxWidth(36);
+        if (!Beans.isDesignTime()) {
+            this.setLocationRelativeTo(null);
+            this.setTitle("Titolo Finestra");
+            this.individualModel1.addRowElement(InputManager.getInstance().generateJobIndividual());
+            int N = InputManager.getInstance().getDimension();
+            for (int i = 0; i < N; i++) {
+                this.jTableTest.getColumnModel().getColumn(i).setMinWidth(30);
+                this.jTableTest.getColumnModel().getColumn(i).setMaxWidth(36);
+                this.jTablePopulation.getColumnModel().getColumn(i).setMinWidth(30);
+                this.jTablePopulation.getColumnModel().getColumn(i).setMaxWidth(36);
+            }
+            JTableHeader header = this.jTableTest.getTableHeader();
+            header.setDefaultRenderer(new IndividualHeaderRenderer(this.jTableTest));
+            this.jTableTest.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            JTableHeader header2 = this.jTablePopulation.getTableHeader();
+            header2.setDefaultRenderer(new IndividualHeaderRenderer(this.jTablePopulation));
+            this.jTablePopulation.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         }
-        JTableHeader header = this.jTable1.getTableHeader();
-        header.setDefaultRenderer(new IndividualHeaderRenderer(this.jTable1));
-        this.jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        
+
     }
 
     /**
@@ -44,16 +53,25 @@ public class MainGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         individualModel1 = new it.unina.ceccarino.gaforjss.gui.mr.IndividualModel();
+        populationModel1 = new it.unina.ceccarino.gaforjss.gui.mr.PopulationModel();
         jPanel1 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableTest = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jToolBar2 = new javax.swing.JToolBar();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTablePopulation = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(individualModel1);
-        jScrollPane1.setViewportView(jTable1);
+        jTableTest.setModel(individualModel1);
+        jScrollPane1.setViewportView(jTableTest);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
@@ -69,20 +87,93 @@ public class MainGUI extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton1);
 
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Test", jPanel2);
+
+        jToolBar2.setFloatable(false);
+        jToolBar2.setRollover(true);
+
+        jButton2.setText("Genera Popolazione");
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButton2);
+
+        jTablePopulation.setModel(populationModel1);
+        jScrollPane2.setViewportView(jTablePopulation);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Population", jPanel3);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
+
+        jTabbedPane1.getAccessibleContext().setAccessibleName("Test");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -102,6 +193,15 @@ public class MainGUI extends javax.swing.JFrame {
         this.individualModel1.removeRowElement(0);
         this.individualModel1.addRowElement(InputManager.getInstance().generateJobIndividual());
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.populationModel1.clear();
+        JobIndividual[] generatePopulation = InputManager.getInstance().generatePopulation();
+        for (JobIndividual jobIndividual : generatePopulation) {
+            this.populationModel1.addRowElement(jobIndividual);
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -141,9 +241,18 @@ public class MainGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private it.unina.ceccarino.gaforjss.gui.mr.IndividualModel individualModel1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTablePopulation;
+    private javax.swing.JTable jTableTest;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar2;
+    private it.unina.ceccarino.gaforjss.gui.mr.PopulationModel populationModel1;
     // End of variables declaration//GEN-END:variables
 }
