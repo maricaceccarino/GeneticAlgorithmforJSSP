@@ -23,10 +23,11 @@ public class PopulationModel extends AbstractLCTableModel<JobIndividual> {
         if (Beans.isDesignTime()) {
             labels = new String[]{"ciao"};
         } else {
-            labels = new String[InputManager.getInstance().getDimension()];
+            labels = new String[InputManager.getInstance().getDimension()+1];
             System.out.println("label size = " + labels.length);
-            for (int i = 0; i < labels.length; i++) {
-                labels[i] = ("" + i);
+            labels[0] = "FIT";
+            for (int i = 1; i < labels.length; i++) {
+                labels[i] = ("" + (i-1));
             }
         }
 
@@ -51,7 +52,11 @@ public class PopulationModel extends AbstractLCTableModel<JobIndividual> {
         if (datas.isEmpty()) {
             return null;
         }
-        return this.datas.get(rowIndex).getJobPermutation()[columnIndex];
+        if (columnIndex == 0) {
+            return this.datas.get(rowIndex).getFitness();
+        } else {
+            return this.datas.get(rowIndex).getJobPermutation()[columnIndex-1];
+        }
 
     }
 

@@ -39,6 +39,20 @@ public class JobIndividual {
         initCompletionArray();
 
     }
+    
+    public int getFitness(){
+        if(this.completionArray != null){
+            int fitness = 0;
+            for (int time : completionArray) {
+                if(time > fitness){
+                    fitness = time;
+                }
+            }
+            return fitness;
+        }else{
+            return -1;
+        }
+    }
 
     private final void initCompletionArray() {
 
