@@ -64,78 +64,78 @@ public class InputManager {
             new MachineStep(Machine.M1, 2),
             new MachineStep(Machine.M3, 3),
             new MachineStep(Machine.M5, 5),
-            new MachineStep(Machine.M6, 6),
+            new MachineStep(Machine.M7, 6),
             new MachineStep(Machine.M8, 3),
             new MachineStep(Machine.M12, 5)
 
         });
         this.jobTypes[1] = new JobType(2, new MachineStep[]{
             new MachineStep(Machine.M1, 4),
-            new MachineStep(Machine.M2, 1),
-            new MachineStep(Machine.M3, 3),
+            new MachineStep(Machine.M3, 1),
+            new MachineStep(Machine.M5, 3),
             new MachineStep(Machine.M8, 4),
             new MachineStep(Machine.M10, 9),
             new MachineStep(Machine.M14, 3)
         });
         this.jobTypes[2] = new JobType(3, new MachineStep[]{
             new MachineStep(Machine.M1, 3),
-            new MachineStep(Machine.M2, 4),
-            new MachineStep(Machine.M3, 1),
-            new MachineStep(Machine.M4, 5),
+            new MachineStep(Machine.M3, 4),
+            new MachineStep(Machine.M5, 1),
+            new MachineStep(Machine.M7, 5),
             new MachineStep(Machine.M9, 4),
             new MachineStep(Machine.M12, 5)
         });
         this.jobTypes[3] = new JobType(4, new MachineStep[]{
             new MachineStep(Machine.M1, 1),
-            new MachineStep(Machine.M2, 2),
-            new MachineStep(Machine.M3, 4),
-            new MachineStep(Machine.M4, 4),
+            new MachineStep(Machine.M3, 2),
+            new MachineStep(Machine.M5, 4),
+            new MachineStep(Machine.M7, 4),
             new MachineStep(Machine.M9, 3),
             new MachineStep(Machine.M14, 4)
         });
         this.jobTypes[4] = new JobType(5, new MachineStep[]{
             new MachineStep(Machine.M1, 6),
-            new MachineStep(Machine.M2, 5),
-            new MachineStep(Machine.M3, 2),
+            new MachineStep(Machine.M3, 5),
+            new MachineStep(Machine.M5, 2),
             new MachineStep(Machine.M8, 7),
             new MachineStep(Machine.M11, 6),
             new MachineStep(Machine.M12, 2)
         });
         this.jobTypes[5] = new JobType(6, new MachineStep[]{
             new MachineStep(Machine.M1, 1),
-            new MachineStep(Machine.M2, 2),
-            new MachineStep(Machine.M3, 4),
+            new MachineStep(Machine.M3, 2),
+            new MachineStep(Machine.M5, 4),
             new MachineStep(Machine.M9, 3),
             new MachineStep(Machine.M10, 8),
             new MachineStep(Machine.M14, 4)
         });
         this.jobTypes[6] = new JobType(7, new MachineStep[]{
             new MachineStep(Machine.M1, 2),
-            new MachineStep(Machine.M2, 3),
-            new MachineStep(Machine.M3, 5),
+            new MachineStep(Machine.M3, 3),
+            new MachineStep(Machine.M5, 5),
             new MachineStep(Machine.M9, 2),
             new MachineStep(Machine.M11, 7),
             new MachineStep(Machine.M12, 5)
         });
         this.jobTypes[7] = new JobType(8, new MachineStep[]{
             new MachineStep(Machine.M1, 3),
-            new MachineStep(Machine.M2, 4),
-            new MachineStep(Machine.M3, 1),
+            new MachineStep(Machine.M3, 4),
+            new MachineStep(Machine.M5, 1),
             new MachineStep(Machine.M8, 6),
             new MachineStep(Machine.M11, 8),
             new MachineStep(Machine.M14, 5)
         });
         this.jobTypes[8] = new JobType(9, new MachineStep[]{
             new MachineStep(Machine.M1, 4),
-            new MachineStep(Machine.M2, 1),
-            new MachineStep(Machine.M3, 3),
-            new MachineStep(Machine.M4, 7),
+            new MachineStep(Machine.M3, 1),
+            new MachineStep(Machine.M5, 3),
+            new MachineStep(Machine.M7, 7),
             new MachineStep(Machine.M10, 9),
             new MachineStep(Machine.M12, 4)
         });
         this.jobTypes[9] = new JobType(10, new MachineStep[]{
             new MachineStep(Machine.M1, 6),
-            new MachineStep(Machine.M2, 5),
+            new MachineStep(Machine.M3, 5),
             new MachineStep(Machine.M3, 2),
             new MachineStep(Machine.M9, 5),
             new MachineStep(Machine.M11, 5),
@@ -248,10 +248,9 @@ public class InputManager {
 
     /**
      * Questo metodo randomizza una mappa con chiave l'intero rappresentativo di
-     * un JobType e per valore un numero casuale da 1 a 10, rappresentante la
+     * un JobType e per valore un numero casuale da , rappresentante la
      * quantità di Job per quel tipo.Ogni tipologia di Job quindi, può essere
-     * generata in una quantità da 1 a 10. La totalità dei Job non sarà mai
-     * superiore a 10x10.
+     * generata in una quantità da 1 a 10.
      *
      */
     private void randomizeJobQuantity() {
