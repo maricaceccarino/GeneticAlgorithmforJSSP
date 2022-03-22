@@ -4,6 +4,7 @@
  */
 package it.unina.ceccarino.gaforjss.model;
 
+import it.unina.ceccarino.gaforjss.algo.Population;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -163,12 +164,8 @@ public class InputManager {
      * Restituisce la popolazione di JobIndividual di dimensione POPULATION_SIZE
      * @return 
      */
-    public JobIndividual [] generatePopulation(){
-        JobIndividual [] population = new JobIndividual[POPULATION_SIZE];
-        for (int i = 0; i < POPULATION_SIZE; i++) {
-            population[i] = generateJobIndividual();
-        }
-        return population;
+    public Population generatePopulation(){
+       return new Population(POPULATION_SIZE);
     }
     
     

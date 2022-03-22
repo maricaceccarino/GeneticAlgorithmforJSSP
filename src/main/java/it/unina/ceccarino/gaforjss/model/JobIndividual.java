@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  *
  */
-public class JobIndividual {
+public class JobIndividual implements Comparable<JobIndividual> {
 
     //primo array Job permutation ,viene costruita una stringa di lunghezza
     // pari al numero di job generati x 6 (numero di operazioni per ogni job)
@@ -156,6 +156,11 @@ public class JobIndividual {
 
     public int[] getComplationArray() {
         return completionArray;
+    }
+
+    @Override
+    public int compareTo(JobIndividual o) {
+        return Integer.compare(this.getFitness(), o.getFitness());
     }
 
 }

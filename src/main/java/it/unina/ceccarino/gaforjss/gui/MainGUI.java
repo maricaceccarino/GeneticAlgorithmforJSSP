@@ -4,6 +4,8 @@
  */
 package it.unina.ceccarino.gaforjss.gui;
 
+import it.unina.ceccarino.gaforjss.algo.GeneticManipulator;
+import it.unina.ceccarino.gaforjss.algo.Population;
 import it.unina.ceccarino.gaforjss.gui.mr.IndividualHeaderRenderer;
 import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
@@ -196,8 +198,9 @@ public class MainGUI extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.populationModel1.clear();
-        JobIndividual[] generatePopulation = InputManager.getInstance().generatePopulation();
-        for (JobIndividual jobIndividual : generatePopulation) {
+        Population population = InputManager.getInstance().generatePopulation();
+        GeneticManipulator.getInstance().loadInitialPopulation(population);
+        for (JobIndividual jobIndividual : population.getIndividuals()) {
             this.populationModel1.addRowElement(jobIndividual);
         }
         
