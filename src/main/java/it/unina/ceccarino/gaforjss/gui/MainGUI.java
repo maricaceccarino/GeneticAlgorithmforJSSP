@@ -4,13 +4,17 @@
  */
 package it.unina.ceccarino.gaforjss.gui;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import it.unina.ceccarino.gaforjss.algo.GeneticManipulator;
 import it.unina.ceccarino.gaforjss.algo.Population;
+import it.unina.ceccarino.gaforjss.algo.SelectionStrategy;
 import it.unina.ceccarino.gaforjss.gui.mr.IndividualHeaderRenderer;
+import it.unina.ceccarino.gaforjss.gui.mr.IndividualRenderer;
 import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import java.beans.Beans;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -34,7 +38,12 @@ public class MainGUI extends javax.swing.JFrame {
                 this.jTableTest.getColumnModel().getColumn(i).setMaxWidth(36);
                 this.jTablePopulation.getColumnModel().getColumn(i).setMinWidth(30);
                 this.jTablePopulation.getColumnModel().getColumn(i).setMaxWidth(36);
+                this.jTablePopulation.getColumnModel().getColumn(i).setCellRenderer(new IndividualRenderer());
+
             }
+            this.jTablePopulation.getColumnModel().getColumn(N).setMinWidth(30);
+            this.jTablePopulation.getColumnModel().getColumn(N).setMaxWidth(36);
+            this.jTablePopulation.getColumnModel().getColumn(N).setCellRenderer(new IndividualRenderer());
             JTableHeader header = this.jTableTest.getTableHeader();
             header.setDefaultRenderer(new IndividualHeaderRenderer(this.jTableTest));
             this.jTableTest.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -67,6 +76,14 @@ public class MainGUI extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jToolBar2 = new javax.swing.JToolBar();
         jButton2 = new javax.swing.JButton();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(15, 32767));
+        jCheckBox1 = new javax.swing.JCheckBox();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(15, 32767));
+        jSpinner1 = new javax.swing.JSpinner();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(5, 32767));
+        jLabel1 = new javax.swing.JLabel();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(15, 32767));
+        jButton3 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTablePopulation = new javax.swing.JTable();
 
@@ -125,9 +142,49 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
         jToolBar2.add(jButton2);
+        jToolBar2.add(filler1);
+
+        jCheckBox1.setSelected(true);
+        jCheckBox1.setText("Select Best");
+        jCheckBox1.setFocusable(false);
+        jCheckBox1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jCheckBox1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jCheckBox1);
+        jToolBar2.add(filler2);
+
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(10, 1, 100, 1));
+        jSpinner1.setEnabled(false);
+        jSpinner1.setMaximumSize(new java.awt.Dimension(100, 22));
+        jSpinner1.setPreferredSize(new java.awt.Dimension(22, 22));
+        jToolBar2.add(jSpinner1);
+        jToolBar2.add(filler3);
+
+        jLabel1.setText("% to mutate");
+        jLabel1.setEnabled(false);
+        jToolBar2.add(jLabel1);
+        jToolBar2.add(filler4);
+
+        jButton3.setText("Mutate");
+        jButton3.setFocusable(false);
+        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButton3);
 
         jTablePopulation.setModel(populationModel1);
         jScrollPane2.setViewportView(jTablePopulation);
+        if (jTablePopulation.getColumnModel().getColumnCount() > 0) {
+            jTablePopulation.getColumnModel().getColumn(0).setHeaderValue("ciao");
+        }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -203,36 +260,29 @@ public class MainGUI extends javax.swing.JFrame {
         for (JobIndividual jobIndividual : population.getIndividuals()) {
             this.populationModel1.addRowElement(jobIndividual);
         }
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        GeneticManipulator.getInstance().setSelectionStrategy(this.jCheckBox1.isSelected() ? SelectionStrategy.BEST : SelectionStrategy.WORST);
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       GeneticManipulator.getInstance().mutate(1);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
+        FlatDarkLaf.installLafInfo();
+
+        try {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -242,15 +292,23 @@ public class MainGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
     private it.unina.ceccarino.gaforjss.gui.mr.IndividualModel individualModel1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTablePopulation;
     private javax.swing.JTable jTableTest;

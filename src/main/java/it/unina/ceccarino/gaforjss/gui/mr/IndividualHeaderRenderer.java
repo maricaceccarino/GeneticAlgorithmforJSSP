@@ -27,6 +27,10 @@ public class IndividualHeaderRenderer implements TableCellRenderer {
     public Component getTableCellRendererComponent(
             JTable table, Object value, boolean isSelected,
             boolean hasFocus, int row, int col) {
+
+        if(col == 0){
+            value = "Fit";
+        }
         return renderer.getTableCellRendererComponent(
                 table, value, isSelected, hasFocus, row, col);
     }

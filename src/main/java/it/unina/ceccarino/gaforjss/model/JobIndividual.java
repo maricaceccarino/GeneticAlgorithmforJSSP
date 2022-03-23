@@ -5,6 +5,8 @@
  */
 package it.unina.ceccarino.gaforjss.model;
 
+import it.unina.ceccarino.gaforjss.algo.GeneticManipulator;
+import it.unina.ceccarino.gaforjss.algo.SelectionStrategy;
 import static it.unina.ceccarino.gaforjss.model.InputManager.JOB_TOTAL_QUANTITY;
 import static it.unina.ceccarino.gaforjss.model.InputManager.JOB_TYPE_SIZE;
 import static it.unina.ceccarino.gaforjss.model.InputManager.SEQUENCE_SIZE;
@@ -39,18 +41,28 @@ public class JobIndividual implements Comparable<JobIndividual> {
         initCompletionArray();
 
     }
-    
-    public int getFitness(){
-        if(this.completionArray != null){
+
+    public int getFitness() {
+        if (this.completionArray != null) {
             int fitness = 0;
             for (int time : completionArray) {
-                if(time > fitness){
+                if (time > fitness) {
                     fitness = time;
                 }
             }
             return fitness;
-        }else{
+        } else {
             return -1;
+        }
+    }
+    
+    public void swap(int swapTime){
+        for (int i = 0; i < swapTime; i++) {
+            int r1 = Utils.randomInRange(0,this.jobPermutation.length);
+            int r2 = Utils.randomInRange(0,this.jobPermutation.length);
+            int t = this.jobPermutation[r1];
+            this.jobPermutation[r1] = this.jobPermutation[r2];
+            this.jobPermutation[r2] = this.jobPermutation[t];
         }
     }
 
@@ -78,7 +90,7 @@ public class JobIndividual implements Comparable<JobIndividual> {
             System.out.println("-------------------------------------------------");
             int job = this.jobPermutation[i];
             int previousOperationEndTime = previousJobStepEndTimeMap.get(job);
-            int step = InputManager.getInstance().getStep(i,this.operationSequence);
+            int step = InputManager.getInstance().getStep(i, this.operationSequence);
             System.out.println("STEP = " + step);
             Machine currentMachine = this.machinesSelected[i];
             int freeMachineTime = machineEndTimeMap.get(currentMachine);
@@ -89,14 +101,11 @@ public class JobIndividual implements Comparable<JobIndividual> {
             System.out.println("STEP = " + step);
 
             //  a [i]  = max(tempo_completamento_operazione_precedente, tempo_in_cui_si_libera_la_macchina) + tempo_processamento_operazione_corrente
-            
-            int value = Utils.max(previousOperationEndTime, freeMachineTime) +time;
+            int value = Utils.max(previousOperationEndTime, freeMachineTime) + time;
             completionArray[i] = value;
-            
+
             previousJobStepEndTimeMap.put(job, value);
             machineEndTimeMap.put(currentMachine, value);
-            
-            
 
             //aggiorna il tempo in cui si libera la macchina i, sommando il tempo di completamento del dato
             //job al dato step, + il tempo che già sulla mappa. 
@@ -105,16 +114,12 @@ public class JobIndividual implements Comparable<JobIndividual> {
             //time = 3, alla M2
             //alla posizione M2 -> valore (M2) + time = 1 + 3
 //            System.out.println("MACHINE: " + machineSelected.getCode());
-
-            
 //            machineEndTimeMap.put(this.machinesSelected[i], machineEndTimeMap.get(this.machinesSelected[i]) + time);
-
 //            for (int j = i + 1; j < N; j++) {
 //                if (this.jobPermutation[i] == job) {
 //                    completionArray[j] = completionArray[i];
 //                }
 //            }
-
         }
     }
 
@@ -137,7 +142,6 @@ public class JobIndividual implements Comparable<JobIndividual> {
 //            return rawStep % 6;
 //        }
 //    }
-
     public int getJobStep(int operationIndex) {
         return this.jobPermutation[operationIndex];
     }
@@ -160,7 +164,15 @@ public class JobIndividual implements Comparable<JobIndividual> {
 
     @Override
     public int compareTo(JobIndividual o) {
-        return Integer.compare(this.getFitness(), o.getFitness());
+        if (GeneticManipulator.getInstance().getSelectionStrategy() == SelectionStrategy.BEST) {
+            return Integer.compare(this.getFitness(), o.getFitness());
+        }else{
+            return Integer.compare(o.getFitness(),this.getFitness());            
+        }
+    }
+
+    public void flush() {
+        System.out.println("FLUSH MUST BE IMPLEMENTED");
     }
 
 }

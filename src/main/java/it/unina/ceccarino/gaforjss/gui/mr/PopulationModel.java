@@ -21,7 +21,7 @@ public class PopulationModel extends AbstractLCTableModel<JobIndividual> {
 
     static {
         if (Beans.isDesignTime()) {
-            labels = new String[]{"ciao"};
+            labels = new String[]{"FIT"};
         } else {
             labels = new String[InputManager.getInstance().getDimension()+1];
             System.out.println("label size = " + labels.length);

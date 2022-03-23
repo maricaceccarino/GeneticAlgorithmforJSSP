@@ -10,7 +10,7 @@ import it.unina.ceccarino.gaforjss.model.JobIndividual;
 
 /**
  *
- * @author Luca
+ * @author Marica
  */
 public class Population {
     

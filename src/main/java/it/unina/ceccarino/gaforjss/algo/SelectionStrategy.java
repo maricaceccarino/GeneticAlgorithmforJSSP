@@ -6,7 +6,7 @@ package it.unina.ceccarino.gaforjss.algo;
 
 /**
  *
- * @author Luca
+ * @author Marica
  */
 public enum SelectionStrategy {
     

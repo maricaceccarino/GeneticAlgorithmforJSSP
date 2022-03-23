@@ -4,8 +4,10 @@
  */
 package it.unina.ceccarino.gaforjss.gui.mr;
 
+import it.unina.ceccarino.gaforjss.algo.GeneticManipulator;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
@@ -22,13 +24,41 @@ public class IndividualRenderer extends DefaultTableCellRenderer {
 //    private Icon star = new ImageIcon(getClass().getResource("/it/cnr/istc/sponsor/tt/gui/icons/star16.png"));
 //    private Icon notestar = new ImageIcon(getClass().getResource("/it/cnr/istc/sponsor/tt/gui/icons/notestar.png"));
 //    private Icon note = new ImageIcon(getClass().getResource("/it/cnr/istc/sponsor/tt/gui/icons/note16.png"));
-
     private boolean pm = false;
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-//        TableModel model = table.getModel();
-//        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
+        TableModel model = table.getModel();
+        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
+        int rowLimit = GeneticManipulator.getInstance().getAffectedIndividuals();
+        System.out.println("rowLimit: " + rowLimit);
+        if (isSelected) {
+            c.setForeground(Color.WHITE);
+            c.setBackground(new Color(53, 85, 235));
+        } else {
+
+            if (row <= rowLimit) {
+                c.setForeground(Color.BLACK);
+                if (row % 2 == 0) {
+                    c.setBackground(new Color(230, 205, 149));
+                } else {
+                    c.setBackground(new Color(230, 221, 165));
+                }
+                if(column == 0){
+                    c.setFont(new Font("TimesRoman", Font.BOLD, 12));
+                    c.setForeground(Color.RED);
+                }
+            } else {
+                c.setForeground(Color.WHITE);
+                if (row % 2 == 0) {
+                    c.setBackground(new Color(55, 55, 55));
+                } else {
+                    c.setBackground(new Color(44, 44, 44));
+                }
+            }
+
+        }
+
 //        if (value != null) {
 //            ParsedAccount v = ((PeopleTableModel) model).getAccountAtRow(row);
 //            SinglePersonVariableLabel label = new SinglePersonVariableLabel("" + value);
@@ -132,6 +162,6 @@ public class IndividualRenderer extends DefaultTableCellRenderer {
 //            return label;
 //        }
 //        return c;
-        return null;
+        return c;
     }
 }

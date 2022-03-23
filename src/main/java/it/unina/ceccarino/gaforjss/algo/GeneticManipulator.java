@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 /**
  *
- * @author Luca
+ * @author Marica
  */
 public class GeneticManipulator {
     
@@ -24,10 +24,28 @@ public class GeneticManipulator {
         return _instance;
     }
     
+    /**
+     * restituisce il numero di individui selezionati per la mutazione
+     * @return 
+     */
+    public int getAffectedIndividuals(){
+        if(population == null || this.population.getIndividuals().length == 0){
+            return 0;
+        }else{
+            //tot : 100 = x : perc   ->> x = (tot*perc)/100
+            return (int)(this.population.getIndividuals().length * this.subGroupPercentage)/100;
+        }
+    }
     
     public void loadInitialPopulation(Population population){
         this.population = population;
         Arrays.sort(this.population.getIndividuals());
+    }
+    
+    public void mutate(int howManyTimes){
+        for (int i = 0; i < getAffectedIndividuals(); i++) {
+            this.population.getIndividuals()[i].swap(howManyTimes);
+        }
     }
     
     private GeneticManipulator() {
