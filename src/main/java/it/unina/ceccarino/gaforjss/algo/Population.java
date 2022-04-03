@@ -5,8 +5,9 @@
 package it.unina.ceccarino.gaforjss.algo;
 
 import it.unina.ceccarino.gaforjss.model.InputManager;
-import static it.unina.ceccarino.gaforjss.model.InputManager.POPULATION_SIZE;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
+import it.unina.ceccarino.gaforjss.model.Settings;
+import java.util.List;
 
 /**
  *
@@ -17,6 +18,9 @@ public class Population {
     private int size;
     
     private JobIndividual [] individuals;
+    // dopo aver ordinato la popolazione l'elected index rappresenta l'indice
+    //dell'ultimo elemento eletto nella popolazione;
+    private int electedIndex;
 
     public Population(int size) {
         this.size = size;
@@ -28,6 +32,25 @@ public class Population {
 
     public JobIndividual[] getIndividuals() {
         return individuals;
+    }
+
+    public int getElectedIndex() {
+        return electedIndex;
+    }
+    
+    
+    public void mutate(){
+        //estraggo la corrente percentuale di eletti che non subiranno il crossover
+        int electedPercentage = Settings.getInstance().getElectedPercentage();
+        
+        //calcolo l'elected Index
+        
+        //x : size = elected : 100   -> size*elected / 100
+        
+        this.electedIndex = (this.size*electedPercentage / 100) -1;
+        
+        
+        
     }
     
     

@@ -12,7 +12,7 @@ import javax.swing.table.AbstractTableModel;
 
 /**
  *
- * @author sommovir
+ * @author Marica
  */
 public abstract class AbstractLCTableModel<T> extends AbstractTableModel {
 

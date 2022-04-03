@@ -11,7 +11,7 @@ import javax.swing.tree.TreePath;
 
 /**
  *
- * @author sommovir
+ * @author Marica
  */
 public abstract class AbstractTreeModel implements AbstractTreeTableModel {
     protected Object root;
@@ -27,7 +27,7 @@ public abstract class AbstractTreeModel implements AbstractTreeTableModel {
     }
  
     public Object getRoot() {
-        return root;
+        return root; 
     }
  
     public boolean isLeaf(Object node) {

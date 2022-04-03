@@ -8,7 +8,7 @@ import javax.swing.tree.TreeModel;
 
 /**
  *
- * @author sommovir
+ * @author Marica
  */
 public interface AbstractTreeTableModel extends TreeModel {
  
