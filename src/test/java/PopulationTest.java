@@ -58,12 +58,10 @@ public class PopulationTest {
         assertThrows(InvalidSettingsException.class, new Executable() {
             @Override
             public void execute() throws Throwable {
-                System.out.println("asdasd");
                 Settings.getInstance().setElectedPercentage(-13);
             }
         });
         exceptionHasBeenThrownMinor = true;
-        System.out.println("minchia "+exceptionHasBeenThrownMinor);
         assertThrows(InvalidSettingsException.class, new Executable() {
             @Override
             public void execute() throws Throwable {
@@ -71,7 +69,6 @@ public class PopulationTest {
             }
         });
         exceptionHasBeenThrownMajor = true;
-        System.out.println("e major è "+exceptionHasBeenThrownMajor);
     }
 
     @Order(2)
@@ -86,7 +83,7 @@ public class PopulationTest {
         try {
             Settings.getInstance().setElectedPercentage(0);
             Population pop = new Population(100);
-            pop.mutate();
+            pop.prepareCrossover();
             int electedIndex = pop.getElectedIndex();
             assertEquals(-1, electedIndex, "errore nel calcolo dell'elected index con % a 0");
         } catch (InvalidSettingsException ex) {
@@ -96,7 +93,7 @@ public class PopulationTest {
         try {
             Settings.getInstance().setElectedPercentage(100);
             Population pop = new Population(100);
-            pop.mutate();
+            pop.prepareCrossover();
             int electedIndex = pop.getElectedIndex();
             assertEquals(99, electedIndex, "errore nel calcolo dell'elected index con % a 100");
         } catch (InvalidSettingsException ex) {
@@ -106,7 +103,7 @@ public class PopulationTest {
         try {
             Settings.getInstance().setElectedPercentage(1);
             Population pop = new Population(100);
-            pop.mutate();
+            pop.prepareCrossover();
             int electedIndex = pop.getElectedIndex();
             assertEquals(0, electedIndex, "errore nel calcolo dell'elected index con % a 1");
         } catch (InvalidSettingsException ex) {
@@ -116,7 +113,7 @@ public class PopulationTest {
         try {
             Settings.getInstance().setElectedPercentage(15);
             Population pop = new Population(100);
-            pop.mutate();
+            pop.prepareCrossover();
             int electedIndex = pop.getElectedIndex();
             assertEquals(14, electedIndex, "errore nel calcolo dell'elected index con % a 15");
         } catch (InvalidSettingsException ex) {

@@ -11,6 +11,8 @@ import static it.unina.ceccarino.gaforjss.model.InputManager.JOB_TOTAL_QUANTITY;
 import static it.unina.ceccarino.gaforjss.model.InputManager.JOB_TYPE_SIZE;
 import static it.unina.ceccarino.gaforjss.model.InputManager.SEQUENCE_SIZE;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,6 +43,19 @@ public class JobIndividual implements Comparable<JobIndividual> {
         initCompletionArray();
 
     }
+
+    //constructor for newborn baby
+    public JobIndividual() {
+        this.jobPermutation = new int[N];
+    }
+    
+    //aggiorna tutti gli altri array partendo dal jobPermutation
+    public void update(){
+
+        throw new UnsupportedOperationException(); //TODO
+    }
+    
+    
 
     public int getFitness() {
         if (this.completionArray != null) {
