@@ -4,12 +4,15 @@
  */
 package it.unina.ceccarino.gaforjss;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+import it.unina.ceccarino.gaforjss.gui.MainGUI;
 import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import it.unina.ceccarino.gaforjss.model.JobType;
 import it.unina.ceccarino.gaforjss.model.Machine;
 import it.unina.ceccarino.gaforjss.model.Utils;
 import java.util.Map;
+import javax.swing.UIManager;
 
 /**
  *
@@ -20,18 +23,28 @@ public class Main {
     public static int maxGenerations = 100; // massimo num. di iterazioni per la terminazione
 
     public static void main(String[] args) {
-        
+
         //TEST GET STEP
-        
 //        int [] operations = new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17};
 //        for (int i = 0; i < operations.length; i++) {
 //            int step = InputManager.getInstance().getStep(i, operations);
 //            System.out.println("operation: "+operations[i]+" ---> step: "+step);
 //        }
 //            
-        
-        
-        
+        FlatDarkLaf.installLafInfo();
+
+        try {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MainGUI().setVisible(true);
+            }
+        });
+
         System.out.println("Welcome to Genetic Algorithm");
 
         Map<Integer, Integer> map = InputManager.getInstance().getJobQuantityMap();
