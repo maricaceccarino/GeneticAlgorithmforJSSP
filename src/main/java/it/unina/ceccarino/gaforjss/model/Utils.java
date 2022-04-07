@@ -5,6 +5,7 @@
 package it.unina.ceccarino.gaforjss.model;
 
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,12 +28,14 @@ public class Utils {
     }
 
     /**
-     * Restituisce un numero intero casuale tra min e max .
+     * Restituisce un numero intero casuale tra min (compreso) e max (non compreso) .
      *
      * @param min
      * il valore minimo entro il quale sarà generato il numero casuale
+     * MIN COMPRESO
      * @param max
      * il valore massimo entro il quale sarà generato il numero casuale
+     * MAX NON COMPRESO
      * @return un numero intero casuale tra min e max
      */
     public static int randomInRange(int min, int max) {

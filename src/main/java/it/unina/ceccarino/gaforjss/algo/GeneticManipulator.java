@@ -43,6 +43,8 @@ public class GeneticManipulator {
     }
     
     public void mutate(int howManyTimes){
+        //randomizzare-- 
+        //vanno mutati coloro che non hanno subito il crossover
         for (int i = 0; i < getAffectedIndividuals(); i++) {
             this.population.getIndividuals()[i].swap(howManyTimes);
         }

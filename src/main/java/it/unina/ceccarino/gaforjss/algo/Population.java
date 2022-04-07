@@ -7,10 +7,15 @@ package it.unina.ceccarino.gaforjss.algo;
 import it.unina.ceccarino.gaforjss.exceptions.InvalidSettingsException;
 import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
+import it.unina.ceccarino.gaforjss.model.JobType;
 import it.unina.ceccarino.gaforjss.model.Settings;
+import it.unina.ceccarino.gaforjss.model.Utils;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -87,17 +92,36 @@ public class Population {
     public JobIndividual crossOver(JobIndividual mister, JobIndividual miss) {
 
         JobIndividual baby = new JobIndividual();
+        List<Integer> posizioniVuote = new LinkedList<>();
+        Map<Integer, Integer> posizioniOccupateMap = new HashMap<>();
+        //  id job ,  quantity
+        for (JobType jobType : InputManager.getInstance().getJobTypes()) {
+            posizioniOccupateMap.put(jobType.getType(), 0);
+        }
 
         for (int i = 0; i < mister.getJobPermutation().length; i++) {
             if (mister.getJobPermutation()[i] <= 5) {
                 baby.getJobPermutation()[i] = mister.getJobPermutation()[i];
+                posizioniOccupateMap.put(mister.getJobPermutation()[i], posizioniOccupateMap.get(mister.getJobPermutation()[i]) + 1 );
             } else if(miss.getJobPermutation()[i] > 5){
                 baby.getJobPermutation()[i] = miss.getJobPermutation()[i];
+                posizioniOccupateMap.put(miss.getJobPermutation()[i], posizioniOccupateMap.get(miss.getJobPermutation()[i]) + 1 );
+            }else{
+                //posizioni vuote
+                posizioniVuote.add(i);
             }
         }
-
-        //TODO, fare il calcolo delle posizioni mancanti e riempirle coerentemente
-        //sostituire i figli ai peggiori
+        
+        for (Map.Entry<Integer, Integer> entry : posizioniOccupateMap.entrySet()) {
+            int jobLimit = InputManager.getInstance().getJobQuantityMap().get(entry.getKey());
+            int jobMancanti = jobLimit - entry.getValue();
+            for (int i = 0; i < jobMancanti; i++) {
+                
+                int randomInRange = Utils.randomInRange(0, posizioniVuote.size());
+                posizioniVuote.remove(randomInRange);
+                baby.getJobPermutation()[randomInRange] = entry.getKey();
+            }
+        }
         
         return baby;
     }
