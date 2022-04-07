@@ -4,12 +4,16 @@
  */
 package it.unina.ceccarino.gaforjss.algo;
 
+import it.unina.ceccarino.gaforjss.exceptions.InvalidSettingsException;
 import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import it.unina.ceccarino.gaforjss.model.Settings;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  *
@@ -88,30 +92,41 @@ public class Population {
         for (int i = 0; i < mister.getJobPermutation().length; i++) {
             if (mister.getJobPermutation()[i] <= 5) {
                 baby.getJobPermutation()[i] = mister.getJobPermutation()[i];
-            } else if(miss.getJobPermutation()[i] > 5){
+            } else if (miss.getJobPermutation()[i] > 5) {
                 baby.getJobPermutation()[i] = miss.getJobPermutation()[i];
             }
         }
 
         //TODO, fare il calcolo delle posizioni mancanti e riempirle coerentemente
         //sostituire i figli ai peggiori
-        
         return baby;
     }
 
     public static void main(String[] args) {
-        //test output
-        int array[] = new int[]{1, 2, 3, 4, 5, 6, 7, 8};
-
-        int[] boys = Arrays.copyOfRange(array, 0, array.length / 2);
-        int[] girls = Arrays.copyOfRange(array, array.length / 2, array.length);
-
-        for (int i = 0; i < boys.length; i++) {
-            System.out.println("BOY:  " + boys[i]);
-        }
-        System.out.println("---------------------------------------------------------");
-        for (int i = 0; i < girls.length; i++) {
-            System.out.println("GIRL: " + girls[i]);
+        try {
+            //test output
+            int array[] = new int[]{1, 2, 3, 4, 5, 6, 7, 8};
+            
+            int[] boys = Arrays.copyOfRange(array, 0, array.length / 2);
+            int[] girls = Arrays.copyOfRange(array, array.length / 2, array.length);
+            
+            for (int i = 0; i < boys.length; i++) {
+                System.out.println("BOY:  " + boys[i]);
+            }
+            System.out.println("---------------------------------------------------------");
+            for (int i = 0; i < girls.length; i++) {
+                System.out.println("GIRL: " + girls[i]);
+            }
+            
+            System.out.println("---------------------------------------------------------");
+            
+            Settings.getInstance().setElectedPercentage(0);
+            Population pop = new Population(100);
+            pop.prepareCrossover();
+            int electedIndex = pop.getElectedIndex();
+            assertEquals(-1, electedIndex, "errore nel calcolo dell'elected index con % a 0");
+        } catch (InvalidSettingsException ex) {
+            Logger.getLogger(Population.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
