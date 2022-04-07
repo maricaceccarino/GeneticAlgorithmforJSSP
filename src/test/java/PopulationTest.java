@@ -86,6 +86,7 @@ public class PopulationTest {
             pop.prepareCrossover();
             int electedIndex = pop.getElectedIndex();
             assertEquals(-1, electedIndex, "errore nel calcolo dell'elected index con % a 0");
+            assertEquals(pop.getBoys().length, pop.getGirls().length, "gli array boys & girls non sono della stessa dimensione");
         } catch (InvalidSettingsException ex) {
             assertTrue(false, "Non dovrebbe lanciare eccezione con parametri tra 0 e 100");
         }
@@ -96,6 +97,7 @@ public class PopulationTest {
             pop.prepareCrossover();
             int electedIndex = pop.getElectedIndex();
             assertEquals(99, electedIndex, "errore nel calcolo dell'elected index con % a 100");
+            assertEquals(pop.getBoys().length, pop.getGirls().length, "gli array boys & girls non sono della stessa dimensione");
         } catch (InvalidSettingsException ex) {
             assertTrue(false, "Non dovrebbe lanciare eccezione con parametri tra 0 e 100");
         }
@@ -106,6 +108,7 @@ public class PopulationTest {
             pop.prepareCrossover();
             int electedIndex = pop.getElectedIndex();
             assertEquals(0, electedIndex, "errore nel calcolo dell'elected index con % a 1");
+            assertEquals(pop.getBoys().length, pop.getGirls().length, "gli array boys & girls non sono della stessa dimensione");
         } catch (InvalidSettingsException ex) {
             assertTrue(false, "Non dovrebbe lanciare eccezione con parametri tra 0 e 100");
         }
@@ -116,6 +119,7 @@ public class PopulationTest {
             pop.prepareCrossover();
             int electedIndex = pop.getElectedIndex();
             assertEquals(14, electedIndex, "errore nel calcolo dell'elected index con % a 15");
+            assertEquals(pop.getBoys().length, pop.getGirls().length, "gli array boys & girls non sono della stessa dimensione");
         } catch (InvalidSettingsException ex) {
             assertTrue(false, "Non dovrebbe lanciare eccezione con parametri tra 0 e 100");
         }

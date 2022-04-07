@@ -4,12 +4,15 @@
  */
 package it.unina.ceccarino.gaforjss.algo;
 
+import it.unina.ceccarino.gaforjss.exceptions.InvalidSettingsException;
 import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import it.unina.ceccarino.gaforjss.model.Settings;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  *
@@ -63,7 +66,7 @@ public class Population {
         int ghostElected = (this.size - this.electedIndex + 1) % 2 == 0 ? 0 : 1;
 
         //Copio i superstiti in questo array "crossoverCandidates"
-        JobIndividual[] crossoverCandidates = Arrays.copyOfRange(this.individuals, this.electedIndex + ghostElected, size);
+        JobIndividual[] crossoverCandidates = Arrays.copyOfRange(this.individuals, this.electedIndex + ghostElected +1, size);
 
         //Mescolo l'array casualmente
         Collections.shuffle(Arrays.asList(crossoverCandidates));
@@ -114,6 +117,16 @@ public class Population {
             System.out.println("GIRL: " + girls[i]);
         }
 
+        
+        try {
+            Settings.getInstance().setElectedPercentage(0);
+            Population pop = new Population(100);
+            pop.prepareCrossover();
+            int electedIndex = pop.getElectedIndex();
+//            assertEquals(-1, electedIndex, "errore nel calcolo dell'elected index con % a 0");
+        } catch (InvalidSettingsException ex) {
+//            assertTrue(false, "Non dovrebbe lanciare eccezione con parametri tra 0 e 100");
+        }
     }
 
 }
