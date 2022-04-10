@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package it.unina.ceccarino.gaforjss.gui.abstracts;
+package it.unina.ceccarino.gaforjss.gui.mr.foreigntree;
 
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TreeModelEvent;
@@ -11,9 +11,9 @@ import javax.swing.tree.TreePath;
 
 /**
  *
- * @author Marica
+ * @author sommovir
  */
-public abstract class AbstractTreeModel implements AbstractTreeTableModel {
+public abstract class MyAbstractTreeTableModel implements MyTreeTableModel {
     protected Object root;
     protected EventListenerList listenerList = new EventListenerList();
  
@@ -22,12 +22,12 @@ public abstract class AbstractTreeModel implements AbstractTreeTableModel {
     private static final int REMOVED = 2;
     private static final int STRUCTURE_CHANGED = 3;
  
-    public AbstractTreeModel(Object root) {
+    public MyAbstractTreeTableModel(Object root) {
         this.root = root;
     }
  
     public Object getRoot() {
-        return root; 
+        return root;
     }
  
     public boolean isLeaf(Object node) {
