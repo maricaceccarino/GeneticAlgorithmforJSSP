@@ -86,13 +86,13 @@ public class MainGUI extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTablePopulation = new javax.swing.JTable();
+        populationPanel1 = new it.unina.ceccarino.gaforjss.gui.panels.PopulationPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTableTest.setModel(individualModel1);
         jScrollPane1.setViewportView(jTableTest);
 
-        jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
         jButton1.setText("Regenerate");
@@ -123,13 +123,12 @@ public class MainGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("Test", jPanel2);
 
-        jToolBar2.setFloatable(false);
         jToolBar2.setRollover(true);
 
         jButton2.setText("Genera Popolazione");
@@ -204,7 +203,7 @@ public class MainGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -220,6 +219,7 @@ public class MainGUI extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Population", jPanel3);
+        jTabbedPane1.addTab("tab3", populationPanel1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -229,7 +229,7 @@ public class MainGUI extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
         );
 
         jTabbedPane1.getAccessibleContext().setAccessibleName("Test");
@@ -315,5 +315,6 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private it.unina.ceccarino.gaforjss.gui.mr.PopulationModel populationModel1;
+    private it.unina.ceccarino.gaforjss.gui.panels.PopulationPanel populationPanel1;
     // End of variables declaration//GEN-END:variables
 }
