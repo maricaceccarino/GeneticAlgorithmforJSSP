@@ -5,6 +5,7 @@
 package it.unina.ceccarino.gaforjss.gui.panels;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -17,7 +18,21 @@ public class PopulationPanel extends javax.swing.JPanel {
      */
     public PopulationPanel() {
         initComponents();
-        DefaultMutableTreeNode node  = new DefaultMutableTreeNode();
+        DefaultMutableTreeNode node  = new DefaultMutableTreeNode("Minchia");
+        node.add(new DefaultMutableTreeNode("Uno", false));
+        node.add(new DefaultMutableTreeNode("Due", false));
+        node.add(new DefaultMutableTreeNode("Tre", false));
+        node.add(new DefaultMutableTreeNode("Quattro", false));
+        
+        DefaultMutableTreeNode node2  = new DefaultMutableTreeNode();
+        node2.add(new DefaultMutableTreeNode("A", false));
+        node2.add(new DefaultMutableTreeNode("B", false));
+        node2.add(new DefaultMutableTreeNode("C", false));
+        
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode) this.jTree1.getModel().getRoot();
+        
+        ((DefaultTreeModel)this.jTree1.getModel()).insertNodeInto(node, root, root.getChildCount());
+        ((DefaultTreeModel)this.jTree1.getModel()).insertNodeInto(node2, root, root.getChildCount());
     }
 
     /**
