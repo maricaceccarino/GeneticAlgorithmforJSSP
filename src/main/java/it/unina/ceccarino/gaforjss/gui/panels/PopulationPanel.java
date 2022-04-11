@@ -4,8 +4,20 @@
  */
 package it.unina.ceccarino.gaforjss.gui.panels;
 
+import it.unina.ceccarino.gaforjss.algo.GeneticManipulator;
+import it.unina.ceccarino.gaforjss.algo.Population;
+import it.unina.ceccarino.gaforjss.gui.abstracts.tree.AbstractTreeTableModel;
+import it.unina.ceccarino.gaforjss.gui.abstracts.tree.DataModel;
+import it.unina.ceccarino.gaforjss.gui.abstracts.tree.DataNode;
+import it.unina.ceccarino.gaforjss.gui.abstracts.tree.TreeTable;
+import it.unina.ceccarino.gaforjss.model.InputManager;
+import it.unina.ceccarino.gaforjss.model.JobIndividual;
+import java.awt.Container;
+import java.awt.GridLayout;
+import javax.swing.JScrollPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  *
@@ -18,21 +30,30 @@ public class PopulationPanel extends javax.swing.JPanel {
      */
     public PopulationPanel() {
         initComponents();
-        DefaultMutableTreeNode node  = new DefaultMutableTreeNode("Minchia");
-        node.add(new DefaultMutableTreeNode("Uno", false));
-        node.add(new DefaultMutableTreeNode("Due", false));
-        node.add(new DefaultMutableTreeNode("Tre", false));
-        node.add(new DefaultMutableTreeNode("Quattro", false));
-        
-        DefaultMutableTreeNode node2  = new DefaultMutableTreeNode();
-        node2.add(new DefaultMutableTreeNode("A", false));
-        node2.add(new DefaultMutableTreeNode("B", false));
-        node2.add(new DefaultMutableTreeNode("C", false));
-        
-        DefaultMutableTreeNode root = (DefaultMutableTreeNode) this.jTree1.getModel().getRoot();
-        
-        ((DefaultTreeModel)this.jTree1.getModel()).insertNodeInto(node, root, root.getChildCount());
-        ((DefaultTreeModel)this.jTree1.getModel()).insertNodeInto(node2, root, root.getChildCount());
+        this.jPanel_Container.setLayout(new GridLayout(0, 1));
+
+        AbstractTreeTableModel treeTableModel = new DataModel(createDataStructure());
+
+        TreeTable myTreeTable = new TreeTable(treeTableModel);
+
+        this.jPanel_Container.add(new JScrollPane(myTreeTable));
+
+    }
+
+    private static DataNode createDataStructure() {
+        DataNode root = new DataNode("Root");
+        Population pop = InputManager.getInstance().generatePopulation();
+        GeneticManipulator.getInstance().loadInitialPopulation(pop);
+
+        for (JobIndividual individual : pop.getIndividuals()) {
+            DataNode node = new DataNode(ArrayUtils.toObject(individual.getJobPermutation()), "" + individual.getFitness());
+            node.addChild(new DataNode(ArrayUtils.toObject(individual.getOperationSequence()), "operations"));
+            node.addChild(new DataNode(individual.getMachinesSelected(), "machines"));
+            node.addChild(new DataNode(ArrayUtils.toObject(individual.getComplationArray()), "completion"));
+            root.addChild(node);
+        }
+
+        return root;
     }
 
     /**
@@ -44,12 +65,9 @@ public class PopulationPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
-
-        jScrollPane1.setViewportView(jTree1);
+        jPanel_Container = new javax.swing.JPanel();
 
         jToolBar1.setRollover(true);
 
@@ -59,15 +77,26 @@ public class PopulationPanel extends javax.swing.JPanel {
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(jButton1);
 
+        javax.swing.GroupLayout jPanel_ContainerLayout = new javax.swing.GroupLayout(jPanel_Container);
+        jPanel_Container.setLayout(jPanel_ContainerLayout);
+        jPanel_ContainerLayout.setHorizontalGroup(
+            jPanel_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel_ContainerLayout.setVerticalGroup(
+            jPanel_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 469, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jPanel_Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -75,15 +104,15 @@ public class PopulationPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel_Container, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel_Container;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
 }

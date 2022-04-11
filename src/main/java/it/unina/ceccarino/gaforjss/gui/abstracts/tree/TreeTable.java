@@ -4,12 +4,8 @@
  */
 package it.unina.ceccarino.gaforjss.gui.abstracts.tree;
 
-import it.unina.ceccarino.gaforjss.gui.mr.IndividualHeaderRenderer;
-import it.unina.ceccarino.gaforjss.gui.mr.IndividualRenderer;
-import it.unina.ceccarino.gaforjss.model.InputManager;
 import java.awt.Dimension;
 import javax.swing.JTable;
-import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -27,6 +23,7 @@ public class TreeTable extends JTable {
 
         // Modell setzen.
         super.setModel(new TreeTableModelAdapter(treeTableModel, tree));
+        tree.setRootVisible(false);
 
         // Gleichzeitiges Selektieren fuer Tree und Table.
         TreeTableSelectionModel selectionModel = new TreeTableSelectionModel();

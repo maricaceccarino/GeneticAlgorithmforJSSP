@@ -8,6 +8,7 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import it.unina.ceccarino.gaforjss.algo.GeneticManipulator;
 import it.unina.ceccarino.gaforjss.algo.Population;
 import it.unina.ceccarino.gaforjss.algo.SelectionStrategy;
+import it.unina.ceccarino.gaforjss.gui.abstracts.tree.FrameNonTest;
 import it.unina.ceccarino.gaforjss.gui.mr.IndividualHeaderRenderer;
 import it.unina.ceccarino.gaforjss.gui.mr.IndividualRenderer;
 import it.unina.ceccarino.gaforjss.model.InputManager;

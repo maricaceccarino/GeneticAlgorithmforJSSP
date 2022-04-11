@@ -4,6 +4,9 @@
  */
 package it.unina.ceccarino.gaforjss.gui.abstracts.tree;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import it.unina.ceccarino.gaforjss.algo.GeneticManipulator;
 import it.unina.ceccarino.gaforjss.algo.Population;
 import it.unina.ceccarino.gaforjss.model.InputManager;
@@ -16,6 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
@@ -45,24 +49,30 @@ public class FrameNonTest extends javax.swing.JFrame {
         setLocationRelativeTo(null);
 
     }
-    
+
     private static DataNode createDataStructure() {
         DataNode root = new DataNode("Root");
         Population pop = InputManager.getInstance().generatePopulation();
         GeneticManipulator.getInstance().loadInitialPopulation(pop);
-        
+        int lastIndexToDecorate = GeneticManipulator.getInstance().getAffectedIndividuals();
+        int i = 0;
         for (JobIndividual individual : pop.getIndividuals()) {
-            DataNode node = new DataNode(ArrayUtils.toObject(individual.getJobPermutation()),""+individual.getFitness());
-            node.addChild(new DataNode(ArrayUtils.toObject(individual.getOperationSequence()),"operations"));
-            node.addChild(new DataNode(individual.getMachinesSelected(),"machines"));
-            node.addChild(new DataNode(ArrayUtils.toObject(individual.getComplationArray()),"completion"));
+
+            //<html><font color = red><b>
+            String decoration = "";
+            if (i <= lastIndexToDecorate) {
+                decoration = TreeTableCellRenderer.HTML_DEOCORATION_1;
+            }
+            DataNode node = new DataNode(ArrayUtils.toObject(individual.getJobPermutation()), decoration + individual.getFitness());
+            node.addChild(new DataNode(ArrayUtils.toObject(individual.getOperationSequence()), TreeTableCellRenderer.HTML_DEOCORATION_2+"operations"));
+            node.addChild(new DataNode(individual.getMachinesSelected(), TreeTableCellRenderer.HTML_DEOCORATION_2+"machines"));
+            node.addChild(new DataNode(ArrayUtils.toObject(individual.getComplationArray()), TreeTableCellRenderer.HTML_DEOCORATION_2+"completion"));
             root.addChild(node);
+            i++;
         }
-        
+
         return root;
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -93,6 +103,14 @@ public class FrameNonTest extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+//         FlatDarkLaf.installLafInfo();
+//         FlatIntelliJLaf.installLafInfo();
+////
+//        try {
+//            UIManager.setLookAndFeel(new FlatIntelliJLaf());
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -100,6 +118,7 @@ public class FrameNonTest extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                System.out.println("theme: " + info.getName());
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
