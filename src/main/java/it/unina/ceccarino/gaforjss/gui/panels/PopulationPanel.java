@@ -13,10 +13,14 @@ import it.unina.ceccarino.gaforjss.gui.abstracts.tree.TreeTable;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.TreeTableCellRenderer;
 import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.util.Optional;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import org.apache.commons.lang3.ArrayUtils;
@@ -36,16 +40,31 @@ public class PopulationPanel extends javax.swing.JPanel {
 
         AbstractTreeTableModel treeTableModel = new DataModel(createDataStructure());
 
-        TreeTable myTreeTable = new TreeTable(treeTableModel);
+        final TreeTable myTreeTable = new TreeTable(treeTableModel);
         myTreeTable.getColumnModel().getColumn(0).setMinWidth(140);
 //        myTreeTable.getColumnModel().getColumn(0).setMaxWidth(80);
         int dimension = InputManager.getInstance().getDimension();
         for (int i = 1; i < dimension; i++) {
             myTreeTable.getColumnModel().getColumn(i).setPreferredWidth(40);
+            myTreeTable.getColumnModel().getColumn(i).setCellRenderer(new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+                    if (myTreeTable.isRowExpanded(row)) {
+                        c.setBackground(Color.red);
+                    } else {
+                        if (isSelected) {
+                            c.setBackground(table.getSelectionBackground());
+                        } else {
+                            c.setBackground(table.getBackground());
+                        }
+                    }
+                    return c;
+                }
+
+            });
         }
 
-
-        
         this.jPanel_Container.add(new JScrollPane(myTreeTable));
 
     }
@@ -64,9 +83,9 @@ public class PopulationPanel extends javax.swing.JPanel {
                 decoration = TreeTableCellRenderer.HTML_DEOCORATION_1;
             }
             DataNode node = new DataNode(ArrayUtils.toObject(individual.getJobPermutation()), decoration + individual.getFitness());
-            node.addChild(new DataNode(ArrayUtils.toObject(individual.getOperationSequence()), TreeTableCellRenderer.HTML_DEOCORATION_2+"operations"));
-            node.addChild(new DataNode(individual.getMachinesSelected(), TreeTableCellRenderer.HTML_DEOCORATION_2+"machines"));
-            node.addChild(new DataNode(ArrayUtils.toObject(individual.getComplationArray()), TreeTableCellRenderer.HTML_DEOCORATION_2+"completion"));
+            node.addChild(new DataNode(ArrayUtils.toObject(individual.getOperationSequence()), TreeTableCellRenderer.HTML_DEOCORATION_2 + "operations"));
+            node.addChild(new DataNode(individual.getMachinesSelected(), TreeTableCellRenderer.HTML_DEOCORATION_2 + "machines"));
+            node.addChild(new DataNode(ArrayUtils.toObject(individual.getComplationArray()), TreeTableCellRenderer.HTML_DEOCORATION_2 + "completion"));
             root.addChild(node);
             i++;
         }
@@ -119,10 +138,10 @@ public class PopulationPanel extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel_Container, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel_Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

@@ -51,4 +51,8 @@ public class TreeTable extends JTable {
         this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
     }
+    
+    public boolean isRowExpanded(int row){
+        return this.tree.isExpanded(row);
+    }
 }

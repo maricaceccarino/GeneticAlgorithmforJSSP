@@ -52,14 +52,6 @@ public class TreeTableCellRenderer extends JTree implements TableCellRenderer {
 
                 s_value = s_value.replace(TreeTableCellRenderer.HTML_DEOCORATION_2, "<html><b>");
                 Component c = super.getTreeCellRendererComponent(tree, s_value, selected, expanded, leaf, row, hasFocus);
-//                if (row <= GeneticManipulator.getInstance().getAffectedIndividuals()) {
-//                    c.setFont(new Font("Dialog", Font.BOLD, 12));
-//                    if (row != 0) {
-//                        c.setForeground(Color.red);
-//                    }
-//                } else {
-//                    c.setFont(null);
-//                }
                 return c;
             }
         };
