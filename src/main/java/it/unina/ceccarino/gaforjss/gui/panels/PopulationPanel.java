@@ -10,10 +10,12 @@ import it.unina.ceccarino.gaforjss.gui.abstracts.tree.AbstractTreeTableModel;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.DataModel;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.DataNode;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.TreeTable;
+import it.unina.ceccarino.gaforjss.gui.abstracts.tree.TreeTableCellRenderer;
 import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import java.awt.Container;
 import java.awt.GridLayout;
+import java.util.Optional;
 import javax.swing.JScrollPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -35,7 +37,15 @@ public class PopulationPanel extends javax.swing.JPanel {
         AbstractTreeTableModel treeTableModel = new DataModel(createDataStructure());
 
         TreeTable myTreeTable = new TreeTable(treeTableModel);
+        myTreeTable.getColumnModel().getColumn(0).setMinWidth(140);
+//        myTreeTable.getColumnModel().getColumn(0).setMaxWidth(80);
+        int dimension = InputManager.getInstance().getDimension();
+        for (int i = 1; i < dimension; i++) {
+            myTreeTable.getColumnModel().getColumn(i).setPreferredWidth(40);
+        }
 
+
+        
         this.jPanel_Container.add(new JScrollPane(myTreeTable));
 
     }
@@ -44,13 +54,21 @@ public class PopulationPanel extends javax.swing.JPanel {
         DataNode root = new DataNode("Root");
         Population pop = InputManager.getInstance().generatePopulation();
         GeneticManipulator.getInstance().loadInitialPopulation(pop);
-
+        int lastIndexToDecorate = GeneticManipulator.getInstance().getAffectedIndividuals();
+        int i = 0;
         for (JobIndividual individual : pop.getIndividuals()) {
-            DataNode node = new DataNode(ArrayUtils.toObject(individual.getJobPermutation()), "" + individual.getFitness());
-            node.addChild(new DataNode(ArrayUtils.toObject(individual.getOperationSequence()), "operations"));
-            node.addChild(new DataNode(individual.getMachinesSelected(), "machines"));
-            node.addChild(new DataNode(ArrayUtils.toObject(individual.getComplationArray()), "completion"));
+
+            //<html><font color = red><b>
+            String decoration = "";
+            if (i <= lastIndexToDecorate) {
+                decoration = TreeTableCellRenderer.HTML_DEOCORATION_1;
+            }
+            DataNode node = new DataNode(ArrayUtils.toObject(individual.getJobPermutation()), decoration + individual.getFitness());
+            node.addChild(new DataNode(ArrayUtils.toObject(individual.getOperationSequence()), TreeTableCellRenderer.HTML_DEOCORATION_2+"operations"));
+            node.addChild(new DataNode(individual.getMachinesSelected(), TreeTableCellRenderer.HTML_DEOCORATION_2+"machines"));
+            node.addChild(new DataNode(ArrayUtils.toObject(individual.getComplationArray()), TreeTableCellRenderer.HTML_DEOCORATION_2+"completion"));
             root.addChild(node);
+            i++;
         }
 
         return root;
@@ -101,8 +119,8 @@ public class PopulationPanel extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel_Container, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())

@@ -6,6 +6,7 @@ package it.unina.ceccarino.gaforjss;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import it.unina.ceccarino.gaforjss.gui.MainGUI;
+import it.unina.ceccarino.gaforjss.gui.abstracts.tree.FrameNonTest;
 import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import it.unina.ceccarino.gaforjss.model.JobType;
@@ -31,12 +32,22 @@ public class Main {
 //            System.out.println("operation: "+operations[i]+" ---> step: "+step);
 //        }
 //            
-        FlatDarkLaf.installLafInfo();
-
         try {
-            UIManager.setLookAndFeel(new FlatDarkLaf());
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                System.out.println("theme: " + info.getName());
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

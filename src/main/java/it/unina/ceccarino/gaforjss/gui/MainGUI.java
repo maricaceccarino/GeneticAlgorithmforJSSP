@@ -277,13 +277,6 @@ public class MainGUI extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
 
-        FlatDarkLaf.installLafInfo();
-
-        try {
-            UIManager.setLookAndFeel(new FlatDarkLaf());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
