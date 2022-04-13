@@ -4,6 +4,7 @@
  */
 package it.unina.ceccarino.gaforjss.algo;
 
+import it.unina.ceccarino.gaforjss.exceptions.GeneticPoolNotLoadedException;
 import java.util.Arrays;
 
 /**
@@ -22,6 +23,15 @@ public class GeneticManipulator {
             _instance = new GeneticManipulator();
         }
         return _instance;
+    }
+    
+    /**
+     * main method which launch the whole experiment
+     */
+    public void launch(){
+        if(this.population == null){
+            throw new GeneticPoolNotLoadedException();
+        }
     }
     
     /**
