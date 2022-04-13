@@ -22,11 +22,10 @@ public class InputManager {
 
     public static final int SEQUENCE_SIZE = 6; //ogni job è fatto da 6 operazioni
     public static int JOB_TOTAL_QUANTITY = 0;
-    public static final int NO_SOLUTION = -1;
+    public static final int NO_SOLUTION = -1; //UNUSED
 //    public static final int NUMBER_OF_ACCETTABLE_JOBS =6;
     public static final int JOB_TYPE_SIZE = 10; //numero di differenti job type esistenti
-    public static final int LIMIT = 25; // AGGIUNGI COMMENTO PLZ
-    public static int POPULATION_SIZE = 100;
+   
 
     private JobType[] jobTypes = new JobType[JOB_TYPE_SIZE];
 
@@ -47,13 +46,6 @@ public class InputManager {
         randomizeJobQuantity();
     }
 
-    public static int getPopulationSize() {
-        return POPULATION_SIZE;
-    }
-    
-    public static void setPopulationSize(int populationSize) {
-        POPULATION_SIZE = populationSize;
-    }
     
     public MachineStep[] getSequenceByJobIndex(int jobType) {
         return this.jobTypes[jobType - 1].getSequence();
@@ -165,7 +157,7 @@ public class InputManager {
      * @return 
      */
     public Population generatePopulation(){
-       return new Population(POPULATION_SIZE);
+       return new Population(Settings.POPULATION_SIZE);
     }
     
     
@@ -282,7 +274,7 @@ public class InputManager {
             JOB_TOTAL_QUANTITY ++;
         }
         System.out.println("JOB TOTAL QUANTITY = "+JOB_TOTAL_QUANTITY);
-        int n = LIMIT-JOB_TOTAL_QUANTITY;
+        int n = Settings.LIMIT-JOB_TOTAL_QUANTITY;
         for (int i = 0; i < n; i++) {
             int randomIndex = Utils.randomInRange(1, 11);
             System.out.println("RANDOM INDEX: "+randomIndex);

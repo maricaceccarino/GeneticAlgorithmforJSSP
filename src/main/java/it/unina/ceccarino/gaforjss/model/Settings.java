@@ -13,7 +13,10 @@ import it.unina.ceccarino.gaforjss.exceptions.InvalidSettingsException;
 public class Settings {
 
     private static Settings _instance = null;
-    private int ELECTED_PERCENTAGE;
+    //percentuale di individui per ciclo esenti da manipolazione genetica. 
+    private int ELECTED_PERCENTAGE = 10;
+    public static final int LIMIT = 25; // AGGIUNGI COMMENTO PLZ
+    public static int POPULATION_SIZE = 100;
 
     public static Settings getInstance() {
         if (_instance == null) {
@@ -26,29 +29,26 @@ public class Settings {
     private Settings() {
         super();
     }
-    
-    public void backToDefault(){
+
+    public void backToDefault() {
         this.ELECTED_PERCENTAGE = 5;
     }
 
     /**
      * Ritorna la percentuale di individui che non subiranno il crossover
-     * @return 
+     *
+     * @return
      */
     public int getElectedPercentage() {
         return ELECTED_PERCENTAGE;
     }
 
     public void setElectedPercentage(int electedPercentage) throws InvalidSettingsException {
-        if(electedPercentage < 0 || electedPercentage > 100){
+        if (electedPercentage < 0 || electedPercentage > 100) {
             throw new InvalidSettingsException("La percentuale di immuni al crossover deve essere un numero compreso tra 0 e 100");
-                    
+
         }
         this.ELECTED_PERCENTAGE = electedPercentage;
     }
-    
-    
-    
-    
 
 }
