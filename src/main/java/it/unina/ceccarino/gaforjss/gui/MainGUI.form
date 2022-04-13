@@ -89,7 +89,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jToolBar1" min="-2" pref="33" max="-2" attributes="0"/>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="367" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="464" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -114,7 +114,6 @@
                 </Container>
                 <Container class="javax.swing.JToolBar" name="jToolBar1">
                   <Properties>
-                    <Property name="floatable" type="boolean" value="false"/>
                     <Property name="rollover" type="boolean" value="true"/>
                   </Properties>
 
@@ -180,7 +179,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jToolBar2" min="-2" pref="35" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane2" pref="365" max="32767" attributes="0"/>
+                              <Component id="jScrollPane2" pref="462" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -189,7 +188,6 @@
                   <SubComponents>
                     <Container class="javax.swing.JToolBar" name="jToolBar2">
                       <Properties>
-                        <Property name="floatable" type="boolean" value="false"/>
                         <Property name="rollover" type="boolean" value="true"/>
                       </Properties>
 
@@ -323,6 +321,15 @@
                 </Container>
               </SubComponents>
             </Container>
+            <Component class="it.unina.ceccarino.gaforjss.gui.panels.PopulationPanel" name="populationPanel1">
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                  <JTabbedPaneConstraints tabName="tab3">
+                    <Property name="tabTitle" type="java.lang.String" value="tab3"/>
+                  </JTabbedPaneConstraints>
+                </Constraint>
+              </Constraints>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>
