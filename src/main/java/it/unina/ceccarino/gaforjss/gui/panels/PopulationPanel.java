@@ -231,6 +231,12 @@ public class PopulationPanel extends javax.swing.JPanel {
                         jPanel_Container.add(new JScrollPane(myTreeTable));
                         jPanel_Container.invalidate();
                         jPanel_Container.repaint();
+                        PopulationPanel.this.invalidate();
+                        PopulationPanel.this.jPanel_Container.repaint();
+                        myTreeTable.invalidate();
+                        myTreeTable.revalidate();
+                        myTreeTable.repaint();
+                        jPanel_Container.update(jPanel_Container.getGraphics());
                     }
                 });
             }
