@@ -14,9 +14,11 @@ public class Settings {
 
     private static Settings _instance = null;
     //percentuale di individui per ciclo esenti da manipolazione genetica. 
-    private int ELECTED_PERCENTAGE = 10;
+    private int ELECTED_PERCENTAGE = 5;
+    private int CROSSOVER_SUBGROUP_SIZE = 20;
+    private int MUTATION_SUBGROUP_SIZE = 20;
     public static final int LIMIT = 25; // AGGIUNGI COMMENTO PLZ
-    public static int POPULATION_SIZE = 100;
+    private int POPULATION_SIZE = 100;
 
     public static Settings getInstance() {
         if (_instance == null) {
@@ -32,8 +34,36 @@ public class Settings {
 
     public void backToDefault() {
         this.ELECTED_PERCENTAGE = 5;
+        this.CROSSOVER_SUBGROUP_SIZE = 20;
+        this.MUTATION_SUBGROUP_SIZE = 20;
+        this.POPULATION_SIZE = 100;
     }
 
+    public int getMutationSubgroupSize() {
+        return MUTATION_SUBGROUP_SIZE;
+    }
+
+    public void setMutationSubgroupSize(int mutationSubgroupSize) {
+        this.MUTATION_SUBGROUP_SIZE = mutationSubgroupSize;
+    }
+    
+    public int getCrossoverSubgroupSize() {
+        return CROSSOVER_SUBGROUP_SIZE;
+    }
+
+    public void setCrossoverSubgroupSize(int crossoverSubgroupSize) {
+        this.CROSSOVER_SUBGROUP_SIZE = crossoverSubgroupSize;
+    }
+    
+    
+    public int getPopulationSize(){
+        return this.POPULATION_SIZE;
+    }
+    
+    public void setPopulationSize(int size){
+        this.POPULATION_SIZE = size;
+    }
+    
     /**
      * Ritorna la percentuale di individui che non subiranno il crossover
      *

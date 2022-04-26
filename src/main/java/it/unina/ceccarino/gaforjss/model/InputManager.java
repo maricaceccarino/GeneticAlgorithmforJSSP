@@ -157,7 +157,7 @@ public class InputManager {
      * @return 
      */
     public Population generatePopulation(){
-       return new Population(Settings.POPULATION_SIZE);
+       return new Population(Settings.getInstance().getPopulationSize());
     }
     
     

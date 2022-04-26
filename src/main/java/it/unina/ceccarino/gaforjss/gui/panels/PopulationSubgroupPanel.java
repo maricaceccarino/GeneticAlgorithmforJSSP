@@ -24,12 +24,31 @@ public class PopulationSubgroupPanel extends javax.swing.JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g); 
-        int populationSize = Settings.POPULATION_SIZE;
+        int populationSize = Settings.getInstance().getPopulationSize();
+        
         int elected = Settings.getInstance().getElectedPercentage();
-//        int peopleToCrossover = Settings.getInstance().
-//        Settings.getInstance().
-        g.setColor(Color.red);
-        g.fillRect(0, 0, 200, this.getHeight());
+        int crossoverSubgroupSize = Settings.getInstance().getCrossoverSubgroupSize();
+        int mutationSubgroupSize = Settings.getInstance().getMutationSubgroupSize();
+        int width = this.getWidth();
+        
+        //x : width = elected : 100
+        
+        int width_elected = (width*elected)/100;
+        int width_crossover = (width*crossoverSubgroupSize)/100;
+        int width_mutation = (width*mutationSubgroupSize)/100;
+        int width_else = width - (width_crossover + width_elected + width_mutation);
+        
+        g.setColor(Color.yellow);
+        g.fillRect(0, 0, width_elected, this.getHeight());
+        
+        g.setColor(new Color(0,102,204)); //[0,102,204]
+        g.fillRect(width_elected, 0, width_crossover, this.getHeight());
+        
+        g.setColor(new Color(153,0,102)); //[153,0,102]
+        g.fillRect(width_elected+width_crossover, 0, width_mutation, this.getHeight());
+        
+        g.setColor(Color.green);
+        g.fillRect(width_elected+width_crossover+width_mutation, 0, width_else, this.getHeight());
     }
 
     

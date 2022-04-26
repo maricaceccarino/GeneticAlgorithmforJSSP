@@ -18,4 +18,6 @@ public interface EventListener {
     
     public void solutionFound();
     
+    public void settingsChanged();
+    
 }

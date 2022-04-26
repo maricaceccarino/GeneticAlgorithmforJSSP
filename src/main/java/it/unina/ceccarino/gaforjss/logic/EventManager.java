@@ -26,6 +26,12 @@ public class EventManager {
     private EventManager() {
         super();
     }
+    
+    public void settingsChanged(){
+        for (EventListener listener : listeners) {
+            listener.settingsChanged();
+        }
+    }
 
     public void addEventListener(EventListener listener) {
         this.listeners.add(listener);

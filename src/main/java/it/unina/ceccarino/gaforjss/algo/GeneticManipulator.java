@@ -5,6 +5,7 @@
 package it.unina.ceccarino.gaforjss.algo;
 
 import it.unina.ceccarino.gaforjss.exceptions.GeneticPoolNotLoadedException;
+import it.unina.ceccarino.gaforjss.model.Settings;
 import java.util.Arrays;
 
 /**
@@ -15,7 +16,6 @@ public class GeneticManipulator {
     
     private static GeneticManipulator _instance = null;
     private SelectionStrategy selectionStrategy = SelectionStrategy.BEST;
-    private float subGroupPercentage = 10f;
     private Population population;
     
     public static GeneticManipulator getInstance() {
@@ -43,7 +43,7 @@ public class GeneticManipulator {
             return 0;
         }else{
             //tot : 100 = x : perc   ->> x = (tot*perc)/100
-            return (int)(this.population.getIndividuals().length * this.subGroupPercentage)/100;
+            return (int)(this.population.getIndividuals().length * Settings.getInstance().getElectedPercentage())/100;
         }
     }
     
@@ -70,14 +70,6 @@ public class GeneticManipulator {
 
     public void setSelectionStrategy(SelectionStrategy selectionStrategy) {
         this.selectionStrategy = selectionStrategy;
-    }
-
-    public float getSubGroupPercentage() {
-        return subGroupPercentage;
-    }
-
-    public void setSubGroupPercentage(float subGroupPercentage) {
-        this.subGroupPercentage = subGroupPercentage;
     }
 
     

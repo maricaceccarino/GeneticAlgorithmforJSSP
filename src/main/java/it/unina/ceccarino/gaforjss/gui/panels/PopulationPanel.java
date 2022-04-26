@@ -102,6 +102,11 @@ public class PopulationPanel extends javax.swing.JPanel {
         jButton_settings.setFocusable(false);
         jButton_settings.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton_settings.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton_settings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_settingsActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton_settings);
 
         jButton_Generate.setText("Generate Input");
@@ -234,6 +239,12 @@ public class PopulationPanel extends javax.swing.JPanel {
         EventManager.getInstance().generationEnded();
 
     }//GEN-LAST:event_jButton_GenerateActionPerformed
+
+    private void jButton_settingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_settingsActionPerformed
+        SettingFrame settingFrame = new SettingFrame();
+        settingFrame.setLocationRelativeTo(null);
+        settingFrame.setVisible(true);
+    }//GEN-LAST:event_jButton_settingsActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
