@@ -11,8 +11,11 @@ import it.unina.ceccarino.gaforjss.algo.SelectionStrategy;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.FrameNonTest;
 import it.unina.ceccarino.gaforjss.gui.mr.IndividualHeaderRenderer;
 import it.unina.ceccarino.gaforjss.gui.mr.IndividualRenderer;
+import it.unina.ceccarino.gaforjss.logic.EventListener;
+import it.unina.ceccarino.gaforjss.logic.EventManager;
 import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
+import java.awt.Cursor;
 import java.beans.Beans;
 import javax.swing.JTable;
 import javax.swing.UIManager;
@@ -22,13 +25,14 @@ import javax.swing.table.JTableHeader;
  *
  * @author Luca
  */
-public class MainGUI extends javax.swing.JFrame {
+public class MainGUI extends javax.swing.JFrame implements EventListener {
 
     /**
      * Creates new form MainGUI
      */
     public MainGUI() {
         initComponents();
+        EventManager.getInstance().addEventListener(this);
         if (!Beans.isDesignTime()) {
             this.setLocationRelativeTo(null);
             this.setTitle("Titolo Finestra");
@@ -280,7 +284,7 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       GeneticManipulator.getInstance().mutate(1);
+        GeneticManipulator.getInstance().mutate(1);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -323,4 +327,36 @@ public class MainGUI extends javax.swing.JFrame {
     private it.unina.ceccarino.gaforjss.gui.mr.PopulationModel populationModel1;
     private it.unina.ceccarino.gaforjss.gui.panels.PopulationPanel populationPanel1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void generationStarted() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                Cursor cursor = new Cursor(Cursor.WAIT_CURSOR);
+                setCursor(cursor);
+            }
+        });
+    }
+
+       
+
+    @Override
+    public void generationEnded() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                Cursor cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+                setCursor(cursor);
+            }
+        });
+    }
+
+    @Override
+    public void algoStart() {
+
+    }
+
+    @Override
+    public void solutionFound() {
+
+    }
 }

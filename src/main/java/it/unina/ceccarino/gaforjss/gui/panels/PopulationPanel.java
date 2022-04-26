@@ -11,6 +11,7 @@ import it.unina.ceccarino.gaforjss.gui.abstracts.tree.DataModel;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.DataNode;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.TreeTable;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.TreeTableCellRenderer;
+import it.unina.ceccarino.gaforjss.logic.EventManager;
 import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import java.awt.Color;
@@ -18,6 +19,8 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -48,7 +51,8 @@ public class PopulationPanel extends javax.swing.JPanel {
         this.jButton_run.setToolTipText("Esegui algoritmo genetico");
         this.jButton_Generate.setToolTipText("Genera un input iniziale");
         this.jToolBar1.setFloatable(false);
-
+        this.jProgressBar1.setStringPainted(true);
+        this.jProgressBar1.setString("0 %");
     }
 
     private static DataNode createDataStructure() {
@@ -112,6 +116,7 @@ public class PopulationPanel extends javax.swing.JPanel {
         jToolBar1.add(jButton_Generate);
 
         jButton_run.setText("  Run  ");
+        jButton_run.setEnabled(false);
         jButton_run.setFocusable(false);
         jButton_run.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton_run.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -163,19 +168,39 @@ public class PopulationPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton_runActionPerformed
 
     private void jButton_GenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_GenerateActionPerformed
-         Cursor cursor = new Cursor(Cursor.WAIT_CURSOR);
-        setCursor(cursor);
+        EventManager.getInstance().generationStarted();
         this.jPanel_Container.removeAll();
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 AbstractTreeTableModel treeTableModel = new DataModel(createDataStructure());
+                jProgressBar1.setValue(15);
+                jProgressBar1.setString("" + 15 + " %");
+                jProgressBar1.update(jProgressBar1.getGraphics());
 
                 final TreeTable myTreeTable = new TreeTable(treeTableModel);
+                jProgressBar1.setValue(20);
+                jProgressBar1.setString("" + 20 + " %");
+                jProgressBar1.update(jProgressBar1.getGraphics());
                 myTreeTable.getColumnModel().getColumn(0).setMinWidth(140);
 //        myTreeTable.getColumnModel().getColumn(0).setMaxWidth(80);
                 int dimension = InputManager.getInstance().getDimension();
                 for (int i = 1; i < dimension; i++) {
+
+                    //increment : 100 = i : dimension
+                    final int increment = 21 + ((80 * i) / dimension);
+                    java.awt.EventQueue.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            jProgressBar1.setValue(increment);
+                            jProgressBar1.setString("" + increment + " %");
+//                            jProgressBar1.invalidate();
+//                            jProgressBar1.repaint();
+                            jProgressBar1.update(jProgressBar1.getGraphics());
+                        }
+
+                    });
+
                     myTreeTable.getColumnModel().getColumn(i).setPreferredWidth(40);
                     myTreeTable.getColumnModel().getColumn(i).setCellRenderer(new DefaultTableCellRenderer() {
                         @Override
@@ -196,10 +221,17 @@ public class PopulationPanel extends javax.swing.JPanel {
                     });
                 }
 
-                jPanel_Container.add(new JScrollPane(myTreeTable));
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        jPanel_Container.add(new JScrollPane(myTreeTable));
+                        jPanel_Container.invalidate();
+                        jPanel_Container.repaint();
+                    }
+                });
             }
         });
-        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        this.jButton_run.setEnabled(true);
+        EventManager.getInstance().generationEnded();
 
     }//GEN-LAST:event_jButton_GenerateActionPerformed
 
