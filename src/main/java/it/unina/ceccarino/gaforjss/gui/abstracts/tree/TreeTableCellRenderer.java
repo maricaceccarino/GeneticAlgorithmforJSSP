@@ -42,7 +42,6 @@ public class TreeTableCellRenderer extends JTree implements TableCellRenderer {
         this.cellRenderer = new DefaultTreeCellRenderer() {
             @Override
             public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-                System.out.println("SISISISISISISI- >value: " + value);
                 String s_value = value.toString();
                 if (selected) {
                     s_value = s_value.replace(TreeTableCellRenderer.HTML_DEOCORATION_1, "<html><font color = yellow><b>");
