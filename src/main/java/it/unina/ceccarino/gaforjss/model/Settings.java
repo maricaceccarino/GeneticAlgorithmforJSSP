@@ -17,7 +17,7 @@ public class Settings {
     private int ELECTED_PERCENTAGE = 5;
     private int CROSSOVER_SUBGROUP_SIZE = 20;
     private int MUTATION_SUBGROUP_SIZE = 20;
-    public static final int LIMIT = 25; // AGGIUNGI COMMENTO PLZ
+    private int MAX_JOB_OVERAL_QUANTITY = 25; // AGGIUNGI COMMENTO PLZ
     private int POPULATION_SIZE = 100;
 
     public static Settings getInstance() {
@@ -37,6 +37,14 @@ public class Settings {
         this.CROSSOVER_SUBGROUP_SIZE = 20;
         this.MUTATION_SUBGROUP_SIZE = 20;
         this.POPULATION_SIZE = 100;
+    }
+    
+    public int getMaxJobOveralQuantity(){
+        return MAX_JOB_OVERAL_QUANTITY;
+    }
+    
+    public void setMaxJobOveralQuantity(int maxJobOveralQuantity){
+        this.MAX_JOB_OVERAL_QUANTITY = maxJobOveralQuantity;
     }
 
     public int getMutationSubgroupSize() {

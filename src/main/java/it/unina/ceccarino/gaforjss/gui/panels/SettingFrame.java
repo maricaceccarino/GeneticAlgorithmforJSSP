@@ -4,6 +4,10 @@
  */
 package it.unina.ceccarino.gaforjss.gui.panels;
 
+import it.unina.ceccarino.gaforjss.exceptions.InvalidSettingsException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author sommovir
@@ -15,6 +19,9 @@ public class SettingFrame extends javax.swing.JFrame {
      */
     public SettingFrame() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Settings");
+        this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icons/settings32.png")).getImage());
     }
 
     /**
@@ -90,8 +97,13 @@ public class SettingFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.setVisible(false);
-        this.dispose();
+        try {
+            this.settingPanels1.cancel();
+            this.setVisible(false);
+            this.dispose();
+        } catch (InvalidSettingsException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

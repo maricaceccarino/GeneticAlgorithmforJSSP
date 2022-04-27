@@ -274,7 +274,7 @@ public class InputManager {
             JOB_TOTAL_QUANTITY ++;
         }
         System.out.println("JOB TOTAL QUANTITY = "+JOB_TOTAL_QUANTITY);
-        int n = Settings.LIMIT-JOB_TOTAL_QUANTITY;
+        int n = Settings.getInstance().getMaxJobOveralQuantity()-JOB_TOTAL_QUANTITY;
         for (int i = 0; i < n; i++) {
             int randomIndex = Utils.randomInRange(1, 11);
             System.out.println("RANDOM INDEX: "+randomIndex);
