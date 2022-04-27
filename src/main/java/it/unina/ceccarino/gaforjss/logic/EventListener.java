@@ -20,4 +20,6 @@ public interface EventListener {
     
     public void settingsChanged();
     
+    public void backToDefault();
+    
 }

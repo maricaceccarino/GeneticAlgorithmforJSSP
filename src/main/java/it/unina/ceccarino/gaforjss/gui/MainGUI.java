@@ -363,4 +363,8 @@ public class MainGUI extends javax.swing.JFrame implements EventListener {
     @Override
     public void settingsChanged() {
     }
+
+    @Override
+    public void backToDefault() {
+    }
 }

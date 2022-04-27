@@ -26,8 +26,8 @@ public class EventManager {
     private EventManager() {
         super();
     }
-    
-    public void settingsChanged(){
+
+    public void settingsChanged() {
         for (EventListener listener : listeners) {
             listener.settingsChanged();
         }
@@ -46,6 +46,12 @@ public class EventManager {
     public void generationEnded() {
         for (EventListener listener : listeners) {
             listener.generationEnded();
+        }
+    }
+
+    public void backToDefault() {
+        for (EventListener listener : listeners) {
+            listener.backToDefault();
         }
     }
 

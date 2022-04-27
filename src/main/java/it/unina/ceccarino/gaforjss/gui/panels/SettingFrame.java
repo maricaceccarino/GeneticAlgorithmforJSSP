@@ -5,8 +5,10 @@
 package it.unina.ceccarino.gaforjss.gui.panels;
 
 import it.unina.ceccarino.gaforjss.exceptions.InvalidSettingsException;
+import it.unina.ceccarino.gaforjss.model.Settings;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -107,7 +109,10 @@ public class SettingFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        System.out.println("TODO");
+        int confirm = JOptionPane.showConfirmDialog(null, "Vuoi veramente ripristinare le impostazioni di default ?", "Ripristino impostazioni", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if(confirm == JOptionPane.YES_OPTION){
+            Settings.getInstance().backToDefault();
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

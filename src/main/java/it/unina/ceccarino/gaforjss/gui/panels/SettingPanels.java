@@ -8,8 +8,7 @@ import it.unina.ceccarino.gaforjss.exceptions.InvalidSettingsException;
 import it.unina.ceccarino.gaforjss.logic.EventListener;
 import it.unina.ceccarino.gaforjss.logic.EventManager;
 import it.unina.ceccarino.gaforjss.model.Settings;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Vector;
 
 /**
  *
@@ -17,34 +16,36 @@ import java.util.logging.Logger;
  */
 public class SettingPanels extends javax.swing.JPanel implements EventListener {
 
-    
     private int temporaryElected;
     private int temporaryCrossover;
     private int temproaryMutation;
     private int maxJobQnt;
     private int populationSize;
-    
+
     /**
      * Creates new form SettingPanels
      */
     public SettingPanels() {
         initComponents();
         EventManager.getInstance().addEventListener(this);
+        load();
+    }
+
+    private void load() {
         this.temporaryCrossover = Settings.getInstance().getCrossoverSubgroupSize();
         this.temporaryElected = Settings.getInstance().getElectedPercentage();
         this.temproaryMutation = Settings.getInstance().getMutationSubgroupSize();
         this.populationSize = Settings.getInstance().getPopulationSize();
         this.maxJobQnt = Settings.getInstance().getMaxJobOveralQuantity();
-        
+
         this.jSpinner_crossover.setValue(this.temporaryCrossover);
         this.jSpinner_elected.setValue(this.temporaryElected);
         this.jSpinner_maxJob.setValue(this.maxJobQnt);
         this.jSpinner_mutation.setValue(this.temproaryMutation);
-        this.jTextField_populationSize.setText(""+this.populationSize);
+        this.jTextField_populationSize.setText("" + this.populationSize);
     }
-    
-    
-    public void cancel() throws InvalidSettingsException{
+
+    public void cancel() throws InvalidSettingsException {
         Settings.getInstance().setCrossoverSubgroupSize(this.temporaryCrossover);
         Settings.getInstance().setElectedPercentage(this.temporaryElected);
         Settings.getInstance().setMutationSubgroupSize(this.temproaryMutation);
@@ -371,7 +372,7 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
 
     private void jSpinner_maxJobStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_maxJobStateChanged
         System.out.println("state");
-        Settings.getInstance().setMaxJobOveralQuantity((Integer)this.jSpinner_maxJob.getValue());
+        Settings.getInstance().setMaxJobOveralQuantity((Integer) this.jSpinner_maxJob.getValue());
     }//GEN-LAST:event_jSpinner_maxJobStateChanged
 
     private void jSpinner_electedStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_electedStateChanged
@@ -442,6 +443,12 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
 
     @Override
     public void settingsChanged() {
+        this.populationSubgroupPanel1.repaint();
+    }
+
+    @Override
+    public void backToDefault() {
+        load();
         this.populationSubgroupPanel1.repaint();
     }
 }

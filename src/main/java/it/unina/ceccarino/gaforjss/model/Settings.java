@@ -5,6 +5,7 @@
 package it.unina.ceccarino.gaforjss.model;
 
 import it.unina.ceccarino.gaforjss.exceptions.InvalidSettingsException;
+import it.unina.ceccarino.gaforjss.logic.EventManager;
 
 /**
  *
@@ -36,7 +37,9 @@ public class Settings {
         this.ELECTED_PERCENTAGE = 5;
         this.CROSSOVER_SUBGROUP_SIZE = 20;
         this.MUTATION_SUBGROUP_SIZE = 20;
+        this.MAX_JOB_OVERAL_QUANTITY = 25;
         this.POPULATION_SIZE = 100;
+        EventManager.getInstance().backToDefault();
     }
     
     public int getMaxJobOveralQuantity(){
