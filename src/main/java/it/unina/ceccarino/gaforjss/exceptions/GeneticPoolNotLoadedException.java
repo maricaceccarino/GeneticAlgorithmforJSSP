@@ -8,7 +8,7 @@ package it.unina.ceccarino.gaforjss.exceptions;
  *
  * @author Luca
  */
-public class GeneticPoolNotLoadedException extends RuntimeException {
+public class GeneticPoolNotLoadedException extends Exception {
 
     public GeneticPoolNotLoadedException() {
         super("you may have called the -launch- method without properly loading "

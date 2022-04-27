@@ -5,6 +5,7 @@
 package it.unina.ceccarino.gaforjss.algo;
 
 import it.unina.ceccarino.gaforjss.exceptions.GeneticPoolNotLoadedException;
+import it.unina.ceccarino.gaforjss.exceptions.NotSortedPopulationException;
 import it.unina.ceccarino.gaforjss.model.Settings;
 import java.util.Arrays;
 
@@ -17,6 +18,7 @@ public class GeneticManipulator {
     private static GeneticManipulator _instance = null;
     private SelectionStrategy selectionStrategy = SelectionStrategy.BEST;
     private Population population;
+    private boolean sorted = false;
     
     public static GeneticManipulator getInstance() {
         if (_instance == null) {
@@ -28,9 +30,12 @@ public class GeneticManipulator {
     /**
      * main method which launch the whole experiment
      */
-    public void launch(){
+    public void launch() throws Exception{
         if(this.population == null){
             throw new GeneticPoolNotLoadedException();
+        }
+        if(!sorted){
+            throw new NotSortedPopulationException();
         }
     }
     
@@ -50,6 +55,7 @@ public class GeneticManipulator {
     public void loadInitialPopulation(Population population){
         this.population = population;
         Arrays.sort(this.population.getIndividuals());
+        sorted = true;
     }
     
     public void mutate(int howManyTimes){
