@@ -30,7 +30,7 @@ public class IndividualRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         TableModel model = table.getModel();
         Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
-        int rowLimit = GeneticManipulator.getInstance().getAffectedIndividuals();
+        int rowLimit = GeneticManipulator.getInstance().getPeopleSizeForMutationSize();
         System.out.println("rowLimit: " + rowLimit);
         if (isSelected) {
             c.setForeground(Color.WHITE);

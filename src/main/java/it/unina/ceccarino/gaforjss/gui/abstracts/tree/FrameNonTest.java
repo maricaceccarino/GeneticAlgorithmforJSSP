@@ -54,7 +54,7 @@ public class FrameNonTest extends javax.swing.JFrame {
         DataNode root = new DataNode("Root");
         Population pop = InputManager.getInstance().generatePopulation();
         GeneticManipulator.getInstance().loadInitialPopulation(pop);
-        int lastIndexToDecorate = GeneticManipulator.getInstance().getAffectedIndividuals();
+        int lastIndexToDecorate = GeneticManipulator.getInstance().getPeopleSizeForMutationSize();
         int i = 0;
         for (JobIndividual individual : pop.getIndividuals()) {
 
