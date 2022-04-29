@@ -6,10 +6,17 @@ package it.unina.ceccarino.gaforjss.algo;
 
 import it.unina.ceccarino.gaforjss.exceptions.GeneticPoolNotLoadedException;
 import it.unina.ceccarino.gaforjss.exceptions.NotSortedPopulationException;
+import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
+import it.unina.ceccarino.gaforjss.model.JobType;
 import it.unina.ceccarino.gaforjss.model.Settings;
+import it.unina.ceccarino.gaforjss.model.Utils;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -39,24 +46,43 @@ public class GeneticManipulator {
         if (!sorted) {
             throw new NotSortedPopulationException();
         }
-        
-        JobIndividual [] immunes  = (JobIndividual[])partArray(this.population.getIndividuals(), getImmuneSize());
-        
-        JobIndividual [] normalPeople = evict(this.population.getIndividuals(), immunes.length);
-        
+
+        JobIndividual[] immunes = (JobIndividual[]) partArray(this.population.getIndividuals(), getImmuneSize());
+
+        JobIndividual[] normalPeople = evict(this.population.getIndividuals(), immunes.length);
+
         Collections.shuffle(Arrays.asList(normalPeople));
+
+        JobIndividual[] crossoverPool = (JobIndividual[]) partArray(normalPeople, immunes.length + getPeopleSizeForCrossoverSize());
+        JobIndividual[] mutationPool = (JobIndividual[]) partArray(normalPeople, crossoverPool.length + getPeopleSizeForMutationSize());
         
-        JobIndividual [] crossoverPool  = (JobIndividual[])partArray(normalPeople, immunes.length  + getPeopleSizeForCrossoverSize());
-        JobIndividual [] mutationPool  = (JobIndividual[])partArray(normalPeople, crossoverPool.length + getPeopleSizeForMutationSize());
+        System.out.println("*** init crossover ***");
         
+        JobIndividual[][] crossoverSet = this.prepareCrossover(crossoverPool);
+        int childrenSize = crossoverSet[0].length;
+        //questo array immagazzina il risultato del crossover
+        JobIndividual [] children = new JobIndividual[childrenSize]; 
+        
+        for (int i = 0; i < childrenSize; i++) {
+            children[i] = this.crossOver(crossoverSet[0][i], crossoverSet[1][i]);
+        }
+        System.out.println("*** end crossover ***");
+        
+        System.out.println("+++ init mutation +++");
+        
+//        for (int i = 0; i < mutationPool.length; i++) {
+//            mutationPool[i].get
+//        }
+        
+        System.out.println("+++ end mutation +++");
         
     }
 
     public JobIndividual[] evict(JobIndividual[] initialPopulation, int sizeToEvict) {
 
         //estrazione dei primi 'sizeToExtract' elementi dall'array iniziale
-        JobIndividual[] remaining = (JobIndividual[])partArray(initialPopulation,sizeToEvict, initialPopulation.length - sizeToEvict);
-        
+        JobIndividual[] remaining = (JobIndividual[]) partArray(initialPopulation, sizeToEvict, initialPopulation.length - sizeToEvict);
+
         return remaining;
     }
 
@@ -73,7 +99,7 @@ public class GeneticManipulator {
             return (int) (this.population.getIndividuals().length * Settings.getInstance().getMutationSubgroupSize()) / 100;
         }
     }
-    
+
     public int getImmuneSize() {
         if (population == null || this.population.getIndividuals().length == 0) {
             return 0;
@@ -82,8 +108,7 @@ public class GeneticManipulator {
             return (int) (this.population.getIndividuals().length * Settings.getInstance().getElectedPercentage()) / 100;
         }
     }
-    
-    
+
     public int getPeopleSizeForCrossoverSize() {
         if (population == null || this.population.getIndividuals().length == 0) {
             return 0;
@@ -124,12 +149,71 @@ public class GeneticManipulator {
         System.arraycopy(array, 0, part, 0, size);
         return part;
     }
-    
-    public Object[] partArray(Object[] array, int initialPosition, int size) {
-        Object[] part = new Object[size];
+
+    public JobIndividual[] partArray(JobIndividual[] array, int initialPosition, int size) {
+        JobIndividual[] part = new JobIndividual[size];
         System.arraycopy(array, initialPosition, part, 0, size);
         return part;
     }
 
+    /**
+     * crossover
+     */
+    public JobIndividual[][] prepareCrossover(JobIndividual[] crossoverPool) {
+        //estraggo la corrente percentuale di eletti che non subiranno il crossover
+        int electedPercentage = Settings.getInstance().getElectedPercentage();
+
+        //verifico se i rimanenti sono pari o dispari, se dispari aumento di uno
+        //gli eletti di modo che poi posso dividere i rimanenti in due insiemi
+        //esatti.
+        //La seguente variabile sarà quindi zero nel caso i rimanenti sono di 
+        //numero pari, 1 viceversa. 
+        int ghostElected = crossoverPool.length % 2 == 0 ? 0 : 1;
+        
+        JobIndividual[][] readyForCrossover = new JobIndividual[2][(crossoverPool.length - ghostElected )/2];
+
+        readyForCrossover[0] = Arrays.copyOfRange(crossoverPool, 0, (crossoverPool.length - ghostElected) / 2);
+        readyForCrossover[1] = Arrays.copyOfRange(crossoverPool, ((crossoverPool.length - ghostElected) / 2), crossoverPool.length - ghostElected);
+        
+        return readyForCrossover;
+
+    }
+
+    public JobIndividual crossOver(JobIndividual mister, JobIndividual miss) {
+
+        JobIndividual baby = new JobIndividual();
+        List<Integer> posizioniVuote = new LinkedList<>();
+        Map<Integer, Integer> posizioniOccupateMap = new HashMap<>();
+        //  id job ,  quantity
+        for (JobType jobType : InputManager.getInstance().getJobTypes()) {
+            posizioniOccupateMap.put(jobType.getType(), 0);
+        }
+
+        for (int i = 0; i < mister.getJobPermutation().length; i++) {
+            if (mister.getJobPermutation()[i] <= 5) {
+                baby.getJobPermutation()[i] = mister.getJobPermutation()[i];
+                posizioniOccupateMap.put(mister.getJobPermutation()[i], posizioniOccupateMap.get(mister.getJobPermutation()[i]) + 1);
+            } else if (miss.getJobPermutation()[i] > 5) {
+                baby.getJobPermutation()[i] = miss.getJobPermutation()[i];
+                posizioniOccupateMap.put(miss.getJobPermutation()[i], posizioniOccupateMap.get(miss.getJobPermutation()[i]) + 1);
+            } else {
+                //posizioni vuote
+                posizioniVuote.add(i);
+            }
+        }
+
+        for (Map.Entry<Integer, Integer> entry : posizioniOccupateMap.entrySet()) {
+            int jobLimit = InputManager.getInstance().getJobQuantityMap().get(entry.getKey());
+            int jobMancanti = jobLimit - entry.getValue();
+            for (int i = 0; i < jobMancanti; i++) {
+
+                int randomInRange = Utils.randomInRange(0, posizioniVuote.size());
+                posizioniVuote.remove(randomInRange);
+                baby.getJobPermutation()[randomInRange] = entry.getKey();
+            }
+        }
+
+        return baby;
+    }
 
 }

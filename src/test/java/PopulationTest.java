@@ -1,6 +1,8 @@
 
+import it.unina.ceccarino.gaforjss.algo.GeneticManipulator;
 import it.unina.ceccarino.gaforjss.algo.Population;
 import it.unina.ceccarino.gaforjss.exceptions.InvalidSettingsException;
+import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import it.unina.ceccarino.gaforjss.model.Settings;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +31,7 @@ import org.junit.jupiter.api.function.Executable;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
-@Disabled
+//@Disabled
 public class PopulationTest {
 
     private boolean exceptionHasBeenThrownMinor = false;
@@ -82,50 +84,71 @@ public class PopulationTest {
         Assumptions.assumeTrue(exceptionHasBeenThrownMajor);
         Assumptions.assumeTrue(exceptionHasBeenThrownMinor);
 
-        try {
-            Settings.getInstance().setElectedPercentage(0);
-            Population pop = new Population(100);
-            pop.prepareCrossover();
-            int electedIndex = pop.getElectedIndex();
-            assertEquals(-1, electedIndex, "errore nel calcolo dell'elected index con % a 0");
-            assertEquals(pop.getBoys().length, pop.getGirls().length, "gli array boys & girls non sono della stessa dimensione");
-        } catch (InvalidSettingsException ex) {
-            assertTrue(false, "Non dovrebbe lanciare eccezione con parametri tra 0 e 100");
+        JobIndividual[] pool = new JobIndividual[11];
+        for (int i = 0; i < 11; i++) {
+            pool[i] = new JobIndividual();
         }
 
-        try {
-            Settings.getInstance().setElectedPercentage(100);
-            Population pop = new Population(100);
-            pop.prepareCrossover();
-            int electedIndex = pop.getElectedIndex();
-            assertEquals(99, electedIndex, "errore nel calcolo dell'elected index con % a 100");
-            assertEquals(pop.getBoys().length, pop.getGirls().length, "gli array boys & girls non sono della stessa dimensione");
-        } catch (InvalidSettingsException ex) {
-            assertTrue(false, "Non dovrebbe lanciare eccezione con parametri tra 0 e 100");
-        }
+        JobIndividual[][] result = GeneticManipulator.getInstance().prepareCrossover(pool);
 
-        try {
-            Settings.getInstance().setElectedPercentage(1);
-            Population pop = new Population(100);
-            pop.prepareCrossover();
-            int electedIndex = pop.getElectedIndex();
-            assertEquals(0, electedIndex, "errore nel calcolo dell'elected index con % a 1");
-            assertEquals(pop.getBoys().length, pop.getGirls().length, "gli array boys & girls non sono della stessa dimensione");
-        } catch (InvalidSettingsException ex) {
-            assertTrue(false, "Non dovrebbe lanciare eccezione con parametri tra 0 e 100");
-        }
+        assertEquals(2, result.length, "la dimensione dovrebbe essere 2 invece è: " + result.length);
+        assertEquals(5, result[0].length, "la dimensione 0 dovrebbe essere 5 invece è: " + result[0].length);
+        assertEquals(5, result[1].length, "la dimensione 1 dovrebbe essere 5 invece è: " + result[1].length);
 
-        try {
-            Settings.getInstance().setElectedPercentage(15);
-            Population pop = new Population(100);
-            pop.prepareCrossover();
-            int electedIndex = pop.getElectedIndex();
-            assertEquals(14, electedIndex, "errore nel calcolo dell'elected index con % a 15");
-            assertEquals(pop.getBoys().length, pop.getGirls().length, "gli array boys & girls non sono della stessa dimensione");
-        } catch (InvalidSettingsException ex) {
-            assertTrue(false, "Non dovrebbe lanciare eccezione con parametri tra 0 e 100");
+        
+        JobIndividual[] pool2 = new JobIndividual[12];
+        for (int i = 0; i < 12; i++) {
+            pool2[i] = new JobIndividual();
         }
+        JobIndividual[][] result2 = GeneticManipulator.getInstance().prepareCrossover(pool2);
 
+        assertEquals(2, result2.length, "la dimensione dovrebbe essere 2 invece è: " + result2.length);
+        assertEquals(6, result2[0].length, "la dimensione 0 dovrebbe essere 6 invece è: " + result2[0].length);
+        assertEquals(6, result2[1].length, "la dimensione 1 dovrebbe essere 6 invece è: " + result2[1].length);
+
+//        try {
+//            Settings.getInstance().setElectedPercentage(0);
+//            Population pop = new Population(100);
+//            pop.prepareCrossover();
+//            int electedIndex = pop.getElectedIndex();
+//            assertEquals(-1, electedIndex, "errore nel calcolo dell'elected index con % a 0");
+//            assertEquals(pop.getBoys().length, pop.getGirls().length, "gli array boys & girls non sono della stessa dimensione");
+//        } catch (InvalidSettingsException ex) {
+//            assertTrue(false, "Non dovrebbe lanciare eccezione con parametri tra 0 e 100");
+//        }
+//
+//        try {
+//            Settings.getInstance().setElectedPercentage(100);
+//            Population pop = new Population(100);
+//            pop.prepareCrossover();
+//            int electedIndex = pop.getElectedIndex();
+//            assertEquals(99, electedIndex, "errore nel calcolo dell'elected index con % a 100");
+//            assertEquals(pop.getBoys().length, pop.getGirls().length, "gli array boys & girls non sono della stessa dimensione");
+//        } catch (InvalidSettingsException ex) {
+//            assertTrue(false, "Non dovrebbe lanciare eccezione con parametri tra 0 e 100");
+//        }
+//
+//        try {
+//            Settings.getInstance().setElectedPercentage(1);
+//            Population pop = new Population(100);
+//            pop.prepareCrossover();
+//            int electedIndex = pop.getElectedIndex();
+//            assertEquals(0, electedIndex, "errore nel calcolo dell'elected index con % a 1");
+//            assertEquals(pop.getBoys().length, pop.getGirls().length, "gli array boys & girls non sono della stessa dimensione");
+//        } catch (InvalidSettingsException ex) {
+//            assertTrue(false, "Non dovrebbe lanciare eccezione con parametri tra 0 e 100");
+//        }
+//
+//        try {
+//            Settings.getInstance().setElectedPercentage(15);
+//            Population pop = new Population(100);
+//            pop.prepareCrossover();
+//            int electedIndex = pop.getElectedIndex();
+//            assertEquals(14, electedIndex, "errore nel calcolo dell'elected index con % a 15");
+//            assertEquals(pop.getBoys().length, pop.getGirls().length, "gli array boys & girls non sono della stessa dimensione");
+//        } catch (InvalidSettingsException ex) {
+//            assertTrue(false, "Non dovrebbe lanciare eccezione con parametri tra 0 e 100");
+//        }
     }
 
 }
