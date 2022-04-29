@@ -32,10 +32,10 @@ public class MainGUI extends javax.swing.JFrame implements EventListener {
      */
     public MainGUI() {
         initComponents();
+        this.setTitle("GA4Jss - Marica Ceccarino");
         EventManager.getInstance().addEventListener(this);
         if (!Beans.isDesignTime()) {
             this.setLocationRelativeTo(null);
-            this.setTitle("Titolo Finestra");
             this.individualModel1.addRowElement(InputManager.getInstance().generateJobIndividual());
             int N = InputManager.getInstance().getDimension();
             for (int i = 0; i < N; i++) {

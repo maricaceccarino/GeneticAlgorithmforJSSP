@@ -56,38 +56,38 @@ public class Main {
             }
         });
 
-        System.out.println("Welcome to Genetic Algorithm");
-
-        Map<Integer, Integer> map = InputManager.getInstance().getJobQuantityMap();
-        for (Integer jobType : map.keySet()) {
-            System.out.println("JOB[" + jobType + "] quantity: " + map.get(jobType));
-        }
-        System.out.println("In totale abbiamo: " + InputManager.JOB_TOTAL_QUANTITY);
-
-        System.out.println("-------------------------------------------------");
-
-        JobIndividual individuo = InputManager.getInstance().generateJobIndividual();
-        System.out.println(" ** JOB PERMUTATION ARRAY **");
-        for (int type : individuo.getJobPermutation()) {
-            System.out.print(type == 10 ? "X " : type + " ");
-        }
-        System.out.println("-------------------------------------------------");
-        System.out.println(" ** JOB OPERATION SEQUENCE **");
-        for (int type : individuo.getOperationSequence()) {
-            System.out.print(type + " ");
-        }
-
-        System.out.println("-------------------------------------------------");
-        System.out.println(" ** MACHINE SEQUENCE **");
-        for (Machine machine : individuo.getMachinesSelected()) {
-            System.out.print(machine.getCode() + " ");
-        }
-
-        System.out.println("-------------------------------------------------");
-        System.out.println(" ** COMPLETION ARRAY **");
-        for (int compl : individuo.getComplationArray()) {
-            System.out.print(compl + " ");
-        }
+//        System.out.println("Welcome to Genetic Algorithm");
+//
+//        Map<Integer, Integer> map = InputManager.getInstance().getJobQuantityMap();
+//        for (Integer jobType : map.keySet()) {
+//            System.out.println("JOB[" + jobType + "] quantity: " + map.get(jobType));
+//        }
+//        System.out.println("In totale abbiamo: " + InputManager.JOB_TOTAL_QUANTITY);
+//
+//        System.out.println("-------------------------------------------------");
+//
+//        JobIndividual individuo = InputManager.getInstance().generateJobIndividual();
+//        System.out.println(" ** JOB PERMUTATION ARRAY **");
+//        for (int type : individuo.getJobPermutation()) {
+//            System.out.print(type == 10 ? "X " : type + " ");
+//        }
+//        System.out.println("-------------------------------------------------");
+//        System.out.println(" ** JOB OPERATION SEQUENCE **");
+//        for (int type : individuo.getOperationSequence()) {
+//            System.out.print(type + " ");
+//        }
+//
+//        System.out.println("-------------------------------------------------");
+//        System.out.println(" ** MACHINE SEQUENCE **");
+//        for (Machine machine : individuo.getMachinesSelected()) {
+//            System.out.print(machine.getCode() + " ");
+//        }
+//
+//        System.out.println("-------------------------------------------------");
+//        System.out.println(" ** COMPLETION ARRAY **");
+//        for (int compl : individuo.getComplationArray()) {
+//            System.out.print(compl + " ");
+//        }
 
 //        JobIndividual individual = InputManager.getInstance().generateJobIndividual();
 //        JobType[] jobIndividual = individual.getJobPermutation();

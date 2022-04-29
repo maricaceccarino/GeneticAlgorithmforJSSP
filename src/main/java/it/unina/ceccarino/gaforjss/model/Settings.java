@@ -20,6 +20,7 @@ public class Settings {
     private int MUTATION_SUBGROUP_SIZE = 20;
     private int MAX_JOB_OVERAL_QUANTITY = 25; // AGGIUNGI COMMENTO PLZ
     private int POPULATION_SIZE = 100;
+    private int MAX_ITERATION = 300;
 
     public static Settings getInstance() {
         if (_instance == null) {
@@ -39,7 +40,16 @@ public class Settings {
         this.MUTATION_SUBGROUP_SIZE = 20;
         this.MAX_JOB_OVERAL_QUANTITY = 25;
         this.POPULATION_SIZE = 100;
+        this.MAX_ITERATION = 300;
         EventManager.getInstance().backToDefault();
+    }
+    
+    public int getMaxIteration(){
+        return MAX_ITERATION;
+    }
+    
+    public void setMaxIteration(int max){
+        this.MAX_ITERATION = max;
     }
     
     public int getMaxJobOveralQuantity(){
