@@ -284,7 +284,7 @@ public class MainGUI extends javax.swing.JFrame implements EventListener {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        GeneticManipulator.getInstance().mutate(1);
+//        GeneticManipulator.getInstance().mutate(1);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

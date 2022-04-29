@@ -11,12 +11,14 @@ import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import it.unina.ceccarino.gaforjss.model.JobType;
 import it.unina.ceccarino.gaforjss.model.Settings;
 import it.unina.ceccarino.gaforjss.model.Utils;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 /**
  *
@@ -55,6 +57,7 @@ public class GeneticManipulator {
 
         JobIndividual[] crossoverPool = (JobIndividual[]) partArray(normalPeople, immunes.length + getPeopleSizeForCrossoverSize());
         JobIndividual[] mutationPool = (JobIndividual[]) partArray(normalPeople, crossoverPool.length + getPeopleSizeForMutationSize());
+        JobIndividual[] untouchedPool = (JobIndividual[]) partArray(normalPeople, mutationPool.length + getPeopleSizeForMutationSize());
         
         System.out.println("*** init crossover ***");
         
@@ -73,8 +76,38 @@ public class GeneticManipulator {
 //        for (int i = 0; i < mutationPool.length; i++) {
 //            mutationPool[i].get
 //        }
-        
+        for (JobIndividual individual : mutationPool) {
+            individual.swap(1);
+        }
         System.out.println("+++ end mutation +++");
+        
+        System.out.println("--- start swap worst population with crossover result ---");
+        
+        TreeSet<JobIndividual> tree = new TreeSet<>();
+        for (JobIndividual immune : immunes) {
+            tree.add(immune);
+        }
+        for (JobIndividual crossaint : crossoverPool) {
+            tree.add(crossaint);
+        }
+        for (JobIndividual mutant : mutationPool) {
+            tree.add(mutant);
+        }
+        for (JobIndividual unt : untouchedPool) {
+            tree.add(unt);
+        }
+        for (JobIndividual kid : children) {
+            tree.add(kid);
+        }
+        
+        for (JobIndividual jobIndividual : tree) {
+            System.out.println(jobIndividual.getFitness());
+        }
+        
+        
+        
+        
+        System.out.println("--- end swap worst population with crossover result ---");
         
     }
 
@@ -123,14 +156,14 @@ public class GeneticManipulator {
         Arrays.sort(this.population.getIndividuals());
         sorted = true;
     }
-
-    public void mutate(int howManyTimes) {
-        //randomizzare-- 
-        //vanno mutati coloro che non hanno subito il crossover
-        for (int i = 0; i < getPeopleSizeForMutationSize(); i++) {
-            this.population.getIndividuals()[i].swap(howManyTimes);
-        }
-    }
+//
+//    public void mutate(int howManyTimes) {
+//        //randomizzare-- 
+//        //vanno mutati coloro che non hanno subito il crossover
+//        for (int i = 0; i < getPeopleSizeForMutationSize(); i++) {
+//            this.population.getIndividuals()[i].swap(howManyTimes);
+//        }
+//    }
 
     private GeneticManipulator() {
         super();
@@ -144,8 +177,8 @@ public class GeneticManipulator {
         this.selectionStrategy = selectionStrategy;
     }
 
-    public Object[] partArray(Object[] array, int size) {
-        Object[] part = new Object[size];
+    public JobIndividual[] partArray(JobIndividual[] array, int size) {
+        JobIndividual[] part = new JobIndividual[size];
         System.arraycopy(array, 0, part, 0, size);
         return part;
     }

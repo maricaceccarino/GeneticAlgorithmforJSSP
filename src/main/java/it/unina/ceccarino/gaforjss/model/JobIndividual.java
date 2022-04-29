@@ -79,6 +79,7 @@ public class JobIndividual implements Comparable<JobIndividual> {
             this.jobPermutation[r1] = this.jobPermutation[r2];
             this.jobPermutation[r2] = this.jobPermutation[t];
         }
+        //QUESTION: devo richiamare la #initCompletionArray ? 
     }
 
     private final void initCompletionArray() {

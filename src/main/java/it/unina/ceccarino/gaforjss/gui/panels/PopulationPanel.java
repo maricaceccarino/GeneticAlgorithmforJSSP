@@ -60,13 +60,13 @@ public class PopulationPanel extends javax.swing.JPanel {
         DataNode root = new DataNode("Root");
         Population pop = InputManager.getInstance().generatePopulation();
         GeneticManipulator.getInstance().loadInitialPopulation(pop);
-        int lastIndexToDecorate = GeneticManipulator.getInstance().getPeopleSizeForMutationSize();
+        int lastIndexToDecorate = GeneticManipulator.getInstance().getImmuneSize();
         int i = 0;
         for (JobIndividual individual : pop.getIndividuals()) {
 
             //<html><font color = red><b>
             String decoration = "";
-            if (i <= lastIndexToDecorate) {
+            if (i < lastIndexToDecorate) {
                 decoration = TreeTableCellRenderer.HTML_DEOCORATION_1;
             }
             DataNode node = new DataNode(ArrayUtils.toObject(individual.getJobPermutation()), decoration + individual.getFitness());
@@ -173,6 +173,7 @@ public class PopulationPanel extends javax.swing.JPanel {
         try {
             GeneticManipulator.getInstance().launch();
         } catch (Exception ex) {
+            ex.printStackTrace();
             JOptionPane.showMessageDialog(null,ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton_runActionPerformed
