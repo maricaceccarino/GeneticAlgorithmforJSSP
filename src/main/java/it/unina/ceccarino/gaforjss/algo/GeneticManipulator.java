@@ -247,6 +247,8 @@ public class GeneticManipulator {
         for (JobType jobType : InputManager.getInstance().getJobTypes()) {
             posizioniOccupateMap.put(jobType.getType(), 0);
         }
+        
+        
 
         for (int i = 0; i < mister.getJobPermutation().length; i++) {
             if (mister.getJobPermutation()[i] <= 5) {
@@ -261,11 +263,25 @@ public class GeneticManipulator {
             }
         }
         
+        System.out.println("\nMISTER: ");
+        for (int job : mister.getJobPermutation()) {
+            System.out.print(job+" ");
+        }
+        System.out.println("\nMISS: ");
+        for (int job : miss.getJobPermutation()) {
+            System.out.print(job+" ");
+        }
+        System.out.println("\nCROSSOVER CON BUCHI ");
+        for (int jjj : jobPermutationArray) {
+            System.out.print(jjj+" ");
+        }
+        
+        
         System.out.println("posizione vuote size: "+posizioniVuote.size());
 
         for (Map.Entry<Integer, Integer> entry : posizioniOccupateMap.entrySet()) {
             int jobLimit = InputManager.getInstance().getJobQuantityMap().get(entry.getKey());
-            int jobMancanti = jobLimit - entry.getValue();
+            int jobMancanti = (jobLimit )- entry.getValue();
             for (int i = 0; i < jobMancanti; i++) {
 
                 int randomInRange = Utils.randomInRange(0, posizioniVuote.size());
