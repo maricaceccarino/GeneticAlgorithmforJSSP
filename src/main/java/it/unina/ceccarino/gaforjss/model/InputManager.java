@@ -191,7 +191,7 @@ public class InputManager {
             positionMap.put(jobType, 1);
         }
         for (int i = 0; i < jobPermutationArray.length; i++) {
-            int step = positionMap.get(jobPermutationArray[i]);
+        int step = positionMap.get(jobPermutationArray[i]);
             operationSequenceArray[i] = step;
             positionMap.put(jobPermutationArray[i], ++step);
         }

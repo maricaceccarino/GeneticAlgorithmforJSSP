@@ -36,6 +36,11 @@ public class JobIndividual implements Comparable<JobIndividual> {
     private static int N = JOB_TOTAL_QUANTITY * SEQUENCE_SIZE;
     private int[] completionArray = new int[N];
 
+    private boolean mutated = false;
+    private boolean kid = false;
+    private boolean parent = false;
+    private boolean immune = false;
+
     public JobIndividual(int[] jobPermutation, int[] operationSequence, Machine[] machinesSelected) {
         this.jobPermutation = jobPermutation;
         this.operationSequence = operationSequence;
@@ -44,18 +49,63 @@ public class JobIndividual implements Comparable<JobIndividual> {
 
     }
 
+    public void setMutated(boolean mutated) {
+        this.mutated = mutated;
+    }
+
+    public void setKid(boolean kid) {
+        this.kid = kid;
+    }
+
+    public void setParent(boolean parent) {
+        this.parent = parent;
+    }
+
+    public void setImmune(boolean immune) {
+        this.immune = immune;
+    }
+
     //constructor for newborn baby
     public JobIndividual() {
         this.jobPermutation = new int[N];
     }
-    
-    //aggiorna tutti gli altri array partendo dal jobPermutation
-    public void update(){
 
-        throw new UnsupportedOperationException(); //TODO
+    //aggiorna tutti gli altri array partendo dal jobPermutation
+    public void update() {
+        this.operationSequence = new int[N];
+        this.machinesSelected = new Machine[N];
+        Map<Integer, Integer> positionMap = new HashMap<>();
+        for (Integer jobType : InputManager.getInstance().getJobQuantityMap().keySet()) {
+            positionMap.put(jobType, 1);
+        }
+        for (int i = 0; i < jobPermutation.length; i++) {
+            int step = positionMap.get(jobPermutation[i]);
+            operationSequence[i] = step;
+            positionMap.put(jobPermutation[i], ++step);
+        }
+
+        for (int i = 0; i < operationSequence.length; i++) {
+            int step = InputManager.getInstance().getStep(i, operationSequence);
+            int jobType = jobPermutation[i];
+            JobType jobt = InputManager.getInstance().getJobTypes()[jobType - 1];
+            MachineStep machineSTEP = jobt.getSequence()[step];
+
+            machinesSelected[i] = machineSTEP.getRandomMachine();
+        }
+        initCompletionArray();
     }
-    
-    
+
+    public boolean isKid() {
+        return kid;
+    }
+
+    public boolean isParent() {
+        return parent;
+    }
+
+    public boolean isImmune() {
+        return immune;
+    }
 
     public int getFitness() {
         if (this.completionArray != null) {
@@ -70,16 +120,21 @@ public class JobIndividual implements Comparable<JobIndividual> {
             return -1;
         }
     }
-    
-    public void swap(int swapTime){
+
+    public void swap(int swapTime) {
         for (int i = 0; i < swapTime; i++) {
-            int r1 = Utils.randomInRange(0,this.jobPermutation.length);
-            int r2 = Utils.randomInRange(0,this.jobPermutation.length);
+            int r1 = Utils.randomInRange(0, this.jobPermutation.length);
+            int r2 = Utils.randomInRange(0, this.jobPermutation.length);
             int t = this.jobPermutation[r1];
             this.jobPermutation[r1] = this.jobPermutation[r2];
             this.jobPermutation[r2] = this.jobPermutation[t];
         }
+        this.mutated = true;
         //QUESTION: devo richiamare la #initCompletionArray ? 
+    }
+
+    public boolean isMutated() {
+        return mutated;
     }
 
     private final void initCompletionArray() {
@@ -182,8 +237,8 @@ public class JobIndividual implements Comparable<JobIndividual> {
     public int compareTo(JobIndividual o) {
         if (GeneticManipulator.getInstance().getSelectionStrategy() == SelectionStrategy.BEST) {
             return Integer.compare(this.getFitness(), o.getFitness());
-        }else{
-            return Integer.compare(o.getFitness(),this.getFitness());            
+        } else {
+            return Integer.compare(o.getFitness(), this.getFitness());
         }
     }
 
