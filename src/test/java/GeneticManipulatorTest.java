@@ -4,6 +4,7 @@ import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import it.unina.ceccarino.gaforjss.model.Machine;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -65,7 +66,6 @@ public class GeneticManipulatorTest {
 ////        assertEquals(4, partArray[3]);
 //
 //    }
-
 //    @Test
 //    public void testPartitionArrayShifted() {
 ////
@@ -84,7 +84,6 @@ public class GeneticManipulatorTest {
 ////        assertEquals(5, partArray[2]);
 //
 //    }
-
     @Test
     public void testEvict() {
 
@@ -93,9 +92,26 @@ public class GeneticManipulatorTest {
         for (int i = 0; i < 10; i++) {
             array[i] = new JobIndividual();
         }
-        JobIndividual[] evicted = (JobIndividual[])GeneticManipulator.getInstance().evict(array, 4);
+        JobIndividual[] evicted = (JobIndividual[]) GeneticManipulator.getInstance().evict(array, 4);
 
         assertEquals(6, evicted.length);
+
+    }
+
+    @Test
+    public void testEvictAndShrink() {
+
+        JobIndividual[] array = new JobIndividual[10];
+
+        for (int i = 0; i < 10; i++) {
+            array[i] = new JobIndividual();
+        }
+        Pair<JobIndividual[], JobIndividual[]> evictAndShrink = GeneticManipulator.getInstance().evictAndShrink(array, 4);
+        JobIndividual[] evicted = evictAndShrink.getLeft();
+        array = evictAndShrink.getRight();
+
+        assertEquals(4, evicted.length);
+        assertEquals(6, array.length);
 
     }
 

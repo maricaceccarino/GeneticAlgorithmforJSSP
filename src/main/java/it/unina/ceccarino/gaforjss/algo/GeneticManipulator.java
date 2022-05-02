@@ -19,11 +19,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.TreeSet;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  *
@@ -64,10 +68,19 @@ public class GeneticManipulator {
 
         Collections.shuffle(Arrays.asList(normalPeople));
 
-        JobIndividual[] crossoverPool = (JobIndividual[]) partArray(normalPeople, immunes.length + getPeopleSizeForCrossoverSize());
-        JobIndividual[] mutationPool = (JobIndividual[]) partArray(normalPeople, crossoverPool.length + getPeopleSizeForMutationSize());
-        JobIndividual[] untouchedPool = (JobIndividual[]) partArray(normalPeople, mutationPool.length + getPeopleSizeForMutationSize());
+        Pair<JobIndividual[], JobIndividual[]> crossoverPoolPair = evictAndShrink(normalPeople, getPeopleSizeForCrossoverSize());
+        JobIndividual[] crossoverPool = crossoverPoolPair.getLeft();
+        normalPeople = crossoverPoolPair.getRight();
 
+        Pair<JobIndividual[], JobIndividual[]> mutationPoolPair = evictAndShrink(normalPeople, getPeopleSizeForMutationSize());
+        JobIndividual[] mutationPool = mutationPoolPair.getLeft();
+        normalPeople = mutationPoolPair.getRight();
+
+        JobIndividual[] untouchedPool = normalPeople;
+
+//
+//        JobIndividual[] mutationPool = (JobIndividual[]) evictAndShrink(normalPeople, getPeopleSizeForMutationSize());
+//        JobIndividual[] untouchedPool = (JobIndividual[]) evictAndShrink(normalPeople, getPeopleSizeForMutationSize());
         System.out.println("*** init crossover ***");
 
         JobIndividual[][] crossoverSet = this.prepareCrossover(crossoverPool);
@@ -95,7 +108,7 @@ public class GeneticManipulator {
 
         System.out.println("--- start swap worst population with crossover result ---");
 
-        PriorityQueue<JobIndividual> tree = new PriorityQueue<>();
+        LinkedList<JobIndividual> tree = new LinkedList<>();
         for (JobIndividual immune : immunes) {
             tree.add(immune);
         }
@@ -114,6 +127,8 @@ public class GeneticManipulator {
 
         System.out.println("<END POPULATION> " + tree.size());
 
+        Collections.sort(tree);
+
         for (JobIndividual jobIndividual : tree) {
             String mutated = jobIndividual.isMutated() ? "mutated" : "";
             String kid = jobIndividual.isKid() ? "kid" : "";
@@ -123,15 +138,61 @@ public class GeneticManipulator {
         }
 
         System.out.println("--- end swap worst population with crossover result ---");
+        for (int i = 0; i < children.length; i++) {
+
+            JobIndividual removedElement = tree.pollLast();
+        }
+        
+        System.out.println(" NEW GENERATIONS");
+        
+        for (JobIndividual jobIndividual : tree) {
+            String mutated = jobIndividual.isMutated() ? "mutated" : "";
+            String kid = jobIndividual.isKid() ? "kid" : "";
+            String parent = jobIndividual.isParent() ? "parent" : "";
+            String immune = jobIndividual.isImmune() ? "immune" : "";
+            System.out.println(jobIndividual.getFitness() + " " + mutated + " " + kid + " " + parent + " " + immune);
+        }
 
     }
 
+    /**
+     * Estrae elementi dall'array iniziale e li copia in un nuovo array.
+     *
+     * @param initialPopulation
+     * @param sizeToEvict
+     * @return
+     */
     public JobIndividual[] evict(JobIndividual[] initialPopulation, int sizeToEvict) {
 
         //estrazione dei primi 'sizeToExtract' elementi dall'array iniziale
         JobIndividual[] remaining = (JobIndividual[]) partArray(initialPopulation, sizeToEvict, initialPopulation.length - sizeToEvict);
 
         return remaining;
+    }
+
+    /**
+     * Estrae (rimuovendoli) elementi dall'array iniziale. - modifica l'array
+     * iniziale -
+     *
+     * @param initialPopulation
+     * @param sizeToEvict
+     * @return
+     */
+    public Pair<JobIndividual[], JobIndividual[]> evictAndShrink(JobIndividual[] initialPopulation, int sizeToEvict) {
+
+        //estrazione dei primi 'sizeToExtract' elementi dall'array iniziale
+        JobIndividual[] remaining = new JobIndividual[sizeToEvict];
+
+        List<JobIndividual> list = new LinkedList<JobIndividual>(Arrays.asList(initialPopulation));
+
+        for (int i = 0; i < sizeToEvict; i++) {
+            JobIndividual removed = list.remove(i);
+            remaining[i] = removed;
+        }
+
+        initialPopulation = list.toArray(new JobIndividual[initialPopulation.length - sizeToEvict]);
+
+        return new ImmutablePair<JobIndividual[], JobIndividual[]>(remaining, initialPopulation);
     }
 
     /**
@@ -235,7 +296,7 @@ public class GeneticManipulator {
         int[] operationSequenceArray = new int[N];
         Machine[] machinesSelectedArray = new Machine[N];
         List<Integer> freePositions = new LinkedList<>();
-        
+
         //inizializzazione free position list:
         for (int i = 0; i < jobPermutationArray.length; i++) {
             freePositions.add(i);
@@ -247,8 +308,6 @@ public class GeneticManipulator {
         for (JobType jobType : InputManager.getInstance().getJobTypes()) {
             posizioniOccupateMap.put(jobType.getType(), 0);
         }
-        
-        
 
         for (int i = 0; i < mister.getJobPermutation().length; i++) {
             if (mister.getJobPermutation()[i] <= 5) {
@@ -262,27 +321,26 @@ public class GeneticManipulator {
                 posizioniVuote.add(new IntWrapper(i));
             }
         }
-        
+
         System.out.println("\nMISTER: ");
         for (int job : mister.getJobPermutation()) {
-            System.out.print(job+" ");
+            System.out.print(job + " ");
         }
         System.out.println("\nMISS: ");
         for (int job : miss.getJobPermutation()) {
-            System.out.print(job+" ");
+            System.out.print(job + " ");
         }
         System.out.println("\nCROSSOVER CON BUCHI ");
         for (int jjj : jobPermutationArray) {
-            System.out.print(jjj+" ");
+            System.out.print(jjj + " ");
         }
-        
-        
-        System.out.println("\nposizione vuote size: "+posizioniVuote.size());
+
+        System.out.println("\nposizione vuote size: " + posizioniVuote.size());
 
         int checkSum = 0;
         for (Map.Entry<Integer, Integer> entry : posizioniOccupateMap.entrySet()) {
             int jobLimit = InputManager.getInstance().getJobQuantityMap().get(entry.getKey());
-            int jobMancanti = (jobLimit *6)- entry.getValue();
+            int jobMancanti = (jobLimit * 6) - entry.getValue();
             for (int i = 0; i < jobMancanti; i++) {
 
                 int randomInRange = Utils.randomInRange(0, posizioniVuote.size());
@@ -292,23 +350,23 @@ public class GeneticManipulator {
                 checkSum++;
             }
         }
-        
-        System.out.println("checkSum = "+checkSum);
-        
+
+        System.out.println("checkSum = " + checkSum);
+
         System.out.println("\nCROSSOVER SENZA BUCHI ");
         boolean errore = false;
         for (int jjj : jobPermutationArray) {
-            if(jjj == 0){
+            if (jjj == 0) {
                 errore = true;
             }
-            System.out.print(jjj+" ");
+            System.out.print(jjj + " ");
         }
-        
-        if(errore){
+
+        if (errore) {
             System.out.println("\n****** INVALID ARRAY *******");
             System.out.println("****** INVALID ARRAY *******");
             System.out.println("****** INVALID ARRAY *******");
-            
+
         }
 
         Map<Integer, Integer> positionMap = new HashMap<>();
