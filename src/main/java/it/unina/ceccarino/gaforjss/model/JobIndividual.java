@@ -48,6 +48,13 @@ public class JobIndividual implements Comparable<JobIndividual> {
         initCompletionArray();
 
     }
+    
+    public void resetFlags(){
+        this.mutated = false;
+        this.kid = false;
+        this.parent = false;
+        this.immune = false;
+    }
 
     public void setMutated(boolean mutated) {
         this.mutated = mutated;
