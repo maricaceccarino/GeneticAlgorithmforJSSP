@@ -241,7 +241,7 @@ public class GeneticManipulator {
             freePositions.add(i);
         }
 
-        List<Integer> posizioniVuote = new LinkedList<>();
+        List<IntWrapper> posizioniVuote = new LinkedList<>();
         Map<Integer, Integer> posizioniOccupateMap = new HashMap<>();
         //  id job ,  quantity
         for (JobType jobType : InputManager.getInstance().getJobTypes()) {
@@ -259,7 +259,7 @@ public class GeneticManipulator {
                 posizioniOccupateMap.put(miss.getJobPermutation()[i], posizioniOccupateMap.get(miss.getJobPermutation()[i]) + 1);
             } else {
                 //posizioni vuote
-                posizioniVuote.add(i);
+                posizioniVuote.add(new IntWrapper(i));
             }
         }
         
@@ -277,17 +277,38 @@ public class GeneticManipulator {
         }
         
         
-        System.out.println("posizione vuote size: "+posizioniVuote.size());
+        System.out.println("\nposizione vuote size: "+posizioniVuote.size());
 
+        int checkSum = 0;
         for (Map.Entry<Integer, Integer> entry : posizioniOccupateMap.entrySet()) {
             int jobLimit = InputManager.getInstance().getJobQuantityMap().get(entry.getKey());
-            int jobMancanti = (jobLimit )- entry.getValue();
+            int jobMancanti = (jobLimit *6)- entry.getValue();
             for (int i = 0; i < jobMancanti; i++) {
 
                 int randomInRange = Utils.randomInRange(0, posizioniVuote.size());
+                int position = posizioniVuote.get(randomInRange).getValue();
                 posizioniVuote.remove(randomInRange);
-                jobPermutationArray[randomInRange] = entry.getKey();
+                jobPermutationArray[position] = entry.getKey();
+                checkSum++;
             }
+        }
+        
+        System.out.println("checkSum = "+checkSum);
+        
+        System.out.println("\nCROSSOVER SENZA BUCHI ");
+        boolean errore = false;
+        for (int jjj : jobPermutationArray) {
+            if(jjj == 0){
+                errore = true;
+            }
+            System.out.print(jjj+" ");
+        }
+        
+        if(errore){
+            System.out.println("\n****** INVALID ARRAY *******");
+            System.out.println("****** INVALID ARRAY *******");
+            System.out.println("****** INVALID ARRAY *******");
+            
         }
 
         Map<Integer, Integer> positionMap = new HashMap<>();
