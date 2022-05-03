@@ -103,7 +103,9 @@ public class GeneticManipulator {
 //
 //        JobIndividual[] mutationPool = (JobIndividual[]) evictAndShrink(normalPeople, getPeopleSizeForMutationSize());
 //        JobIndividual[] untouchedPool = (JobIndividual[]) evictAndShrink(normalPeople, getPeopleSizeForMutationSize());
-                    System.out.println("*** init crossover ***");
+                    if (Settings.getInstance().isVerbose()) {
+                        System.out.println("*** init crossover ***");
+                    }
 
                     JobIndividual[][] crossoverSet = prepareCrossover(crossoverPool);
                     int childrenSize = crossoverSet[0].length;
@@ -116,9 +118,10 @@ public class GeneticManipulator {
                         children[i] = crossOver(crossoverSet[0][i], crossoverSet[1][i]);
                         children[i].setKid(true);
                     }
-                    System.out.println("*** end crossover ***");
-
-                    System.out.println("+++ init mutation +++");
+                    if (Settings.getInstance().isVerbose()) {
+                        System.out.println("*** end crossover ***");
+                        System.out.println("+++ init mutation +++");
+                    }
 
 //        for (int i = 0; i < mutationPool.length; i++) {
 //            mutationPool[i].get
@@ -126,9 +129,10 @@ public class GeneticManipulator {
                     for (JobIndividual individual : mutationPool) {
                         individual.swap(5);
                     }
-                    System.out.println("+++ end mutation +++");
-
-                    System.out.println("--- start swap worst population with crossover result ---");
+                    if (Settings.getInstance().isVerbose()) {
+                        System.out.println("+++ end mutation +++");
+                        System.out.println("--- start swap worst population with crossover result ---");
+                    }
 
                     LinkedList<JobIndividual> resultPopulation = new LinkedList<>();
                     for (JobIndividual immune : immunes) {
@@ -146,8 +150,9 @@ public class GeneticManipulator {
                     for (JobIndividual kid : children) {
                         resultPopulation.add(kid);
                     }
-
-                    System.out.println("<END POPULATION> " + resultPopulation.size());
+                    if (Settings.getInstance().isVerbose()) {
+                        System.out.println("<END POPULATION> " + resultPopulation.size());
+                    }
 
                     Collections.sort(resultPopulation);
 
@@ -156,27 +161,37 @@ public class GeneticManipulator {
                         String kid = jobIndividual.isKid() ? "kid" : "";
                         String parent = jobIndividual.isParent() ? "parent" : "";
                         String immune = jobIndividual.isImmune() ? "immune" : "";
-                        System.out.println(jobIndividual.getFitness() + " " + mutated + " " + kid + " " + parent + " " + immune);
+                        if (Settings.getInstance().isVerbose()) {
+                            System.out.println(jobIndividual.getFitness() + " " + mutated + " " + kid + " " + parent + " " + immune);
+                        }
                     }
 
-                    System.out.println("--- end swap worst population with crossover result ---");
+                    if (Settings.getInstance().isVerbose()) {
+                        System.out.println("--- end swap worst population with crossover result ---");
+                    }
                     for (int i = 0; i < children.length; i++) {
 
                         JobIndividual removedElement = resultPopulation.pollLast();
                     }
 
-                    System.out.println(" NEW GENERATIONS (" + resultPopulation.size() + ")");
+                    if (Settings.getInstance().isVerbose()) {
+                        System.out.println(" NEW GENERATIONS (" + resultPopulation.size() + ")");
+                    }
 
                     for (JobIndividual jobIndividual : resultPopulation) {
                         String mutated = jobIndividual.isMutated() ? "mutated" : "";
                         String kid = jobIndividual.isKid() ? "kid" : "";
                         String parent = jobIndividual.isParent() ? "parent" : "";
                         String immune = jobIndividual.isImmune() ? "immune" : "";
-                        System.out.println(jobIndividual.getFitness() + " " + mutated + " " + kid + " " + parent + " " + immune);
+                        if (Settings.getInstance().isVerbose()) {
+                            System.out.println(jobIndividual.getFitness() + " " + mutated + " " + kid + " " + parent + " " + immune);
+                        }
                     }
 
                     int z = 0;
-                    System.out.println("POP SIZE: " + POPULATION.length);
+                    if (Settings.getInstance().isVerbose()) {
+                        System.out.println("POP SIZE: " + POPULATION.length);
+                    }
                     for (JobIndividual jobIndividual : resultPopulation) {
                         jobIndividual.resetFlags();
                         POPULATION[z] = jobIndividual;
@@ -333,7 +348,9 @@ public class GeneticManipulator {
     public JobIndividual crossOver(JobIndividual mister, JobIndividual miss) {
 
         int N = JOB_TOTAL_QUANTITY * SEQUENCE_SIZE;
-        System.out.println("N = " + N);
+        if (Settings.getInstance().isVerbose()) {
+            System.out.println("N = " + N);
+        }
         int[] jobPermutationArray = new int[N];
         int[] operationSequenceArray = new int[N];
         Machine[] machinesSelectedArray = new Machine[N];
@@ -364,20 +381,24 @@ public class GeneticManipulator {
             }
         }
 
-        System.out.println("\nMISTER: ");
-        for (int job : mister.getJobPermutation()) {
-            System.out.print(job + " ");
-        }
-        System.out.println("\nMISS: ");
-        for (int job : miss.getJobPermutation()) {
-            System.out.print(job + " ");
-        }
-        System.out.println("\nCROSSOVER CON BUCHI ");
-        for (int jjj : jobPermutationArray) {
-            System.out.print(jjj + " ");
+        if (Settings.getInstance().isVerbose()) {
+            System.out.println("\nMISTER: ");
+            for (int job : mister.getJobPermutation()) {
+                System.out.print(job + " ");
+            }
+            System.out.println("\nMISS: ");
+            for (int job : miss.getJobPermutation()) {
+                System.out.print(job + " ");
+            }
+            System.out.println("\nCROSSOVER CON BUCHI ");
+            for (int jjj : jobPermutationArray) {
+                System.out.print(jjj + " ");
+            }
         }
 
-        System.out.println("\nposizione vuote size: " + posizioniVuote.size());
+        if (Settings.getInstance().isVerbose()) {
+            System.out.println("\nposizione vuote size: " + posizioniVuote.size());
+        }
         int checkStart = posizioniVuote.size();
         int checkSum = 0;
         for (Map.Entry<Integer, Integer> entry : posizioniOccupateMap.entrySet()) {
@@ -387,7 +408,9 @@ public class GeneticManipulator {
                 if (posizioniVuote.isEmpty()) {
                     break;
                 }
-                System.out.println(" - -- - - - --POSIZIONE VUOTE SIZE: " + posizioniVuote.size());
+                if (Settings.getInstance().isVerbose()) {
+                    System.out.println(" - -- - - - --POSIZIONE VUOTE SIZE: " + posizioniVuote.size());
+                }
                 int randomInRange = Utils.randomInRange(0, posizioniVuote.size());
                 int position = posizioniVuote.get(randomInRange).getValue();
                 posizioniVuote.remove(randomInRange);
@@ -396,19 +419,26 @@ public class GeneticManipulator {
             }
         }
 
-        System.out.println("checkSum = " + checkSum);
+        if (Settings.getInstance().isVerbose()) {
+            System.out.println("checkSum = " + checkSum);
+        }
 
         if (checkStart != checkSum) {
             System.out.println(">>>>>>>>>>  CHECK SUM INVALID  <<<<<<<<<<<<<<<");
         }
 
-        System.out.println("\nCROSSOVER SENZA BUCHI ");
+        if (Settings.getInstance().isVerbose()) {
+            System.out.println("\nCROSSOVER SENZA BUCHI ");
+        }
         boolean errore = false;
+
         for (int jjj : jobPermutationArray) {
             if (jjj == 0) {
                 errore = true;
             }
-            System.out.print(jjj + " ");
+            if (Settings.getInstance().isVerbose()) {
+                System.out.print(jjj + " ");
+            }
         }
 
         if (errore) {

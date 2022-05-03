@@ -165,7 +165,7 @@ public class JobIndividual implements Comparable<JobIndividual> {
 //            if(i == 10){
 //                break;
 //            }
-            System.out.println("-------------------------------------------------");
+//            System.out.println("-------------------------------------------------");
             int job = this.jobPermutation[i];
             int previousOperationEndTime = previousJobStepEndTimeMap.get(job);
             int step = InputManager.getInstance().getStep(i, this.operationSequence);

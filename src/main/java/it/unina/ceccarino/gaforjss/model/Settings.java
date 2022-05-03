@@ -21,6 +21,7 @@ public class Settings {
     private int MAX_JOB_OVERAL_QUANTITY = 25; // AGGIUNGI COMMENTO PLZ
     private int POPULATION_SIZE = 100;
     private int MAX_ITERATION = 300;
+    private boolean verbose = false;
 
     public static Settings getInstance() {
         if (_instance == null) {
@@ -33,6 +34,16 @@ public class Settings {
     private Settings() {
         super();
     }
+
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
+    }
+
+    public boolean isVerbose() {
+        return verbose;
+    }
+    
+    
 
     public void backToDefault() {
         this.ELECTED_PERCENTAGE = 5;
