@@ -229,6 +229,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
 
     @Override
     public void nextCycle(int cycle) {
+        cycle++;
         this.jLabel_Iterazioni.setText(cycle + "/" + Settings.getInstance().getMaxIteration() + " ");
         x = cycle;
         
