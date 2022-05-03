@@ -8,7 +8,13 @@ import it.unina.ceccarino.gaforjss.exceptions.InvalidSettingsException;
 import it.unina.ceccarino.gaforjss.logic.EventListener;
 import it.unina.ceccarino.gaforjss.logic.EventManager;
 import it.unina.ceccarino.gaforjss.model.Settings;
-import java.util.Vector;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.NumberFormatter;
 
 /**
  *
@@ -23,13 +29,50 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
     private int populationSize;
     private int maxIteration;
 
+    private NumberFormatter formatter;
+
     /**
      * Creates new form SettingPanels
      */
     public SettingPanels() {
+        NumberFormat format = NumberFormat.getInstance();
+        formatter = new NumberFormatter(format);
+        formatter.setValueClass(Integer.class);
+        formatter.setMinimum(0);
+        formatter.setMaximum(10000);
+        formatter.setAllowsInvalid(false);
+        // If you want the value to be committed on each keystroke instead of focus lost
+        formatter.setCommitsOnValidEdit(true);
         initComponents();
         EventManager.getInstance().addEventListener(this);
         load();
+
+        this.jTextField_populationSize.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateSettings();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateSettings();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateSettings();
+            }
+
+            public void updateSettings() {
+                if (SettingPanels.this.jTextField_populationSize.getText().isBlank()) {
+                    return;
+                }
+                Integer population = (Integer) SettingPanels.this.jTextField_populationSize.getValue();
+//                int population = Integer.parseInt(SettingPanels.this.jTextField_populationSize.getText());
+                Settings.getInstance().setPopulationSize(population);
+                EventManager.getInstance().settingsChanged();
+            }
+        });
     }
 
     private void load() {
@@ -77,7 +120,7 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField_populationSize = new javax.swing.JTextField();
+        jTextField_populationSize = new javax.swing.JFormattedTextField(formatter);
         jSpinner_crossover = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -446,7 +489,7 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
     }//GEN-LAST:event_jSpinner_mutationStateChanged
 
     private void jSpinner_maxIterationStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_maxIterationStateChanged
-        Settings.getInstance().setMaxIteration((Integer)this.jSpinner_maxIteration.getValue());
+        Settings.getInstance().setMaxIteration((Integer) this.jSpinner_maxIteration.getValue());
     }//GEN-LAST:event_jSpinner_maxIterationStateChanged
 
 
@@ -473,7 +516,7 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
     private javax.swing.JSpinner jSpinner_maxIteration;
     private javax.swing.JSpinner jSpinner_maxJob;
     private javax.swing.JSpinner jSpinner_mutation;
-    private javax.swing.JTextField jTextField_populationSize;
+    private javax.swing.JFormattedTextField jTextField_populationSize;
     private it.unina.ceccarino.gaforjss.gui.panels.PopulationSubgroupPanel populationSubgroupPanel1;
     // End of variables declaration//GEN-END:variables
 

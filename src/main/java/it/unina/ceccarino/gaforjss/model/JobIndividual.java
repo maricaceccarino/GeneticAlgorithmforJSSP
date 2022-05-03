@@ -169,14 +169,14 @@ public class JobIndividual implements Comparable<JobIndividual> {
             int job = this.jobPermutation[i];
             int previousOperationEndTime = previousJobStepEndTimeMap.get(job);
             int step = InputManager.getInstance().getStep(i, this.operationSequence);
-            System.out.println("STEP = " + step);
+//            System.out.println("STEP = " + step);
             Machine currentMachine = this.machinesSelected[i];
             int freeMachineTime = machineEndTimeMap.get(currentMachine);
             int time = InputManager.getInstance().getJobTypes()[job - 1].getSequence()[step].getTime();
 
-            System.out.println("JOB = " + job);
-            System.out.println("OP SEQUENCE: " + operationSequence);
-            System.out.println("STEP = " + step);
+//            System.out.println("JOB = " + job);
+//            System.out.println("OP SEQUENCE: " + operationSequence);
+//            System.out.println("STEP = " + step);
 
             //  a [i]  = max(tempo_completamento_operazione_precedente, tempo_in_cui_si_libera_la_macchina) + tempo_processamento_operazione_corrente
             int value = Utils.max(previousOperationEndTime, freeMachineTime) + time;
