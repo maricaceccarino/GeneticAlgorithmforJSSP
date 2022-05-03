@@ -58,6 +58,7 @@ public class Settings {
     
     public void setMaxJobOveralQuantity(int maxJobOveralQuantity){
         this.MAX_JOB_OVERAL_QUANTITY = maxJobOveralQuantity;
+        InputManager.getInstance().randomizeJobQuantity();
     }
 
     public int getMutationSubgroupSize() {

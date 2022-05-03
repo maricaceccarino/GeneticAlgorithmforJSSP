@@ -12,6 +12,7 @@ import it.unina.ceccarino.gaforjss.gui.abstracts.tree.DataNode;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.TreeTable;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.TreeTableCellRenderer;
 import it.unina.ceccarino.gaforjss.logic.EventManager;
+import it.unina.ceccarino.gaforjss.logic.SolutionListener;
 import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import java.awt.Color;
@@ -31,13 +32,14 @@ import org.apache.commons.lang3.ArrayUtils;
  *
  * @author sommovir
  */
-public class PopulationPanel extends javax.swing.JPanel {
+public class PopulationPanel extends javax.swing.JPanel implements SolutionListener{
 
     /**
      * Creates new form PopulationPanel
      */
     public PopulationPanel() {
         initComponents();
+        EventManager.getInstance().addSolutionListener(this);
         this.jPanel_Container.setLayout(new GridLayout(0, 1));
         this.jButton_settings.setPreferredSize(new Dimension(42, 42));
         this.jButton_run.setPreferredSize(new Dimension(42, 42));
@@ -170,12 +172,19 @@ public class PopulationPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_runActionPerformed
-        try {
-            GeneticManipulator.getInstance().launch();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null,ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    GeneticManipulator.getInstance().launch();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+
     }//GEN-LAST:event_jButton_runActionPerformed
 
     private void jButton_GenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_GenerateActionPerformed
@@ -268,4 +277,25 @@ public class PopulationPanel extends javax.swing.JPanel {
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void start(int initialFitness) {
+        this.jButton_Generate.setEnabled(false);
+        this.jButton_settings.setEnabled(false);
+                
+    }
+
+    @Override
+    public void end() {
+        this.jButton_Generate.setEnabled(true);
+        this.jButton_settings.setEnabled(true);
+    }
+
+    @Override
+    public void newImprovement(int newFitness) {
+    }
+
+    @Override
+    public void nextCycle(int cycle) {
+    }
 }

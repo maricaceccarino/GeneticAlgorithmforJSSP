@@ -93,6 +93,7 @@ public class MainGUI extends javax.swing.JFrame implements EventListener {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         populationPanel1 = new it.unina.ceccarino.gaforjss.gui.panels.PopulationPanel();
         jPanel5 = new javax.swing.JPanel();
+        solutionPanel1 = new it.unina.ceccarino.gaforjss.gui.panels.SolutionPanel();
 
         jTableTest.setModel(individualModel1);
         jScrollPane1.setViewportView(jTableTest);
@@ -228,11 +229,11 @@ public class MainGUI extends javax.swing.JFrame implements EventListener {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 730, Short.MAX_VALUE)
+            .addComponent(solutionPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 515, Short.MAX_VALUE)
+            .addComponent(solutionPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Solution", jPanel5);
@@ -326,6 +327,7 @@ public class MainGUI extends javax.swing.JFrame implements EventListener {
     private javax.swing.JToolBar jToolBar2;
     private it.unina.ceccarino.gaforjss.gui.mr.PopulationModel populationModel1;
     private it.unina.ceccarino.gaforjss.gui.panels.PopulationPanel populationPanel1;
+    private it.unina.ceccarino.gaforjss.gui.panels.SolutionPanel solutionPanel1;
     // End of variables declaration//GEN-END:variables
 
     @Override

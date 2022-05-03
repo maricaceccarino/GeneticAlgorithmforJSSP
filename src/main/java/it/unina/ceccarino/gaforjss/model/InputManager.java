@@ -149,7 +149,7 @@ public class InputManager {
 //generati moltiplicati per 6,ovvero il numero di operazioni di ogni job
 
     public int getDimension() {
-        return JOB_TOTAL_QUANTITY * SEQUENCE_SIZE;
+        return Settings.getInstance().getMaxJobOveralQuantity() * SEQUENCE_SIZE;
     }
 
     /**
@@ -164,7 +164,7 @@ public class InputManager {
     
     //la lunghezza degli array è sempre la stessa e pari ad N
     public JobIndividual generateJobIndividual() {
-        int N = JOB_TOTAL_QUANTITY * SEQUENCE_SIZE;
+        int N = Settings.getInstance().getMaxJobOveralQuantity() * SEQUENCE_SIZE;
         System.out.println("N = " + N);
         int[] jobPermutationArray = new int[N];
         int[] operationSequenceArray = new int[N];
@@ -265,10 +265,11 @@ public class InputManager {
      * generata in una quantità da 1 a 10.
      *
      */
-    private void randomizeJobQuantity() {
+    public void randomizeJobQuantity() {
         //1 2 3 4 5 6 7 8 9 10
         //2 1 1 1 1 1 1 1 1 1   = 10
 
+        JOB_TOTAL_QUANTITY = 0;
         for (JobType jobType : jobTypes) {
             jobQuantityMap.put(jobType.getType(), 1);
             JOB_TOTAL_QUANTITY ++;

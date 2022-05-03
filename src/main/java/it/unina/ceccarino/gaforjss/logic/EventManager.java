@@ -15,6 +15,7 @@ public class EventManager {
 
     private static EventManager _instance = null;
     private List<EventListener> listeners = new LinkedList<>();
+    private List<SolutionListener> solutionListeners = new LinkedList<SolutionListener>();
 
     public static EventManager getInstance() {
         if (_instance == null) {
@@ -27,14 +28,42 @@ public class EventManager {
         super();
     }
 
-    public void settingsChanged() {
-        for (EventListener listener : listeners) {
-            listener.settingsChanged();
-        }
+    public void addSolutionListener(SolutionListener listener) {
+        this.solutionListeners.add(listener);
     }
 
     public void addEventListener(EventListener listener) {
         this.listeners.add(listener);
+    }
+
+    public void startsSimulation(int initialFitness) {
+        for (SolutionListener listener : solutionListeners) {
+            listener.start(initialFitness);
+        }
+    }
+
+    public void end() {
+        for (SolutionListener listener : solutionListeners) {
+            listener.end();
+        }
+    }
+
+    public void newImprovement(int newFitness) {
+        for (SolutionListener listener : solutionListeners) {
+            listener.newImprovement(newFitness);
+        }
+    }
+
+    public void nextCycle(int cycle) {
+        for (SolutionListener listener : solutionListeners) {
+            listener.nextCycle(cycle);
+        }
+    }
+
+    public void settingsChanged() {
+        for (EventListener listener : listeners) {
+            listener.settingsChanged();
+        }
     }
 
     public void generationStarted() {

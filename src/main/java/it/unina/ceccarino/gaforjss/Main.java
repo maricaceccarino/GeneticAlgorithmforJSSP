@@ -105,10 +105,7 @@ public class Main {
 //        System.out.println("------------------------------");
 //        
 //        
-//        
-        if (true) {
-            return;
-        }
+
 
         //        
         //        int[] gg = InputManager.getInstance().generateJobTypeRandomBase();
