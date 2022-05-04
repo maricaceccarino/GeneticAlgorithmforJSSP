@@ -120,7 +120,7 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField_populationSize = new javax.swing.JFormattedTextField(formatter);
+        jTextField_populationSize = new javax.swing.JFormattedTextField();
         jSpinner_crossover = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -360,7 +360,7 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("End Condition"));
 
         jSpinner_maxIteration.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jSpinner_maxIteration.setModel(new javax.swing.SpinnerNumberModel(300, 1, 1000, 1));
+        jSpinner_maxIteration.setModel(new javax.swing.SpinnerNumberModel(300, 1, 10000000, 1));
         jSpinner_maxIteration.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSpinner_maxIterationStateChanged(evt);
