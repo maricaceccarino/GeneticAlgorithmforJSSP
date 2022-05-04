@@ -25,7 +25,6 @@ public class InputManager {
     public static final int NO_SOLUTION = -1; //UNUSED
 //    public static final int NUMBER_OF_ACCETTABLE_JOBS =6;
     public static final int JOB_TYPE_SIZE = 10; //numero di differenti job type esistenti
-   
 
     private JobType[] jobTypes = new JobType[JOB_TYPE_SIZE];
 
@@ -46,7 +45,6 @@ public class InputManager {
         randomizeJobQuantity();
     }
 
-    
     public MachineStep[] getSequenceByJobIndex(int jobType) {
         return this.jobTypes[jobType - 1].getSequence();
     }
@@ -154,18 +152,19 @@ public class InputManager {
 
     /**
      * Restituisce la popolazione di JobIndividual di dimensione POPULATION_SIZE
-     * @return 
+     *
+     * @return
      */
-    public Population generatePopulation(){
-       return new Population(Settings.getInstance().getPopulationSize());
+    public Population generatePopulation() {
+        return new Population(Settings.getInstance().getPopulationSize());
     }
-    
-    
-    
+
     //la lunghezza degli array è sempre la stessa e pari ad N
     public JobIndividual generateJobIndividual() {
         int N = Settings.getInstance().getMaxJobOveralQuantity() * SEQUENCE_SIZE;
-        System.out.println("N = " + N);
+        if (Settings.getInstance().isVerbose()) {
+            System.out.println("N = " + N);
+        }
         int[] jobPermutationArray = new int[N];
         int[] operationSequenceArray = new int[N];
         Machine[] machinesSelectedArray = new Machine[N];
@@ -191,7 +190,7 @@ public class InputManager {
             positionMap.put(jobType, 1);
         }
         for (int i = 0; i < jobPermutationArray.length; i++) {
-        int step = positionMap.get(jobPermutationArray[i]);
+            int step = positionMap.get(jobPermutationArray[i]);
             operationSequenceArray[i] = step;
             positionMap.put(jobPermutationArray[i], ++step);
         }
@@ -254,15 +253,15 @@ public class InputManager {
         if (rawStep <= 6) {
             return rawStep - 1;
         } else {
-            return (rawStep-1) % 6;
+            return (rawStep - 1) % 6;
         }
     }
 
     /**
      * Questo metodo randomizza una mappa con chiave l'intero rappresentativo di
-     * un JobType e per valore un numero casuale da , rappresentante la
-     * quantità di Job per quel tipo.Ogni tipologia di Job quindi, può essere
-     * generata in una quantità da 1 a 10.
+     * un JobType e per valore un numero casuale da , rappresentante la quantità
+     * di Job per quel tipo.Ogni tipologia di Job quindi, può essere generata in
+     * una quantità da 1 a 10.
      *
      */
     public void randomizeJobQuantity() {
@@ -272,17 +271,19 @@ public class InputManager {
         JOB_TOTAL_QUANTITY = 0;
         for (JobType jobType : jobTypes) {
             jobQuantityMap.put(jobType.getType(), 1);
-            JOB_TOTAL_QUANTITY ++;
+            JOB_TOTAL_QUANTITY++;
         }
-        System.out.println("JOB TOTAL QUANTITY = "+JOB_TOTAL_QUANTITY);
-        int n = Settings.getInstance().getMaxJobOveralQuantity()-JOB_TOTAL_QUANTITY;
+        System.out.println("JOB TOTAL QUANTITY = " + JOB_TOTAL_QUANTITY);
+        int n = Settings.getInstance().getMaxJobOveralQuantity() - JOB_TOTAL_QUANTITY;
         for (int i = 0; i < n; i++) {
             int randomIndex = Utils.randomInRange(1, 11);
-            System.out.println("RANDOM INDEX: "+randomIndex);
-            jobQuantityMap.put(randomIndex,jobQuantityMap.get(randomIndex)+1);
-            JOB_TOTAL_QUANTITY ++;
+            if (Settings.getInstance().isVerbose()) {
+                System.out.println("RANDOM INDEX: " + randomIndex);
+            }
+            jobQuantityMap.put(randomIndex, jobQuantityMap.get(randomIndex) + 1);
+            JOB_TOTAL_QUANTITY++;
         }
-        
+
     }
 
     public Map<Integer, Integer> getJobQuantityMap() {
