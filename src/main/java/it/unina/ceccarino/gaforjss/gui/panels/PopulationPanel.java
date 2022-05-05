@@ -39,9 +39,11 @@ import org.apache.commons.lang3.ArrayUtils;
  *
  * @author sommovir
  */
-public class PopulationPanel extends javax.swing.JPanel implements SolutionListener, EventListener{
+public class PopulationPanel extends javax.swing.JPanel implements SolutionListener, EventListener {
 
     private List<JLabel> jobLabelArary = new ArrayList<>();
+    private List<Box.Filler> resettableFillers = new ArrayList<>();
+    private boolean dirtyJobPanels = true;
 
     /**
      * Creates new form PopulationPanel
@@ -292,7 +294,7 @@ public class PopulationPanel extends javax.swing.JPanel implements SolutionListe
     public void start(int initialFitness) {
         this.jButton_Generate.setEnabled(false);
         this.jButton_settings.setEnabled(false);
-                
+
     }
 
     @Override
@@ -315,19 +317,31 @@ public class PopulationPanel extends javax.swing.JPanel implements SolutionListe
 
     @Override
     public void generationEnded() {
-        Map<Integer, Integer> jobQuantityMap = InputManager.getInstance().getJobQuantityMap();
-        for (Map.Entry<Integer, Integer> entry : jobQuantityMap.entrySet()) {
-            JLabel label = new JLabel();
-            label.setMinimumSize(new Dimension(50, 40));
+        if (dirtyJobPanels) {
+            for (JLabel jLabel : jobLabelArary) {
+                this.jToolBar1.remove(jLabel);
+            }
+            for (Box.Filler resettableFiller : this.resettableFillers) {
+                this.jToolBar1.remove(resettableFiller);
+            }
+            this.jobLabelArary.clear();
+            this.resettableFillers.clear();
+            Map<Integer, Integer> jobQuantityMap = InputManager.getInstance().getJobQuantityMap();
+            for (Map.Entry<Integer, Integer> entry : jobQuantityMap.entrySet()) {
+                JLabel label = new JLabel();
+                label.setMinimumSize(new Dimension(50, 40));
 //            label.setOpaque(true);
-            label.setText("<html><div style = \"text-align:center; padding: 4px; background-color: #B5BCAB\">Job <b>"+entry.getKey()+"</b><br><font color = blue>"+entry.getValue()+"</div>");
-            this.jobLabelArary.add(label);
-            Dimension rigidFillerDim = new java.awt.Dimension(10, 30);
-            Box.Filler filler = new javax.swing.Box.Filler(rigidFillerDim, rigidFillerDim, rigidFillerDim);
-            this.jToolBar1.add(filler);
-            this.jToolBar1.add(label);
+                label.setText("<html><div style = \"text-align:center; padding: 4px; background-color: #B5BCAB\">Job <b>" + entry.getKey() + "</b><br><font color = blue>" + entry.getValue() + "</div>");
+                this.jobLabelArary.add(label);
+                Dimension rigidFillerDim = new java.awt.Dimension(10, 30);
+                Box.Filler filler = new javax.swing.Box.Filler(rigidFillerDim, rigidFillerDim, rigidFillerDim);
+                this.resettableFillers.add(filler);
+                this.jToolBar1.add(filler);
+                this.jToolBar1.add(label);
+            }
+            this.dirtyJobPanels = false;
         }
-        
+
     }
 
     @Override
@@ -340,6 +354,7 @@ public class PopulationPanel extends javax.swing.JPanel implements SolutionListe
 
     @Override
     public void settingsChanged() {
+        this.dirtyJobPanels = true;
     }
 
     @Override

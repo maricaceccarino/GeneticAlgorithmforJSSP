@@ -5,6 +5,7 @@
 package it.unina.ceccarino.gaforjss.model;
 
 import it.unina.ceccarino.gaforjss.algo.Population;
+import it.unina.ceccarino.gaforjss.logic.EventManager;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -283,6 +284,7 @@ public class InputManager {
             jobQuantityMap.put(randomIndex, jobQuantityMap.get(randomIndex) + 1);
             JOB_TOTAL_QUANTITY++;
         }
+        EventManager.getInstance().settingsChanged();
 
     }
 
