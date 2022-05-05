@@ -32,6 +32,7 @@ public class MainGUI extends javax.swing.JFrame implements EventListener {
      */
     public MainGUI() {
         initComponents();
+        this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icons/genetic48.png")).getImage());
         this.setTitle("GA4Jss - Marica Ceccarino");
         EventManager.getInstance().addEventListener(this);
         if (!Beans.isDesignTime()) {

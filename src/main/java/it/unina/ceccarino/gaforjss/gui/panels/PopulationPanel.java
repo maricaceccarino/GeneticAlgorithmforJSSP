@@ -11,6 +11,7 @@ import it.unina.ceccarino.gaforjss.gui.abstracts.tree.DataModel;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.DataNode;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.TreeTable;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.TreeTableCellRenderer;
+import it.unina.ceccarino.gaforjss.logic.EventListener;
 import it.unina.ceccarino.gaforjss.logic.EventManager;
 import it.unina.ceccarino.gaforjss.logic.SolutionListener;
 import it.unina.ceccarino.gaforjss.model.InputManager;
@@ -20,8 +21,14 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Box;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -32,7 +39,9 @@ import org.apache.commons.lang3.ArrayUtils;
  *
  * @author sommovir
  */
-public class PopulationPanel extends javax.swing.JPanel implements SolutionListener{
+public class PopulationPanel extends javax.swing.JPanel implements SolutionListener, EventListener{
+
+    private List<JLabel> jobLabelArary = new ArrayList<>();
 
     /**
      * Creates new form PopulationPanel
@@ -40,6 +49,7 @@ public class PopulationPanel extends javax.swing.JPanel implements SolutionListe
     public PopulationPanel() {
         initComponents();
         EventManager.getInstance().addSolutionListener(this);
+        EventManager.getInstance().addEventListener(this);
         this.jPanel_Container.setLayout(new GridLayout(0, 1));
         this.jButton_settings.setPreferredSize(new Dimension(42, 42));
         this.jButton_run.setPreferredSize(new Dimension(42, 42));
@@ -297,5 +307,42 @@ public class PopulationPanel extends javax.swing.JPanel implements SolutionListe
 
     @Override
     public void nextCycle(int cycle) {
+    }
+
+    @Override
+    public void generationStarted() {
+    }
+
+    @Override
+    public void generationEnded() {
+        Map<Integer, Integer> jobQuantityMap = InputManager.getInstance().getJobQuantityMap();
+        for (Map.Entry<Integer, Integer> entry : jobQuantityMap.entrySet()) {
+            JLabel label = new JLabel();
+            label.setMinimumSize(new Dimension(50, 40));
+//            label.setOpaque(true);
+            label.setText("<html><div style = \"text-align:center; padding: 4px; background-color: #B5BCAB\">Job <b>"+entry.getKey()+"</b><br><font color = blue>"+entry.getValue()+"</div>");
+            this.jobLabelArary.add(label);
+            Dimension rigidFillerDim = new java.awt.Dimension(10, 30);
+            Box.Filler filler = new javax.swing.Box.Filler(rigidFillerDim, rigidFillerDim, rigidFillerDim);
+            this.jToolBar1.add(filler);
+            this.jToolBar1.add(label);
+        }
+        
+    }
+
+    @Override
+    public void algoStart() {
+    }
+
+    @Override
+    public void solutionFound() {
+    }
+
+    @Override
+    public void settingsChanged() {
+    }
+
+    @Override
+    public void backToDefault() {
     }
 }
