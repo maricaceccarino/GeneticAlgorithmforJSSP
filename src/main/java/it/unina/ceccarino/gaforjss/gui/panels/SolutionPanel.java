@@ -12,6 +12,7 @@ import it.cnr.istc.icv.engine.ZoomLabeledLayer;
 import it.cnr.istc.icv.exceptions.TypeDataMismatchException;
 import it.cnr.istc.icv.test.LinearDataSupporter;
 import it.cnr.istc.icv.test.TimeValueSupporterClass;
+import it.unina.ceccarino.gaforjss.algo.GeneticManipulator;
 import it.unina.ceccarino.gaforjss.logic.EventManager;
 import it.unina.ceccarino.gaforjss.logic.SolutionListener;
 import it.unina.ceccarino.gaforjss.model.Settings;
@@ -19,6 +20,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.Date;
 import javax.swing.JPanel;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 
 /**
  *
@@ -81,6 +83,9 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         jLabel5 = new javax.swing.JLabel();
         jLabel_currentFitness = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel_elapsed = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
@@ -119,42 +124,62 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setText("EsapsedTime: ");
+
+        jLabel_elapsed.setBackground(new java.awt.Color(51, 51, 51));
+        jLabel_elapsed.setForeground(new java.awt.Color(51, 255, 255));
+        jLabel_elapsed.setText("-");
+        jLabel_elapsed.setOpaque(true);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel_Iterazioni, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel_startFitness, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel_currentFitness, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(jCheckBox1)
-                .addContainerGap(47, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jSeparator1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel_Iterazioni, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel_startFitness, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel_currentFitness, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(116, 116, 116)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel_elapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5)
                         .addComponent(jLabel_currentFitness)
-                        .addComponent(jCheckBox1))
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel_elapsed))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
                         .addComponent(jLabel2)
                         .addComponent(jLabel_Iterazioni)
                         .addComponent(jLabel_startFitness)))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox1)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jScrollPane1.setBackground(new java.awt.Color(56, 51, 51));
@@ -185,12 +210,15 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel_Iterazioni;
     private javax.swing.JLabel jLabel_currentFitness;
+    private javax.swing.JLabel jLabel_elapsed;
     private javax.swing.JLabel jLabel_startFitness;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -208,10 +236,15 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         } catch (TypeDataMismatchException ex) {
             ex.printStackTrace();
         }
+        this.jLabel_elapsed.setText("running..");
     }
 
     @Override
     public void end() {
+        long elapsedTime = GeneticManipulator.getInstance().getElapsedTime();
+        String formatDuration = DurationFormatUtils.formatDuration(elapsedTime, "HH:mm:ss.S");
+        this.jLabel_elapsed.setText(formatDuration);
+
     }
 
     @Override

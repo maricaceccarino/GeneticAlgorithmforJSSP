@@ -19,6 +19,7 @@ import it.unina.ceccarino.gaforjss.model.Utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -27,7 +28,9 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.TreeSet;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
+import org.apache.commons.lang3.time.StopWatch;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -41,6 +44,7 @@ public class GeneticManipulator {
     private SelectionStrategy selectionStrategy = SelectionStrategy.BEST;
     private Population population;
     private boolean sorted = false;
+    private StopWatch watch = new StopWatch();
 
     public static GeneticManipulator getInstance() {
         if (_instance == null) {
@@ -70,6 +74,7 @@ public class GeneticManipulator {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
+                watch.start();
                 int currentFitness = population.getIndividuals()[0].getFitness();
                 EventManager.getInstance().startsSimulation(currentFitness);
 
@@ -205,11 +210,16 @@ public class GeneticManipulator {
                     }
 
                 }
+                watch.stop();
                 EventManager.getInstance().end();
             }
         });
         t.start();
 
+    }
+    
+    public long getElapsedTime(){
+        return this.watch.getTime();
     }
 
     /**
