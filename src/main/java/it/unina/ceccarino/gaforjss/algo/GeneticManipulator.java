@@ -74,6 +74,7 @@ public class GeneticManipulator {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
+                watch.reset();
                 watch.start();
                 int currentFitness = population.getIndividuals()[0].getFitness();
                 EventManager.getInstance().startsSimulation(currentFitness);
@@ -211,6 +212,7 @@ public class GeneticManipulator {
 
                 }
                 watch.stop();
+    
                 EventManager.getInstance().end();
             }
         });
@@ -220,6 +222,7 @@ public class GeneticManipulator {
     
     public long getElapsedTime(){
         return this.watch.getTime();
+        
     }
 
     /**
