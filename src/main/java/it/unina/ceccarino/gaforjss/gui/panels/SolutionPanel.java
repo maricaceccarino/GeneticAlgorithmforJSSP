@@ -86,7 +86,10 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         jLabel3 = new javax.swing.JLabel();
         jLabel_elapsed = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel_nothing = new javax.swing.JPanel();
+        jLabel_runningMessage = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
 
@@ -139,24 +142,26 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox1)
                     .addComponent(jSeparator1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel_Iterazioni, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel_startFitness, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel_currentFitness, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(116, 116, 116)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel_elapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel_Iterazioni, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel_startFitness, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel_currentFitness, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(116, 116, 116)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel_elapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -182,21 +187,44 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
+        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
         jScrollPane1.setBackground(new java.awt.Color(56, 51, 51));
+        jSplitPane1.setRightComponent(jScrollPane1);
+
+        jPanel_nothing.setBackground(new java.awt.Color(51, 51, 51));
+
+        jLabel_runningMessage.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel_runningMessage.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel_runningMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_runningMessage.setText("No solution yet.");
+
+        javax.swing.GroupLayout jPanel_nothingLayout = new javax.swing.GroupLayout(jPanel_nothing);
+        jPanel_nothing.setLayout(jPanel_nothingLayout);
+        jPanel_nothingLayout.setHorizontalGroup(
+            jPanel_nothingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel_runningMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 827, Short.MAX_VALUE)
+        );
+        jPanel_nothingLayout.setVerticalGroup(
+            jPanel_nothingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel_runningMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+        );
+
+        jSplitPane1.setLeftComponent(jPanel_nothing);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1)
+            .addComponent(jSplitPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE))
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -215,10 +243,13 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
     private javax.swing.JLabel jLabel_Iterazioni;
     private javax.swing.JLabel jLabel_currentFitness;
     private javax.swing.JLabel jLabel_elapsed;
+    private javax.swing.JLabel jLabel_runningMessage;
     private javax.swing.JLabel jLabel_startFitness;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel_nothing;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSplitPane jSplitPane1;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -237,6 +268,8 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
             ex.printStackTrace();
         }
         this.jLabel_elapsed.setText("running..");
+        this.jLabel_runningMessage.setForeground(Color.YELLOW);
+        this.jLabel_runningMessage.setText("Calculating new solution..");
     }
 
     @Override
