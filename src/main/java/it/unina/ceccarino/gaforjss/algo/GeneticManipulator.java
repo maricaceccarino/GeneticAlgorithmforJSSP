@@ -213,7 +213,7 @@ public class GeneticManipulator {
                 }
                 watch.stop();
     
-                EventManager.getInstance().end();
+                EventManager.getInstance().end(POPULATION[0]);
             }
         });
         t.start();

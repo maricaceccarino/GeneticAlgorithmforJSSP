@@ -298,7 +298,7 @@ public class PopulationPanel extends javax.swing.JPanel implements SolutionListe
     }
 
     @Override
-    public void end() {
+    public void end(JobIndividual bestone) {
         this.jButton_Generate.setEnabled(true);
         this.jButton_settings.setEnabled(true);
     }

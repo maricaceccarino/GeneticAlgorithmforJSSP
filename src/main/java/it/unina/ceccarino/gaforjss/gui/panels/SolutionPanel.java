@@ -13,13 +13,25 @@ import it.cnr.istc.icv.exceptions.TypeDataMismatchException;
 import it.cnr.istc.icv.test.LinearDataSupporter;
 import it.cnr.istc.icv.test.TimeValueSupporterClass;
 import it.unina.ceccarino.gaforjss.algo.GeneticManipulator;
+import it.unina.ceccarino.gaforjss.algo.Individual;
+import it.unina.ceccarino.gaforjss.gui.abstracts.tree.AbstractTreeTableModel;
+import it.unina.ceccarino.gaforjss.gui.abstracts.tree.DataModel;
+import it.unina.ceccarino.gaforjss.gui.abstracts.tree.DataNode;
+import it.unina.ceccarino.gaforjss.gui.abstracts.tree.TreeTable;
+import it.unina.ceccarino.gaforjss.gui.abstracts.tree.TreeTableCellRenderer;
 import it.unina.ceccarino.gaforjss.logic.EventManager;
 import it.unina.ceccarino.gaforjss.logic.SolutionListener;
+import it.unina.ceccarino.gaforjss.model.InputManager;
+import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import it.unina.ceccarino.gaforjss.model.Settings;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.util.Date;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 /**
@@ -75,6 +87,8 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel_Solution = new javax.swing.JPanel();
+        jScrollPane_solutionContainer = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -90,6 +104,17 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel_nothing = new javax.swing.JPanel();
         jLabel_runningMessage = new javax.swing.JLabel();
+
+        javax.swing.GroupLayout jPanel_SolutionLayout = new javax.swing.GroupLayout(jPanel_Solution);
+        jPanel_Solution.setLayout(jPanel_SolutionLayout);
+        jPanel_SolutionLayout.setHorizontalGroup(
+            jPanel_SolutionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane_solutionContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
+        );
+        jPanel_SolutionLayout.setVerticalGroup(
+            jPanel_SolutionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane_solutionContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+        );
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
 
@@ -246,8 +271,10 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
     private javax.swing.JLabel jLabel_runningMessage;
     private javax.swing.JLabel jLabel_startFitness;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel_Solution;
     private javax.swing.JPanel jPanel_nothing;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane_solutionContainer;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSplitPane jSplitPane1;
     // End of variables declaration//GEN-END:variables
@@ -268,15 +295,50 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
             ex.printStackTrace();
         }
         this.jLabel_elapsed.setText("running..");
+        this.jSplitPane1.setLeftComponent(this.jPanel_nothing);
         this.jLabel_runningMessage.setForeground(Color.YELLOW);
         this.jLabel_runningMessage.setText("Calculating new solution..");
+        
     }
 
     @Override
-    public void end() {
+    public void end(JobIndividual bestone) {
         long elapsedTime = GeneticManipulator.getInstance().getElapsedTime();
         String formatDuration = DurationFormatUtils.formatDuration(elapsedTime, "HH:mm:ss.S");
         this.jLabel_elapsed.setText(formatDuration);
+
+        DataNode root = new DataNode("Root");
+        DataNode node = new DataNode(ArrayUtils.toObject(bestone.getJobPermutation()), "" + bestone.getFitness());
+        node.addChild(new DataNode(ArrayUtils.toObject(bestone.getOperationSequence()), TreeTableCellRenderer.HTML_DEOCORATION_2 + "operations"));
+        node.addChild(new DataNode(bestone.getMachinesSelected(), TreeTableCellRenderer.HTML_DEOCORATION_2 + "machines"));
+        node.addChild(new DataNode(ArrayUtils.toObject(bestone.getComplationArray()), TreeTableCellRenderer.HTML_DEOCORATION_2 + "completion"));
+        root.addChild(node);
+        AbstractTreeTableModel treeTableModel = new DataModel(root);
+        final TreeTable solutionTreeTable = new TreeTable(treeTableModel);
+        solutionTreeTable.getColumnModel().getColumn(0).setMinWidth(140);
+        int dimension = InputManager.getInstance().getDimension();
+        for (int i = 1; i <= dimension; i++) {
+            solutionTreeTable.getColumnModel().getColumn(i).setPreferredWidth(40);
+            solutionTreeTable.getColumnModel().getColumn(i).setCellRenderer(new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+                    if (solutionTreeTable.isRowExpanded(row)) {
+                        c.setBackground(Color.red);
+                    } else {
+                        if (isSelected) {
+                            c.setBackground(table.getSelectionBackground());
+                        } else {
+                            c.setBackground(table.getBackground());
+                        }
+                    }
+                    return c;
+                }
+
+            });
+        }
+        this.jScrollPane_solutionContainer.setViewportView(solutionTreeTable);
+        this.jSplitPane1.setLeftComponent(this.jPanel_Solution);
 
     }
 
@@ -298,6 +360,6 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         cycle++;
         this.jLabel_Iterazioni.setText(cycle + "/" + Settings.getInstance().getMaxIteration() + " ");
         x = cycle;
-        
+
     }
 }

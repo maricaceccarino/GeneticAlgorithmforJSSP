@@ -4,6 +4,7 @@
  */
 package it.unina.ceccarino.gaforjss.logic;
 
+import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,9 +43,9 @@ public class EventManager {
         }
     }
 
-    public void end() {
+    public void end(JobIndividual bestone) {
         for (SolutionListener listener : solutionListeners) {
-            listener.end();
+            listener.end(bestone);
         }
     }
 

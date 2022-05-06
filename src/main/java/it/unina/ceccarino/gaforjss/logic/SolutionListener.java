@@ -4,6 +4,8 @@
  */
 package it.unina.ceccarino.gaforjss.logic;
 
+import it.unina.ceccarino.gaforjss.model.JobIndividual;
+
 /**
  *
  * @author sommovir
@@ -12,7 +14,7 @@ public interface SolutionListener {
     
     public void start(int initialFitness);
     
-    public void end();
+    public void end(JobIndividual bestone);
     
     public void newImprovement(int newFitness);
     
