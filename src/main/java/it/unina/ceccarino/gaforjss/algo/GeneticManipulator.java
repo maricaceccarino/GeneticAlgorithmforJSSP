@@ -92,8 +92,23 @@ public class GeneticManipulator {
                         immune.setImmune(true);
                     }
 
-                    JobIndividual[] normalPeople = evict(POPULATION, immunes.length);
+                    //creo un array di dimensione doppia rispetto al numero di immuni
+                    JobIndividual[] immunesClones = new JobIndividual[immunes.length*2];
+                    for (int i = 0; i < immunesClones.length; i++) {
+                        immunesClones[i] = (JobIndividual)POPULATION[0].clone();
+                        
+                        immunesClones[i].setExperimental(true);
+                        immunesClones[i].setMutated(true);
+                        if(i<immunesClones.length/2){
+                            immunesClones[i].swap(15);
+                        }else{
+                            immunesClones[i].swap(40);
+                        }
+                    }
+                    
 
+                    JobIndividual[] normalPeople = evict(POPULATION, immunes.length);
+                    
                     Collections.shuffle(Arrays.asList(normalPeople));
 
                     Pair<JobIndividual[], JobIndividual[]> crossoverPoolPair = evictAndShrink(normalPeople, getPeopleSizeForCrossoverSize());
@@ -106,9 +121,6 @@ public class GeneticManipulator {
 
                     JobIndividual[] untouchedPool = normalPeople;
 
-//
-//        JobIndividual[] mutationPool = (JobIndividual[]) evictAndShrink(normalPeople, getPeopleSizeForMutationSize());
-//        JobIndividual[] untouchedPool = (JobIndividual[]) evictAndShrink(normalPeople, getPeopleSizeForMutationSize());
                     if (Settings.getInstance().isVerbose()) {
                         System.out.println("*** init crossover ***");
                     }
@@ -156,26 +168,34 @@ public class GeneticManipulator {
                     for (JobIndividual kid : children) {
                         resultPopulation.add(kid);
                     }
+                    for (JobIndividual immunesClone : immunesClones) {
+                        resultPopulation.add(immunesClone);
+                    }
                     if (Settings.getInstance().isVerbose()) {
                         System.out.println("<END POPULATION> " + resultPopulation.size());
                     }
 
                     Collections.sort(resultPopulation);
 
+                    int avg = 0;
                     for (JobIndividual jobIndividual : resultPopulation) {
                         String mutated = jobIndividual.isMutated() ? "mutated" : "";
                         String kid = jobIndividual.isKid() ? "kid" : "";
                         String parent = jobIndividual.isParent() ? "parent" : "";
                         String immune = jobIndividual.isImmune() ? "immune" : "";
+                        String experimental = jobIndividual.isExperimental()? "experimental" : "";
+                        avg+=jobIndividual.getFitness();
                         if (Settings.getInstance().isVerbose()) {
-                            System.out.println(jobIndividual.getFitness() + " " + mutated + " " + kid + " " + parent + " " + immune);
+                            System.out.println(jobIndividual.getFitness() + " " + mutated + " " + kid + " " + parent + " " + immune + " " + experimental);
                         }
                     }
+                    avg/=resultPopulation.size();
+                    EventManager.getInstance().newAVG(avg);
 
                     if (Settings.getInstance().isVerbose()) {
                         System.out.println("--- end swap worst population with crossover result ---");
                     }
-                    for (int i = 0; i < children.length; i++) {
+                    for (int i = 0; i < (children.length + immunesClones.length); i++) {
 
                         JobIndividual removedElement = resultPopulation.pollLast();
                     }
@@ -184,13 +204,16 @@ public class GeneticManipulator {
                         System.out.println(" NEW GENERATIONS (" + resultPopulation.size() + ")");
                     }
 
-                    for (JobIndividual jobIndividual : resultPopulation) {
-                        String mutated = jobIndividual.isMutated() ? "mutated" : "";
-                        String kid = jobIndividual.isKid() ? "kid" : "";
-                        String parent = jobIndividual.isParent() ? "parent" : "";
-                        String immune = jobIndividual.isImmune() ? "immune" : "";
-                        if (Settings.getInstance().isVerbose()) {
-                            System.out.println(jobIndividual.getFitness() + " " + mutated + " " + kid + " " + parent + " " + immune);
+                    if (Settings.getInstance().isVerbose()) {
+                        for (JobIndividual jobIndividual : resultPopulation) {
+                            String mutated = jobIndividual.isMutated() ? "mutated" : "";
+                            String kid = jobIndividual.isKid() ? "kid" : "";
+                            String parent = jobIndividual.isParent() ? "parent" : "";
+                            String immune = jobIndividual.isImmune() ? "immune" : "";
+                            String experimental = jobIndividual.isExperimental()? "experimental" : "";
+
+                            System.out.println(jobIndividual.getFitness() + " " + mutated + " " + kid + " " + parent + " " + immune + " " + experimental);
+
                         }
                     }
 
@@ -212,17 +235,17 @@ public class GeneticManipulator {
 
                 }
                 watch.stop();
-    
+
                 EventManager.getInstance().end(POPULATION[0]);
             }
         });
         t.start();
 
     }
-    
-    public long getElapsedTime(){
+
+    public long getElapsedTime() {
         return this.watch.getTime();
-        
+
     }
 
     /**
@@ -254,9 +277,12 @@ public class GeneticManipulator {
         JobIndividual[] remaining = new JobIndividual[sizeToEvict];
 
         List<JobIndividual> list = new LinkedList<JobIndividual>(Arrays.asList(initialPopulation));
+        
 
+//        System.out.println("list size: "+list.size());
+//        System.out.println("size to evict : "+sizeToEvict);
         for (int i = 0; i < sizeToEvict; i++) {
-            JobIndividual removed = list.remove(i);
+            JobIndividual removed = list.remove(0);
             remaining[i] = removed;
         }
 
@@ -420,9 +446,6 @@ public class GeneticManipulator {
             for (int i = 0; i < jobMancanti; i++) {
                 if (posizioniVuote.isEmpty()) {
                     break;
-                }
-                if (Settings.getInstance().isVerbose()) {
-                    System.out.println(" - -- - - - --POSIZIONE VUOTE SIZE: " + posizioniVuote.size());
                 }
                 int randomInRange = Utils.randomInRange(0, posizioniVuote.size());
                 int position = posizioniVuote.get(randomInRange).getValue();

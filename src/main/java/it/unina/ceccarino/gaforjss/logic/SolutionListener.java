@@ -20,4 +20,6 @@ public interface SolutionListener {
     
     public void nextCycle(int cycle);
     
+    public void newAVG(int avg);
+    
 }

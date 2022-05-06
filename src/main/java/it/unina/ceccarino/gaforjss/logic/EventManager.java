@@ -84,5 +84,11 @@ public class EventManager {
             listener.backToDefault();
         }
     }
+    
+    public void newAVG(int avg){
+        for (SolutionListener solutionListener : solutionListeners) {
+            solutionListener.newAVG(avg);
+        }
+    }
 
 }

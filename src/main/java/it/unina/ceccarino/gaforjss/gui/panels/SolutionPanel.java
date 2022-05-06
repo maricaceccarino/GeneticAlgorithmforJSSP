@@ -10,6 +10,7 @@ import it.cnr.istc.icv.engine.MyJLayer;
 import it.cnr.istc.icv.engine.MyLayer;
 import it.cnr.istc.icv.engine.ZoomLabeledLayer;
 import it.cnr.istc.icv.exceptions.TypeDataMismatchException;
+import it.cnr.istc.icv.logic.ICVAnnotation;
 import it.cnr.istc.icv.test.LinearDataSupporter;
 import it.cnr.istc.icv.test.TimeValueSupporterClass;
 import it.unina.ceccarino.gaforjss.algo.GeneticManipulator;
@@ -61,12 +62,21 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         panel.setYTooltipLabel("Fitness");
 
         LinearDataSupporter s = new LinearDataSupporter("Soluzione");
-//        s.setOrder(1);
+        s.setOrder(1);
         s.setDiscret(false);
 //        s.setMaxValueToShow(10);
 //        s.setMinValueToShow(0);
 
+//        s.
+
+//        LinearDataSupporter s2 = new LinearDataSupporter("AVG fitness");
+//        s2.setOrder(2);
+//        s2.setDiscret(false);
+        s.setDotVisible(false);
+        
+
         panel.getMixedPanel().addDataBar(s);
+//        panel.getMixedPanel().addDataBar(s2);
 //        MyLayer<JPanel> layerUI = new ZoomLabeledLayer(panel);
 //        JPanel containerP = new JPanel();
 //        containerP.setLayout(new GridLayout(0, 1));
@@ -298,14 +308,14 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         this.jSplitPane1.setLeftComponent(this.jPanel_nothing);
         this.jLabel_runningMessage.setForeground(Color.YELLOW);
         this.jLabel_runningMessage.setText("Calculating new solution..");
-        
+
     }
 
     @Override
     public void end(JobIndividual bestone) {
-        System.out.println("<<SOLUTION with finess: "+bestone.getFitness()+" >>");
+        System.out.println("<<SOLUTION with finess: " + bestone.getFitness() + " >>");
         System.out.println(bestone);
-        
+
         long elapsedTime = GeneticManipulator.getInstance().getElapsedTime();
         String formatDuration = DurationFormatUtils.formatDuration(elapsedTime, "HH:mm:ss.S");
         this.jLabel_elapsed.setText(formatDuration);
@@ -355,6 +365,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         } catch (TypeDataMismatchException ex) {
             ex.printStackTrace();
         }
+        panel.getMixedPanel().addICVAnnotation(new ICVAnnotation("Soluzione",x, ""+x, true));
 
     }
 
@@ -364,5 +375,15 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         this.jLabel_Iterazioni.setText(cycle + "/" + Settings.getInstance().getMaxIteration() + " ");
         x = cycle;
 
+    }
+
+    @Override
+    public void newAVG(int avg) {
+        TimeValueSupporterClass ds1 = new TimeValueSupporterClass(avg, "AVG fitness", new Date(x));
+        try {
+            panel.getMixedPanel().addLinearData("Soluzione", ds1, true);
+        } catch (TypeDataMismatchException ex) {
+            ex.printStackTrace();
+        }
     }
 }

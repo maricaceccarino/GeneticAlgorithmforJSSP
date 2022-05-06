@@ -360,4 +360,9 @@ public class PopulationPanel extends javax.swing.JPanel implements SolutionListe
     @Override
     public void backToDefault() {
     }
+
+    @Override
+    public void newAVG(int avg) {
+       
+    }
 }
