@@ -253,4 +253,29 @@ public class JobIndividual implements Comparable<JobIndividual> {
         System.out.println("FLUSH MUST BE IMPLEMENTED");
     }
 
+    @Override
+    public String toString() {
+        String print = "";
+        print+="[JOB PERMUTATION ARRAY] size: "+this.jobPermutation.length+"\n";
+        for (int i : jobPermutation) {
+            print+=""+i+", ";
+        }
+        print+="\n[JOB OPERATION ARRAY] size: "+this.operationSequence.length+"\n";
+        for (int i : operationSequence) {
+            print+=""+i+", ";
+        }
+        print+="\n[JOB MACHINE ARRAY] size: "+this.machinesSelected.length+"\n";
+        for (Machine i : machinesSelected) {
+            print+=""+i.getCode()+", ";
+        }
+        print+="\n[JOB COMPLETION ARRAY] size: "+this.completionArray.length+"\n";
+        for (int i : completionArray) {
+            print+=""+i+", ";
+        }
+        
+        return print;
+    }
+
+    
+    
 }

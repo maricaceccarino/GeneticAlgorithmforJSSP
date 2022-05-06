@@ -303,6 +303,9 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
 
     @Override
     public void end(JobIndividual bestone) {
+        System.out.println("<<SOLUTION with finess: "+bestone.getFitness()+" >>");
+        System.out.println(bestone);
+        
         long elapsedTime = GeneticManipulator.getInstance().getElapsedTime();
         String formatDuration = DurationFormatUtils.formatDuration(elapsedTime, "HH:mm:ss.S");
         this.jLabel_elapsed.setText(formatDuration);
