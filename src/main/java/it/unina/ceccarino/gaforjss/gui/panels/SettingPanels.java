@@ -47,32 +47,6 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
         EventManager.getInstance().addEventListener(this);
         load();
 
-        this.jTextField_populationSize.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateSettings();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateSettings();
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                updateSettings();
-            }
-
-            public void updateSettings() {
-                if (SettingPanels.this.jTextField_populationSize.getText().isBlank()) {
-                    return;
-                }
-                Integer population = (Integer) SettingPanels.this.jTextField_populationSize.getValue();
-//                int population = Integer.parseInt(SettingPanels.this.jTextField_populationSize.getText());
-                Settings.getInstance().setPopulationSize(population);
-                EventManager.getInstance().settingsChanged();
-            }
-        });
     }
 
     private void load() {
@@ -87,7 +61,7 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
         this.jSpinner_elected.setValue(this.temporaryElected);
         this.jSpinner_maxJob.setValue(this.maxJobQnt);
         this.jSpinner_mutation.setValue(this.temproaryMutation);
-        this.jTextField_populationSize.setText("" + this.populationSize);
+        this.jSpinner_sizePopulation.setValue(this.populationSize);
         this.jSpinner_maxIteration.setValue(this.maxIteration);
     }
 
@@ -120,7 +94,6 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField_populationSize = new javax.swing.JFormattedTextField();
         jSpinner_crossover = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -129,6 +102,7 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        jSpinner_sizePopulation = new javax.swing.JSpinner();
         jPanel5 = new javax.swing.JPanel();
         jSpinner_maxIteration = new javax.swing.JSpinner();
         jLabel12 = new javax.swing.JLabel();
@@ -219,11 +193,8 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 9;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.ipadx = 43;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 11, 23, 0);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(10, 11, 10, 0);
         jPanel3.add(jLabel4, gridBagConstraints);
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -239,20 +210,6 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(9, 40, 0, 0);
         jPanel3.add(jLabel5, gridBagConstraints);
-
-        jTextField_populationSize.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jTextField_populationSize.setText("100");
-        jTextField_populationSize.setMaximumSize(new java.awt.Dimension(100, 30));
-        jTextField_populationSize.setMinimumSize(new java.awt.Dimension(65, 30));
-        jTextField_populationSize.setPreferredSize(new java.awt.Dimension(65, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 20;
-        gridBagConstraints.ipadx = -10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 6, 23, 0);
-        jPanel3.add(jTextField_populationSize, gridBagConstraints);
 
         jSpinner_crossover.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jSpinner_crossover.setModel(new javax.swing.SpinnerNumberModel(20, 0, 40, 1));
@@ -357,6 +314,20 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
         gridBagConstraints.insets = new java.awt.Insets(8, 11, 0, 0);
         jPanel3.add(jLabel11, gridBagConstraints);
 
+        jSpinner_sizePopulation.setModel(new javax.swing.SpinnerNumberModel(100, 1, null, 1));
+        jSpinner_sizePopulation.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner_sizePopulationStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel3.add(jSpinner_sizePopulation, gridBagConstraints);
+
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("End Condition"));
 
         jSpinner_maxIteration.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -396,7 +367,7 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -404,8 +375,8 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -452,9 +423,9 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -492,6 +463,12 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
         Settings.getInstance().setMaxIteration((Integer) this.jSpinner_maxIteration.getValue());
     }//GEN-LAST:event_jSpinner_maxIterationStateChanged
 
+    private void jSpinner_sizePopulationStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_sizePopulationStateChanged
+        Integer population = (Integer) SettingPanels.this.jSpinner_sizePopulation.getValue();
+        Settings.getInstance().setPopulationSize(population);
+        EventManager.getInstance().settingsChanged();
+    }//GEN-LAST:event_jSpinner_sizePopulationStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -516,7 +493,7 @@ public class SettingPanels extends javax.swing.JPanel implements EventListener {
     private javax.swing.JSpinner jSpinner_maxIteration;
     private javax.swing.JSpinner jSpinner_maxJob;
     private javax.swing.JSpinner jSpinner_mutation;
-    private javax.swing.JFormattedTextField jTextField_populationSize;
+    private javax.swing.JSpinner jSpinner_sizePopulation;
     private it.unina.ceccarino.gaforjss.gui.panels.PopulationSubgroupPanel populationSubgroupPanel1;
     // End of variables declaration//GEN-END:variables
 
