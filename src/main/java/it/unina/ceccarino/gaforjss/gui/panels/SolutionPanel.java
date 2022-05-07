@@ -5,16 +5,10 @@
 package it.unina.ceccarino.gaforjss.gui.panels;
 
 import it.cnr.istc.icv.engine.EmbeddablePanel;
-import it.cnr.istc.icv.engine.MixedDataPanel;
-import it.cnr.istc.icv.engine.MyJLayer;
-import it.cnr.istc.icv.engine.MyLayer;
-import it.cnr.istc.icv.engine.ZoomLabeledLayer;
 import it.cnr.istc.icv.exceptions.TypeDataMismatchException;
-import it.cnr.istc.icv.logic.ICVAnnotation;
 import it.cnr.istc.icv.test.LinearDataSupporter;
 import it.cnr.istc.icv.test.TimeValueSupporterClass;
 import it.unina.ceccarino.gaforjss.algo.GeneticManipulator;
-import it.unina.ceccarino.gaforjss.algo.Individual;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.AbstractTreeTableModel;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.DataModel;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.DataNode;
@@ -27,11 +21,12 @@ import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import it.unina.ceccarino.gaforjss.model.Settings;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.GridLayout;
 import java.util.Date;
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 import javax.swing.JTable;
+import javax.swing.plaf.synth.SynthFormattedTextFieldUI;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.text.JTextComponent;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
@@ -45,14 +40,30 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
     private int currentFitness;
     final static EmbeddablePanel panel = new EmbeddablePanel();
     private int x = 0;
+    private int avgEach = 1;
 
     /**
      * Creates new form SolutionPanel
      */
     public SolutionPanel() {
         initComponents();
+        final JComponent editor = this.jSpinner_avg.getEditor();
+        int c = editor.getComponentCount();
+        for (int i = 0; i < c; i++) {
+            final Component comp = editor.getComponent(i);
+            if (comp instanceof JTextComponent) {
+                ((JTextComponent) comp).setUI(new SynthFormattedTextFieldUI() {
+                    @Override
+                    protected void paint(javax.swing.plaf.synth.SynthContext context, java.awt.Graphics g) {
+                        g.setColor(Color.GRAY);
+                        g.fillRect(0, 0, getComponent().getWidth() , getComponent().getHeight());
+                        super.paint(context, g);
+                    }
+                });
+            }
+        }
         EventManager.getInstance().addSolutionListener(this);
-
+        panel.getMixedPanel().LEFT_MARGIN = 40;
         panel.getMixedPanel().setStartRange(0);
         panel.getMixedPanel().setEndRange(Settings.getInstance().getMaxIteration());
         panel.getMixedPanel().setShowDate(false);
@@ -62,18 +73,20 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         panel.setYTooltipLabel("Fitness");
 
         LinearDataSupporter s = new LinearDataSupporter("Soluzione");
+        s.setColorToSubChart("Best Fitness", Color.RED);
+        s.setColorToSubChart("AVG fitness", Color.BLUE);
+        s.setDotVisible(true);
+        s.setSubChartWithDots("Best Fitness", true);
+        s.setSubChartWithDots("AVG fitness", false);
         s.setOrder(1);
         s.setDiscret(false);
 //        s.setMaxValueToShow(10);
 //        s.setMinValueToShow(0);
 
 //        s.
-
 //        LinearDataSupporter s2 = new LinearDataSupporter("AVG fitness");
 //        s2.setOrder(2);
 //        s2.setDiscret(false);
-        s.setDotVisible(false);
-        
 
         panel.getMixedPanel().addDataBar(s);
 //        panel.getMixedPanel().addDataBar(s2);
@@ -110,6 +123,9 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         jLabel3 = new javax.swing.JLabel();
         jLabel_elapsed = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        jCheckBox_AVG = new javax.swing.JCheckBox();
+        jSpinner_avg = new javax.swing.JSpinner();
+        jLabel4 = new javax.swing.JLabel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel_nothing = new javax.swing.JPanel();
@@ -128,7 +144,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
 
-        jLabel1.setText("Iterazioni:");
+        jLabel1.setText("Iterations");
 
         jLabel2.setText("Start Fitness");
 
@@ -170,6 +186,19 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         jLabel_elapsed.setText("-");
         jLabel_elapsed.setOpaque(true);
 
+        jCheckBox_AVG.setText("AVG");
+
+        jSpinner_avg.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jSpinner_avg.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        jSpinner_avg.setBorder(null);
+        jSpinner_avg.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner_avgStateChanged(evt);
+            }
+        });
+
+        jLabel4.setText("avg each");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -180,7 +209,14 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
                     .addComponent(jSeparator1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jCheckBox1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jCheckBox_AVG)
+                                .addGap(25, 25, 25)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSpinner_avg, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -218,7 +254,11 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jCheckBox_AVG)
+                    .addComponent(jSpinner_avg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -268,12 +308,18 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         //EventManager.getInstance().settingsChanged();
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
+    private void jSpinner_avgStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_avgStateChanged
+        this.avgEach = (Integer) this.jSpinner_avg.getValue();
+    }//GEN-LAST:event_jSpinner_avgStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox_AVG;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel_Iterazioni;
     private javax.swing.JLabel jLabel_currentFitness;
@@ -286,6 +332,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane_solutionContainer;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSpinner jSpinner_avg;
     private javax.swing.JSplitPane jSplitPane1;
     // End of variables declaration//GEN-END:variables
 
@@ -298,7 +345,8 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         this.jLabel_startFitness.setText("" + initialFitness + " ");
         this.jLabel_currentFitness.setText("<html><font color = red>" + initialFitness + "</font>");
         panel.getMixedPanel().clearLinearDataBar("Soluzione");
-        TimeValueSupporterClass ds1 = new TimeValueSupporterClass(initialFitness, "Soluzione", new Date(x));
+        panel.getMixedPanel().setNowLineVisible(true);
+        TimeValueSupporterClass ds1 = new TimeValueSupporterClass(initialFitness, "Best Fitness", new Date(x));
         try {
             panel.getMixedPanel().addLinearData("Soluzione", ds1, true);
         } catch (TypeDataMismatchException ex) {
@@ -359,13 +407,13 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
     public void newImprovement(int newFitness) {
         this.currentFitness = newFitness;
         this.jLabel_currentFitness.setText("" + newFitness + " ");
-        TimeValueSupporterClass ds1 = new TimeValueSupporterClass(newFitness, "Soluzione", new Date(x));
+        TimeValueSupporterClass ds1 = new TimeValueSupporterClass(newFitness, "Best Fitness", new Date(x));
         try {
             panel.getMixedPanel().addLinearData("Soluzione", ds1, true);
         } catch (TypeDataMismatchException ex) {
             ex.printStackTrace();
         }
-        panel.getMixedPanel().addICVAnnotation(new ICVAnnotation("Soluzione",x, ""+x, true));
+        // panel.getMixedPanel().addICVAnnotation(new ICVAnnotation("Soluzione", x, "" + x, true));
 
     }
 
@@ -374,16 +422,21 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         cycle++;
         this.jLabel_Iterazioni.setText(cycle + "/" + Settings.getInstance().getMaxIteration() + " ");
         x = cycle;
+        panel.getMixedPanel().setFloatableNow(x);
 
     }
 
     @Override
     public void newAVG(int avg) {
-        TimeValueSupporterClass ds1 = new TimeValueSupporterClass(avg, "AVG fitness", new Date(x));
-        try {
-            panel.getMixedPanel().addLinearData("Soluzione", ds1, true);
-        } catch (TypeDataMismatchException ex) {
-            ex.printStackTrace();
+        if (this.jCheckBox_AVG.isSelected()) {
+            if (x % this.avgEach == 0) {
+                TimeValueSupporterClass ds1 = new TimeValueSupporterClass(avg, "AVG fitness", new Date(x));
+                try {
+                    panel.getMixedPanel().addLinearData("Soluzione", ds1, true);
+                } catch (TypeDataMismatchException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
 }
