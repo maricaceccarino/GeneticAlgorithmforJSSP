@@ -22,6 +22,9 @@ public class Settings {
     private int POPULATION_SIZE = 100;
     private int MAX_ITERATION = 300;
     private boolean verbose = false;
+    private boolean kalergi = false;
+    private int kalergi_each = 50; //numero di turni senza alcun miglioramento
+    private int kalergi_injection_rate = 10; //percentuale di individui esterni rigenerati. 
 
     public static Settings getInstance() {
         if (_instance == null) {
@@ -42,6 +45,32 @@ public class Settings {
     public boolean isVerbose() {
         return verbose;
     }
+
+    public boolean isKalergi() {
+        return kalergi;
+    }
+
+    public void setKalergi(boolean kalergi) {
+        this.kalergi = kalergi;
+    }
+
+    public int getKalergiEach() {
+        return kalergi_each;
+    }
+
+    public void setKalergiEach(int kalergi_each) {
+        this.kalergi_each = kalergi_each;
+    }
+
+    public int getKalergiInjectionRate() {
+        return kalergi_injection_rate;
+    }
+
+    public void setKalergiInjectionRate(int kalergi_injection_rate) {
+        this.kalergi_injection_rate = kalergi_injection_rate;
+    }
+    
+    
     
     
 
@@ -68,6 +97,9 @@ public class Settings {
     }
     
     public void setMaxJobOveralQuantity(int maxJobOveralQuantity){
+        if(maxJobOveralQuantity < 10){
+            throw new IllegalArgumentException("L'input non può essere minore di 10");
+        }
         this.MAX_JOB_OVERAL_QUANTITY = maxJobOveralQuantity;
         InputManager.getInstance().randomizeJobQuantity();
     }

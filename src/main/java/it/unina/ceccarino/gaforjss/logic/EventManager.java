@@ -49,9 +49,9 @@ public class EventManager {
         }
     }
 
-    public void newImprovement(int newFitness) {
+    public void newImprovement(JobIndividual bestone, int newFitness) {
         for (SolutionListener listener : solutionListeners) {
-            listener.newImprovement(newFitness);
+            listener.newImprovement(bestone,newFitness);
         }
     }
 
@@ -82,6 +82,12 @@ public class EventManager {
     public void backToDefault() {
         for (EventListener listener : listeners) {
             listener.backToDefault();
+        }
+    }
+    
+    public void newAVG(int avg){
+        for (SolutionListener solutionListener : solutionListeners) {
+            solutionListener.newAVG(avg);
         }
     }
 

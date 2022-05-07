@@ -5,15 +5,10 @@
 package it.unina.ceccarino.gaforjss.gui.panels;
 
 import it.cnr.istc.icv.engine.EmbeddablePanel;
-import it.cnr.istc.icv.engine.MixedDataPanel;
-import it.cnr.istc.icv.engine.MyJLayer;
-import it.cnr.istc.icv.engine.MyLayer;
-import it.cnr.istc.icv.engine.ZoomLabeledLayer;
 import it.cnr.istc.icv.exceptions.TypeDataMismatchException;
 import it.cnr.istc.icv.test.LinearDataSupporter;
 import it.cnr.istc.icv.test.TimeValueSupporterClass;
 import it.unina.ceccarino.gaforjss.algo.GeneticManipulator;
-import it.unina.ceccarino.gaforjss.algo.Individual;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.AbstractTreeTableModel;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.DataModel;
 import it.unina.ceccarino.gaforjss.gui.abstracts.tree.DataNode;
@@ -26,11 +21,14 @@ import it.unina.ceccarino.gaforjss.model.JobIndividual;
 import it.unina.ceccarino.gaforjss.model.Settings;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.GridLayout;
 import java.util.Date;
-import javax.swing.JPanel;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.plaf.synth.SynthFormattedTextFieldUI;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.text.JTextComponent;
+import javax.swing.tree.TreePath;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
@@ -44,14 +42,62 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
     private int currentFitness;
     final static EmbeddablePanel panel = new EmbeddablePanel();
     private int x = 0;
+    private int avgEach = 1;
 
     /**
      * Creates new form SolutionPanel
      */
     public SolutionPanel() {
         initComponents();
-        EventManager.getInstance().addSolutionListener(this);
+        final JComponent editor = this.jSpinner_avg.getEditor();
+        int c = editor.getComponentCount();
+        for (int i = 0; i < c; i++) {
+            final Component comp = editor.getComponent(i);
+            if (comp instanceof JTextComponent) {
+                ((JTextComponent) comp).setUI(new SynthFormattedTextFieldUI() {
+                    @Override
+                    protected void paint(javax.swing.plaf.synth.SynthContext context, java.awt.Graphics g) {
+                        g.setColor(Color.GRAY);
+                        g.fillRect(0, 0, getComponent().getWidth(), getComponent().getHeight());
+                        super.paint(context, g);
+                    }
+                });
+            }
+        }
+        final JComponent editor2 = this.jSpinner_eachNoImprovement.getEditor();
+        int c2 = editor2.getComponentCount();
+        for (int i = 0; i < c2; i++) {
+            final Component comp = editor2.getComponent(i);
+            if (comp instanceof JTextComponent) {
+                ((JTextComponent) comp).setUI(new SynthFormattedTextFieldUI() {
+                    @Override
+                    protected void paint(javax.swing.plaf.synth.SynthContext context, java.awt.Graphics g) {
+                        g.setColor(Color.GRAY);
+                        g.fillRect(0, 0, getComponent().getWidth(), getComponent().getHeight());
+                        super.paint(context, g);
+                    }
+                });
+            }
+        }
 
+        final JComponent editor3 = this.jSpinner_adv_rate.getEditor();
+        int c3 = editor3.getComponentCount();
+        for (int i = 0; i < c3; i++) {
+            final Component comp = editor3.getComponent(i);
+            if (comp instanceof JTextComponent) {
+                ((JTextComponent) comp).setUI(new SynthFormattedTextFieldUI() {
+                    @Override
+                    protected void paint(javax.swing.plaf.synth.SynthContext context, java.awt.Graphics g) {
+                        g.setColor(Color.GRAY);
+                        g.fillRect(0, 0, getComponent().getWidth(), getComponent().getHeight());
+                        super.paint(context, g);
+                    }
+                });
+            }
+        }
+
+        EventManager.getInstance().addSolutionListener(this);
+        panel.getMixedPanel().LEFT_MARGIN = 40;
         panel.getMixedPanel().setStartRange(0);
         panel.getMixedPanel().setEndRange(Settings.getInstance().getMaxIteration());
         panel.getMixedPanel().setShowDate(false);
@@ -61,12 +107,22 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         panel.setYTooltipLabel("Fitness");
 
         LinearDataSupporter s = new LinearDataSupporter("Soluzione");
-//        s.setOrder(1);
+        s.setColorToSubChart("Best Fitness", Color.RED);
+        s.setColorToSubChart("AVG Fitness", Color.BLUE);
+        s.setDotVisible(true);
+        s.setSubChartWithDots("Best Fitness", true);
+        s.setSubChartWithDots("AVG Fitness", false);
+        s.setOrder(1);
         s.setDiscret(false);
 //        s.setMaxValueToShow(10);
 //        s.setMinValueToShow(0);
 
+//        s.
+//        LinearDataSupporter s2 = new LinearDataSupporter("AVG fitness");
+//        s2.setOrder(2);
+//        s2.setDiscret(false);
         panel.getMixedPanel().addDataBar(s);
+//        panel.getMixedPanel().addDataBar(s2);
 //        MyLayer<JPanel> layerUI = new ZoomLabeledLayer(panel);
 //        JPanel containerP = new JPanel();
 //        containerP.setLayout(new GridLayout(0, 1));
@@ -100,6 +156,14 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         jLabel3 = new javax.swing.JLabel();
         jLabel_elapsed = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        jCheckBox_AVG = new javax.swing.JCheckBox();
+        jSpinner_avg = new javax.swing.JSpinner();
+        jLabel4 = new javax.swing.JLabel();
+        jCheckBox_validation = new javax.swing.JCheckBox();
+        jCheckBox_kalergi = new javax.swing.JCheckBox();
+        jSpinner_eachNoImprovement = new javax.swing.JSpinner();
+        jSpinner_adv_rate = new javax.swing.JSpinner();
+        jLabel7 = new javax.swing.JLabel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel_nothing = new javax.swing.JPanel();
@@ -118,7 +182,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
 
-        jLabel1.setText("Iterazioni:");
+        jLabel1.setText("Iterations");
 
         jLabel2.setText("Start Fitness");
 
@@ -160,6 +224,55 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         jLabel_elapsed.setText("-");
         jLabel_elapsed.setOpaque(true);
 
+        jCheckBox_AVG.setText("AVG");
+
+        jSpinner_avg.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jSpinner_avg.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        jSpinner_avg.setBorder(null);
+        jSpinner_avg.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner_avgStateChanged(evt);
+            }
+        });
+
+        jLabel4.setText("avg each");
+
+        jCheckBox_validation.setSelected(true);
+        jCheckBox_validation.setText("validate each solution");
+        jCheckBox_validation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_validationActionPerformed(evt);
+            }
+        });
+
+        jCheckBox_kalergi.setSelected(true);
+        jCheckBox_kalergi.setText("Kalergi each: ");
+        jCheckBox_kalergi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_kalergiActionPerformed(evt);
+            }
+        });
+
+        jSpinner_eachNoImprovement.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jSpinner_eachNoImprovement.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        jSpinner_eachNoImprovement.setBorder(null);
+        jSpinner_eachNoImprovement.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner_eachNoImprovementStateChanged(evt);
+            }
+        });
+
+        jSpinner_adv_rate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jSpinner_adv_rate.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        jSpinner_adv_rate.setBorder(null);
+        jSpinner_adv_rate.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner_adv_rateStateChanged(evt);
+            }
+        });
+
+        jLabel7.setText("kalergi %");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -170,12 +283,11 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
                     .addComponent(jSeparator1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel_Iterazioni, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
+                                .addComponent(jLabel_Iterazioni, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel_startFitness, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -186,7 +298,25 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
                                 .addGap(116, 116, 116)
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel_elapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel_elapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jCheckBox1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jCheckBox_AVG)
+                                .addGap(25, 25, 25)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSpinner_avg, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jCheckBox_validation)
+                                .addGap(31, 31, 31)
+                                .addComponent(jCheckBox_kalergi)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSpinner_eachNoImprovement, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSpinner_adv_rate, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -208,7 +338,16 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jCheckBox_AVG)
+                    .addComponent(jSpinner_avg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jCheckBox_validation)
+                    .addComponent(jCheckBox_kalergi)
+                    .addComponent(jSpinner_eachNoImprovement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinner_adv_rate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -228,7 +367,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         jPanel_nothing.setLayout(jPanel_nothingLayout);
         jPanel_nothingLayout.setHorizontalGroup(
             jPanel_nothingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel_runningMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 827, Short.MAX_VALUE)
+            .addComponent(jLabel_runningMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 884, Short.MAX_VALUE)
         );
         jPanel_nothingLayout.setVerticalGroup(
             jPanel_nothingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,13 +397,39 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         //EventManager.getInstance().settingsChanged();
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
+    private void jSpinner_avgStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_avgStateChanged
+        this.avgEach = (Integer) this.jSpinner_avg.getValue();
+    }//GEN-LAST:event_jSpinner_avgStateChanged
+
+    private void jCheckBox_validationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_validationActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox_validationActionPerformed
+
+    private void jSpinner_eachNoImprovementStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_eachNoImprovementStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSpinner_eachNoImprovementStateChanged
+
+    private void jSpinner_adv_rateStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_adv_rateStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSpinner_adv_rateStateChanged
+
+    private void jCheckBox_kalergiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_kalergiActionPerformed
+        this.jSpinner_adv_rate.setEnabled(this.jCheckBox_kalergi.isSelected());
+        this.jSpinner_eachNoImprovement.setEnabled(this.jCheckBox_kalergi.isSelected());
+    }//GEN-LAST:event_jCheckBox_kalergiActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox_AVG;
+    private javax.swing.JCheckBox jCheckBox_kalergi;
+    private javax.swing.JCheckBox jCheckBox_validation;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel_Iterazioni;
     private javax.swing.JLabel jLabel_currentFitness;
     private javax.swing.JLabel jLabel_elapsed;
@@ -276,6 +441,9 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane_solutionContainer;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSpinner jSpinner_adv_rate;
+    private javax.swing.JSpinner jSpinner_avg;
+    private javax.swing.JSpinner jSpinner_eachNoImprovement;
     private javax.swing.JSplitPane jSplitPane1;
     // End of variables declaration//GEN-END:variables
 
@@ -288,7 +456,8 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         this.jLabel_startFitness.setText("" + initialFitness + " ");
         this.jLabel_currentFitness.setText("<html><font color = red>" + initialFitness + "</font>");
         panel.getMixedPanel().clearLinearDataBar("Soluzione");
-        TimeValueSupporterClass ds1 = new TimeValueSupporterClass(initialFitness, "Soluzione", new Date(x));
+        panel.getMixedPanel().setNowLineVisible(true);
+        TimeValueSupporterClass ds1 = new TimeValueSupporterClass(initialFitness, "Best Fitness", new Date(x));
         try {
             panel.getMixedPanel().addLinearData("Soluzione", ds1, true);
         } catch (TypeDataMismatchException ex) {
@@ -298,14 +467,15 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         this.jSplitPane1.setLeftComponent(this.jPanel_nothing);
         this.jLabel_runningMessage.setForeground(Color.YELLOW);
         this.jLabel_runningMessage.setText("Calculating new solution..");
-        
+
     }
 
     @Override
     public void end(JobIndividual bestone) {
-        System.out.println("<<SOLUTION with finess: "+bestone.getFitness()+" >>");
+
+        System.out.println("<<SOLUTION with finess: " + bestone.getFitness() + " >>");
         System.out.println(bestone);
-        
+
         long elapsedTime = GeneticManipulator.getInstance().getElapsedTime();
         String formatDuration = DurationFormatUtils.formatDuration(elapsedTime, "HH:mm:ss.S");
         this.jLabel_elapsed.setText(formatDuration);
@@ -316,6 +486,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         node.addChild(new DataNode(bestone.getMachinesSelected(), TreeTableCellRenderer.HTML_DEOCORATION_2 + "machines"));
         node.addChild(new DataNode(ArrayUtils.toObject(bestone.getComplationArray()), TreeTableCellRenderer.HTML_DEOCORATION_2 + "completion"));
         root.addChild(node);
+
         AbstractTreeTableModel treeTableModel = new DataModel(root);
         final TreeTable solutionTreeTable = new TreeTable(treeTableModel);
         solutionTreeTable.getColumnModel().getColumn(0).setMinWidth(140);
@@ -340,21 +511,36 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
 
             });
         }
+        solutionTreeTable.expandRoot();
         this.jScrollPane_solutionContainer.setViewportView(solutionTreeTable);
         this.jSplitPane1.setLeftComponent(this.jPanel_Solution);
 
     }
 
     @Override
-    public void newImprovement(int newFitness) {
+    public void newImprovement(JobIndividual bestone, int newFitness) {
         this.currentFitness = newFitness;
         this.jLabel_currentFitness.setText("" + newFitness + " ");
-        TimeValueSupporterClass ds1 = new TimeValueSupporterClass(newFitness, "Soluzione", new Date(x));
+        TimeValueSupporterClass ds1 = new TimeValueSupporterClass(newFitness, "Best Fitness", new Date(x));
         try {
             panel.getMixedPanel().addLinearData("Soluzione", ds1, true);
         } catch (TypeDataMismatchException ex) {
             ex.printStackTrace();
         }
+        if (!GeneticManipulator.getInstance().validateSolution(bestone)) {
+            this.jLabel_runningMessage.setText("Soluzione invalida. Algoritmo interrotto.");
+            System.out.println("SOLUZIONE INVALIDA: ");
+            System.out.println("FITNESS: " + bestone.getFitness());
+            System.out.println(bestone);
+            System.out.println("--------------------------------------------------------------------");
+            GeneticManipulator.getInstance().interrupt();
+
+            JOptionPane.showMessageDialog(null, "La soluzione non è valida. ", "Errore", JOptionPane.ERROR_MESSAGE);
+
+        } else {
+            System.out.println("[OK] SOLUZIONE VALIDA A FITNESS: " + bestone.getFitness());
+        }
+        // panel.getMixedPanel().addICVAnnotation(new ICVAnnotation("Soluzione", x, "" + x, true));
 
     }
 
@@ -363,6 +549,21 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         cycle++;
         this.jLabel_Iterazioni.setText(cycle + "/" + Settings.getInstance().getMaxIteration() + " ");
         x = cycle;
+        panel.getMixedPanel().setFloatableNow(x);
 
+    }
+
+    @Override
+    public void newAVG(int avg) {
+        if (this.jCheckBox_AVG.isSelected()) {
+            if (x % this.avgEach == 0) {
+                TimeValueSupporterClass ds1 = new TimeValueSupporterClass(avg, "AVG Fitness", new Date(x));
+                try {
+                    panel.getMixedPanel().addLinearData("Soluzione", ds1, true);
+                } catch (TypeDataMismatchException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
     }
 }

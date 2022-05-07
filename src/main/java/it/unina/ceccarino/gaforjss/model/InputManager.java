@@ -178,6 +178,7 @@ public class InputManager {
         for (int jobTypeIndex = 1; jobTypeIndex <= JOB_TYPE_SIZE; jobTypeIndex++) {
 //            System.out.println("JOB TYPE: "+jobTypeIndex);
             for (int j = 0; j < this.jobQuantityMap.get(jobTypeIndex) * SEQUENCE_SIZE; j++) {
+//                System.out.println("qui");
                 int randomIndex = Utils.randomInRange(0, freePositions.size());
 //                System.out.println("randomIndex = "+randomIndex);
                 jobPermutationArray[freePositions.get(randomIndex)] = jobTypeIndex;
@@ -270,6 +271,7 @@ public class InputManager {
         //2 1 1 1 1 1 1 1 1 1   = 10
 
         JOB_TOTAL_QUANTITY = 0;
+        jobQuantityMap.clear();
         for (JobType jobType : jobTypes) {
             jobQuantityMap.put(jobType.getType(), 1);
             JOB_TOTAL_QUANTITY++;

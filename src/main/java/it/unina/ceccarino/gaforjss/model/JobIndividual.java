@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  *
  */
-public class JobIndividual implements Comparable<JobIndividual> {
+public class JobIndividual implements Comparable<JobIndividual>, Cloneable {
 
     //primo array Job permutation ,viene costruita una stringa di lunghezza
     // pari al numero di job generati x 6 (numero di operazioni per ogni job)
@@ -40,6 +40,8 @@ public class JobIndividual implements Comparable<JobIndividual> {
     private boolean kid = false;
     private boolean parent = false;
     private boolean immune = false;
+    private boolean experimental = false;
+    private boolean kalergi = false;
 
     public JobIndividual(int[] jobPermutation, int[] operationSequence, Machine[] machinesSelected) {
         this.jobPermutation = jobPermutation;
@@ -49,13 +51,40 @@ public class JobIndividual implements Comparable<JobIndividual> {
 
     }
     
+    private  JobIndividual(int[] jobPermutation, int[] operationSequence, Machine[] machinesSelected, int[] completionArray) {
+        this.jobPermutation = jobPermutation;
+        this.operationSequence = operationSequence;
+        this.machinesSelected = machinesSelected;
+        this.completionArray = completionArray;
+
+    }
+    
     public void resetFlags(){
         this.mutated = false;
         this.kid = false;
         this.parent = false;
         this.immune = false;
+        this.experimental = false;
+        this.kalergi = false;
     }
 
+    public boolean isKalergi() {
+        return kalergi;
+    }
+
+    public void setKalergi(boolean kalergi) {
+        this.kalergi = kalergi;
+    }
+
+    public void setExperimental(boolean experimental) {
+        this.experimental = experimental;
+    }
+
+    public boolean isExperimental() {
+        return experimental;
+    }
+
+    
     public void setMutated(boolean mutated) {
         this.mutated = mutated;
     }
@@ -134,9 +163,10 @@ public class JobIndividual implements Comparable<JobIndividual> {
             int r2 = Utils.randomInRange(0, this.jobPermutation.length);
             int t = this.jobPermutation[r1];
             this.jobPermutation[r1] = this.jobPermutation[r2];
-            this.jobPermutation[r2] = this.jobPermutation[t];
+            this.jobPermutation[r2] = t;
         }
         this.mutated = true;
+        update();
         //QUESTION: devo richiamare la #initCompletionArray ? 
     }
 
@@ -275,6 +305,22 @@ public class JobIndividual implements Comparable<JobIndividual> {
         
         return print;
     }
+
+    @Override
+    public Object clone() {
+        int [] job2 = new int[jobPermutation.length];
+        System.arraycopy(jobPermutation, 0, job2, 0, jobPermutation.length);
+        int [] operation2 = new int[operationSequence.length];
+        System.arraycopy(operationSequence, 0, operation2, 0, operationSequence.length);
+        Machine [] machine2 = new Machine[machinesSelected.length];
+        System.arraycopy(machinesSelected, 0, machine2, 0, machinesSelected.length);
+        int [] completion2 = new int[completionArray.length];
+        System.arraycopy(completionArray, 0, completion2, 0, completionArray.length);
+        JobIndividual clone = new JobIndividual(job2, operation2, machine2, completion2);
+        return clone;
+    }
+    
+    
 
     
     

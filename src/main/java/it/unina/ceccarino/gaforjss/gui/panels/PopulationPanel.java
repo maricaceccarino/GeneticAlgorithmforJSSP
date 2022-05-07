@@ -304,7 +304,7 @@ public class PopulationPanel extends javax.swing.JPanel implements SolutionListe
     }
 
     @Override
-    public void newImprovement(int newFitness) {
+    public void newImprovement(JobIndividual bestone,int newFitness) {
     }
 
     @Override
@@ -359,5 +359,10 @@ public class PopulationPanel extends javax.swing.JPanel implements SolutionListe
 
     @Override
     public void backToDefault() {
+    }
+
+    @Override
+    public void newAVG(int avg) {
+       
     }
 }
