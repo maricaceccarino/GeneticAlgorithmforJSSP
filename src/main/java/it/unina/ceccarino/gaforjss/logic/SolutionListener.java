@@ -22,4 +22,6 @@ public interface SolutionListener {
     
     public void newAVG(int avg);
     
+    public void kalergi();
+    
 }

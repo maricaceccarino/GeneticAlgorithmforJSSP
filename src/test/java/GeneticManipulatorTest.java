@@ -15,7 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.ArgumentMatchers;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.MockedConstruction;
@@ -31,6 +34,8 @@ import static org.mockito.Mockito.when;
  *
  * @author sommovir
  */
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+//@Disabled
 public class GeneticManipulatorTest {
 
     public GeneticManipulatorTest() {
@@ -89,7 +94,7 @@ public class GeneticManipulatorTest {
 //
 //    }
     @Test
-    public void testEvict() {
+    public void test_1A_Evict() {
 
         JobIndividual[] array = new JobIndividual[10];
 
@@ -103,7 +108,7 @@ public class GeneticManipulatorTest {
     }
 
     @Test
-    public void testEvictAndShrink() {
+    public void test_2A_EvictAndShrink() {
 
         JobIndividual[] array = new JobIndividual[10];
 
@@ -120,7 +125,7 @@ public class GeneticManipulatorTest {
     }
 
     @Test
-    public void testValidateSolution() {
+    public void test_3A_ValidateSolution() {
         try {
             int N = 14;
             Settings.getInstance().setMaxJobOveralQuantity(N);
@@ -160,7 +165,7 @@ public class GeneticManipulatorTest {
     }
 
     @Test
-    public void testCrossover() {
+    public void test_4A_Crossover() {
 
         JobIndividual dad = InputManager.getInstance().generateJobIndividual();
         JobIndividual mum = InputManager.getInstance().generateJobIndividual();
@@ -179,7 +184,7 @@ public class GeneticManipulatorTest {
     }
     
     @Test
-    public void testMutation(){
+    public void test_5A_Mutation(){
         JobIndividual mutante = InputManager.getInstance().generateJobIndividual();
         mutante.swap(1);
         

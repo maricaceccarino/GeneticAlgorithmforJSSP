@@ -25,6 +25,7 @@ public class Settings {
     private boolean kalergi = false;
     private int kalergi_each = 50; //numero di turni senza alcun miglioramento
     private int kalergi_injection_rate = 10; //percentuale di individui esterni rigenerati. 
+    private boolean needResetPopulation = true;
 
     public static Settings getInstance() {
         if (_instance == null) {
@@ -36,6 +37,14 @@ public class Settings {
 
     private Settings() {
         super();
+    }
+
+    public boolean isNeedResetPopulation() {
+        return needResetPopulation;
+    }
+
+    public void setNeedResetPopulation(boolean needResetPopulation) {
+        this.needResetPopulation = needResetPopulation;
     }
 
     public void setVerbose(boolean verbose) {

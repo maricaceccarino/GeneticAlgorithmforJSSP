@@ -16,6 +16,7 @@ import it.unina.ceccarino.gaforjss.logic.EventManager;
 import it.unina.ceccarino.gaforjss.logic.SolutionListener;
 import it.unina.ceccarino.gaforjss.model.InputManager;
 import it.unina.ceccarino.gaforjss.model.JobIndividual;
+import it.unina.ceccarino.gaforjss.model.Settings;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -200,6 +201,7 @@ public class PopulationPanel extends javax.swing.JPanel implements SolutionListe
     }//GEN-LAST:event_jButton_runActionPerformed
 
     private void jButton_GenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_GenerateActionPerformed
+        Settings.getInstance().setNeedResetPopulation(true);
         EventManager.getInstance().generationStarted();
         this.jPanel_Container.removeAll();
 
@@ -364,5 +366,9 @@ public class PopulationPanel extends javax.swing.JPanel implements SolutionListe
     @Override
     public void newAVG(int avg) {
        
+    }
+
+    @Override
+    public void kalergi() {
     }
 }

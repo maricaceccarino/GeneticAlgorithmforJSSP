@@ -38,9 +38,12 @@ public class Population {
 
     public Population(int size) {
         this.size = size;
-        individuals = new JobIndividual[size];
-        for (int i = 0; i < size; i++) {
-            individuals[i] = InputManager.getInstance().generateJobIndividual();
+        if (individuals == null || Settings.getInstance().isNeedResetPopulation()) {
+            individuals = new JobIndividual[size];
+            for (int i = 0; i < size; i++) {
+                individuals[i] = InputManager.getInstance().generateJobIndividual();
+            }
+            Settings.getInstance().setNeedResetPopulation(false);
         }
     }
 
@@ -51,8 +54,6 @@ public class Population {
     public int getElectedIndex() {
         return electedIndex;
     }
-
-   
 
 //    public static void main(String[] args) {
 //        try {
@@ -92,5 +93,4 @@ public class Population {
 ////            assertTrue(false, "Non dovrebbe lanciare eccezione con parametri tra 0 e 100");
 //        }
 //    }
-
 }

@@ -90,5 +90,11 @@ public class EventManager {
             solutionListener.newAVG(avg);
         }
     }
+    
+    public void kalergi(){
+        for (SolutionListener solutionListener : solutionListeners) {
+            solutionListener.kalergi();
+        }
+    }
 
 }

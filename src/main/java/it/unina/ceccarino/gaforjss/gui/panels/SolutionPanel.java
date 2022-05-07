@@ -6,6 +6,7 @@ package it.unina.ceccarino.gaforjss.gui.panels;
 
 import it.cnr.istc.icv.engine.EmbeddablePanel;
 import it.cnr.istc.icv.exceptions.TypeDataMismatchException;
+import it.cnr.istc.icv.logic.ICVAnnotation;
 import it.cnr.istc.icv.test.LinearDataSupporter;
 import it.cnr.istc.icv.test.TimeValueSupporterClass;
 import it.unina.ceccarino.gaforjss.algo.GeneticManipulator;
@@ -245,7 +246,6 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
             }
         });
 
-        jCheckBox_kalergi.setSelected(true);
         jCheckBox_kalergi.setText("Kalergi each: ");
         jCheckBox_kalergi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -254,8 +254,9 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         });
 
         jSpinner_eachNoImprovement.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jSpinner_eachNoImprovement.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        jSpinner_eachNoImprovement.setModel(new javax.swing.SpinnerNumberModel(100, 10, null, 1));
         jSpinner_eachNoImprovement.setBorder(null);
+        jSpinner_eachNoImprovement.setEnabled(false);
         jSpinner_eachNoImprovement.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSpinner_eachNoImprovementStateChanged(evt);
@@ -263,8 +264,9 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         });
 
         jSpinner_adv_rate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jSpinner_adv_rate.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        jSpinner_adv_rate.setModel(new javax.swing.SpinnerNumberModel(10, 1, 50, 1));
         jSpinner_adv_rate.setBorder(null);
+        jSpinner_adv_rate.setEnabled(false);
         jSpinner_adv_rate.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSpinner_adv_rateStateChanged(evt);
@@ -406,14 +408,15 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
     }//GEN-LAST:event_jCheckBox_validationActionPerformed
 
     private void jSpinner_eachNoImprovementStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_eachNoImprovementStateChanged
-        // TODO add your handling code here:
+        Settings.getInstance().setKalergiEach((Integer)this.jSpinner_eachNoImprovement.getValue());
     }//GEN-LAST:event_jSpinner_eachNoImprovementStateChanged
 
     private void jSpinner_adv_rateStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_adv_rateStateChanged
-        // TODO add your handling code here:
+        Settings.getInstance().setKalergiInjectionRate((Integer)this.jSpinner_adv_rate.getValue());
     }//GEN-LAST:event_jSpinner_adv_rateStateChanged
 
     private void jCheckBox_kalergiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_kalergiActionPerformed
+        Settings.getInstance().setKalergi(jCheckBox_kalergi.isSelected());
         this.jSpinner_adv_rate.setEnabled(this.jCheckBox_kalergi.isSelected());
         this.jSpinner_eachNoImprovement.setEnabled(this.jCheckBox_kalergi.isSelected());
     }//GEN-LAST:event_jCheckBox_kalergiActionPerformed
@@ -565,5 +568,17 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
                 }
             }
         }
+    }
+
+    @Override
+    public void kalergi() {
+        panel.getMixedPanel().addICVAnnotation(new ICVAnnotation(
+                "Soluzione",
+                x,
+                "",
+                new javax.swing.ImageIcon(getClass().getResource("/icons/triangle16.png")).getImage(),
+                16f,
+                ICVAnnotation.DescriptionAlignment.CENTER,
+                true));
     }
 }

@@ -157,6 +157,7 @@ public class InputManager {
      * @return
      */
     public Population generatePopulation() {
+        System.out.println("GNENGNENGEN");
         return new Population(Settings.getInstance().getPopulationSize());
     }
 

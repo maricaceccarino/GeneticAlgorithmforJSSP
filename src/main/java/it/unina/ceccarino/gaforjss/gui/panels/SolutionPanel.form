@@ -282,7 +282,6 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="jCheckBox_kalergi">
           <Properties>
-            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="Kalergi each: "/>
           </Properties>
           <Events>
@@ -295,11 +294,12 @@
               <Font name="Segoe UI" size="12" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-              <SpinnerModel initial="1" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
+              <SpinnerModel initial="100" minimum="10" numberType="java.lang.Integer" stepSize="1" type="number"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSpinner_eachNoImprovementStateChanged"/>
@@ -311,11 +311,12 @@
               <Font name="Segoe UI" size="12" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-              <SpinnerModel initial="1" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
+              <SpinnerModel initial="10" maximum="50" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSpinner_adv_rateStateChanged"/>

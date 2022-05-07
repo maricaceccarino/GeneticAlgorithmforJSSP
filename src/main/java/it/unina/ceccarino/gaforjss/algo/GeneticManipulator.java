@@ -30,6 +30,7 @@ import java.util.Queue;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
+import jdk.jfr.SettingControl;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -46,6 +47,7 @@ public class GeneticManipulator {
     private boolean sorted = false;
     private StopWatch watch = new StopWatch();
     private boolean interrupt = false;
+    private int n_void_turns = 0;
 
     public static GeneticManipulator getInstance() {
         if (_instance == null) {
@@ -62,9 +64,10 @@ public class GeneticManipulator {
         if (this.population == null) {
             throw new GeneticPoolNotLoadedException();
         }
-        if (!sorted) {
-            throw new NotSortedPopulationException();
-        }
+//        if (!sorted) {
+//            throw new NotSortedPopulationException();
+//        }
+        Arrays.sort(this.population.getIndividuals());
         System.out.println("<INITIAL POPULATION SIZE> " + this.population.getIndividuals().length);
 
         int comfirm = JOptionPane.showConfirmDialog(null, "Vuoi veramente iniziare l'esperimento con " + Settings.getInstance().getMaxIteration() + " iterazioni ?", "Conferma Esecuzione", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -79,15 +82,35 @@ public class GeneticManipulator {
                 watch.reset();
                 watch.start();
                 int currentFitness = population.getIndividuals()[0].getFitness();
+                System.out.println("[CHECK]");
+                System.out.println("size of pop: " + population.getIndividuals().length);
+                for (JobIndividual individual : population.getIndividuals()) {
+                    String mutated = individual.isMutated() ? "mutated" : "";
+                    String kid = individual.isKid() ? "kid" : "";
+                    String parent = individual.isParent() ? "parent" : "";
+                    String immune = individual.isImmune() ? "immune" : "";
+                    String experimental = individual.isExperimental() ? "experimental" : "";
+
+//                    if (Settings.getInstance().isVerbose()) {
+                    System.out.println(individual.getFitness() + " " + mutated + " " + kid + " " + parent + " " + immune + " " + experimental);
+//                    }
+                }
+                System.out.println("[CHECK]");
                 EventManager.getInstance().startsSimulation(currentFitness);
 
-                JobIndividual[] POPULATION = Arrays.copyOf(population.getIndividuals(), population.getIndividuals().length);
+                JobIndividual[] POPULATION = new JobIndividual[population.getIndividuals().length];
+                int ip = 0;
+                for (JobIndividual individual : population.getIndividuals()) {
+                    POPULATION[ip] = (JobIndividual) population.getIndividuals()[ip].clone();
+                    ip++;
+                }
 
+                //Arrays.copyOf(population.getIndividuals(), population.getIndividuals().length);
                 int maxIteration = Settings.getInstance().getMaxIteration();
 
                 for (int k = 0; k < maxIteration; k++) {
-                    
-                    if(interrupt){
+
+                    if (interrupt) {
                         watch.stop();
                         System.out.println("<<<<< INTERRUPTED >>>>>");
                         return;
@@ -184,20 +207,17 @@ public class GeneticManipulator {
 
                     Collections.sort(resultPopulation);
 
-                    int avg = 0;
                     for (JobIndividual jobIndividual : resultPopulation) {
                         String mutated = jobIndividual.isMutated() ? "mutated" : "";
                         String kid = jobIndividual.isKid() ? "kid" : "";
                         String parent = jobIndividual.isParent() ? "parent" : "";
                         String immune = jobIndividual.isImmune() ? "immune" : "";
                         String experimental = jobIndividual.isExperimental() ? "experimental" : "";
-                        avg += jobIndividual.getFitness();
+
                         if (Settings.getInstance().isVerbose()) {
                             System.out.println(jobIndividual.getFitness() + " " + mutated + " " + kid + " " + parent + " " + immune + " " + experimental);
                         }
                     }
-                    avg /= resultPopulation.size();
-                    EventManager.getInstance().newAVG(avg);
 
                     if (Settings.getInstance().isVerbose()) {
                         System.out.println("--- end swap worst population with crossover result ---");
@@ -211,18 +231,47 @@ public class GeneticManipulator {
                         System.out.println(" NEW GENERATIONS (" + resultPopulation.size() + ")");
                     }
 
-                    if (Settings.getInstance().isVerbose()) {
-                        for (JobIndividual jobIndividual : resultPopulation) {
-                            String mutated = jobIndividual.isMutated() ? "mutated" : "";
-                            String kid = jobIndividual.isKid() ? "kid" : "";
-                            String parent = jobIndividual.isParent() ? "parent" : "";
-                            String immune = jobIndividual.isImmune() ? "immune" : "";
-                            String experimental = jobIndividual.isExperimental() ? "experimental" : "";
+                    int avg = 0;
 
+                    for (JobIndividual jobIndividual : resultPopulation) {
+                        avg += jobIndividual.getFitness();
+                        String mutated = jobIndividual.isMutated() ? "mutated" : "";
+                        String kid = jobIndividual.isKid() ? "kid" : "";
+                        String parent = jobIndividual.isParent() ? "parent" : "";
+                        String immune = jobIndividual.isImmune() ? "immune" : "";
+                        String experimental = jobIndividual.isExperimental() ? "experimental" : "";
+                        if (Settings.getInstance().isVerbose()) {
                             System.out.println(jobIndividual.getFitness() + " " + mutated + " " + kid + " " + parent + " " + immune + " " + experimental);
-
                         }
                     }
+
+                    int externalPopulationSize = 0;
+                    if (Settings.getInstance().isKalergi()) {
+                        if (n_void_turns >= Settings.getInstance().getKalergiEach()) {
+//                            if (Settings.getInstance().isVerbose()) {
+                            System.out.println("[Kalergi][START]");
+//                            }
+                            externalPopulationSize = (Settings.getInstance().getPopulationSize() * Settings.getInstance().getKalergiInjectionRate()) / 100;  //ext : size = % : 100
+                            ArrayList<JobIndividual> externalPop = new ArrayList<>();
+                            for (int i = 0; i < externalPopulationSize; i++) {
+                                JobIndividual kal = InputManager.getInstance().generateJobIndividual();
+                                kal.setKalergi(true);
+                                avg += kal.getFitness();
+                                externalPop.add(kal);
+                                avg -= POPULATION[POPULATION.length - (i + 1)].getFitness();
+                                avg += kal.getFitness();
+                                POPULATION[POPULATION.length - (i + 1)] = kal;
+                            }
+
+                            EventManager.getInstance().kalergi();
+//                            if (Settings.getInstance().isVerbose()) {
+                            System.out.println("[Kalergi][END]");
+//                            }
+                            n_void_turns = 0;
+                        }
+                    }
+                    avg /= (resultPopulation.size());
+                    EventManager.getInstance().newAVG(avg);
 
                     int z = 0;
                     if (Settings.getInstance().isVerbose()) {
@@ -237,12 +286,15 @@ public class GeneticManipulator {
                     int newFitness = POPULATION[0].getFitness();
                     if (newFitness < currentFitness) {
                         currentFitness = newFitness;
-                        EventManager.getInstance().newImprovement(POPULATION[0],newFitness);
+                        n_void_turns = 0;
+                        EventManager.getInstance().newImprovement(POPULATION[0], newFitness);
+                    } else {
+                        n_void_turns++;
                     }
 
                 }
                 watch.stop();
-
+                n_void_turns = 0;
                 EventManager.getInstance().end(POPULATION[0]);
             }
         });
@@ -524,7 +576,7 @@ public class GeneticManipulator {
                     occ++;
                 }
             }
-            if (occ != entry.getValue()*6) {
+            if (occ != entry.getValue() * 6) {
                 return false;
             }
         }
@@ -547,7 +599,7 @@ public class GeneticManipulator {
     }
 
     public void interrupt() {
-       this.interrupt = true;
+        this.interrupt = true;
     }
 
 }

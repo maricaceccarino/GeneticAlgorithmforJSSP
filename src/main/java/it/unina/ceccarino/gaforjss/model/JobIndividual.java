@@ -33,8 +33,8 @@ public class JobIndividual implements Comparable<JobIndividual>, Cloneable {
     //essere realizzata solo su una determinata macchina,il valore con cui si 
     // riempie la cella è deciso.
     private Machine[] machinesSelected;
-    private static int N = JOB_TOTAL_QUANTITY * SEQUENCE_SIZE;
-    private int[] completionArray = new int[N];
+//    private static int N = JOB_TOTAL_QUANTITY * SEQUENCE_SIZE;
+    private int[] completionArray;
 
     private boolean mutated = false;
     private boolean kid = false;
@@ -47,6 +47,8 @@ public class JobIndividual implements Comparable<JobIndividual>, Cloneable {
         this.jobPermutation = jobPermutation;
         this.operationSequence = operationSequence;
         this.machinesSelected = machinesSelected;
+        int N = Settings.getInstance().getMaxJobOveralQuantity()*SEQUENCE_SIZE;
+        this.completionArray = new int[N];
         initCompletionArray();
 
     }
@@ -103,11 +105,13 @@ public class JobIndividual implements Comparable<JobIndividual>, Cloneable {
 
     //constructor for newborn baby
     public JobIndividual() {
+        int N = Settings.getInstance().getMaxJobOveralQuantity()*SEQUENCE_SIZE;
         this.jobPermutation = new int[N];
     }
 
     //aggiorna tutti gli altri array partendo dal jobPermutation
     public void update() {
+        int N = Settings.getInstance().getMaxJobOveralQuantity()*SEQUENCE_SIZE;
         this.operationSequence = new int[N];
         this.machinesSelected = new Machine[N];
         Map<Integer, Integer> positionMap = new HashMap<>();
@@ -190,7 +194,7 @@ public class JobIndividual implements Comparable<JobIndividual>, Cloneable {
         for (int i = 1; i <= JOB_TYPE_SIZE; i++) {
             previousJobStepEndTimeMap.put(i, 0);
         }
-
+        int N = Settings.getInstance().getMaxJobOveralQuantity()*SEQUENCE_SIZE;
         for (int i = 0; i < N; i++) {
 //            if(i == 10){
 //                break;
