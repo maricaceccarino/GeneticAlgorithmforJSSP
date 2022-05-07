@@ -108,9 +108,9 @@ public class GeneticManipulator {
                         immunesClones[i].setExperimental(true);
                         immunesClones[i].setMutated(true);
                         if (i < immunesClones.length / 2) {
-                            immunesClones[i].swap(15);
+                            immunesClones[i].swap(1);
                         } else {
-                            immunesClones[i].swap(40);
+                            immunesClones[i].swap(10);
                         }
                     }
 
