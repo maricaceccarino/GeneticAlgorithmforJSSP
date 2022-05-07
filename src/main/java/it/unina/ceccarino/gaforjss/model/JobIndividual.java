@@ -41,6 +41,7 @@ public class JobIndividual implements Comparable<JobIndividual>, Cloneable {
     private boolean parent = false;
     private boolean immune = false;
     private boolean experimental = false;
+    private boolean kalergi = false;
 
     public JobIndividual(int[] jobPermutation, int[] operationSequence, Machine[] machinesSelected) {
         this.jobPermutation = jobPermutation;
@@ -64,6 +65,15 @@ public class JobIndividual implements Comparable<JobIndividual>, Cloneable {
         this.parent = false;
         this.immune = false;
         this.experimental = false;
+        this.kalergi = false;
+    }
+
+    public boolean isKalergi() {
+        return kalergi;
+    }
+
+    public void setKalergi(boolean kalergi) {
+        this.kalergi = kalergi;
     }
 
     public void setExperimental(boolean experimental) {

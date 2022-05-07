@@ -64,6 +64,38 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
                 });
             }
         }
+        final JComponent editor2 = this.jSpinner_eachNoImprovement.getEditor();
+        int c2 = editor2.getComponentCount();
+        for (int i = 0; i < c2; i++) {
+            final Component comp = editor2.getComponent(i);
+            if (comp instanceof JTextComponent) {
+                ((JTextComponent) comp).setUI(new SynthFormattedTextFieldUI() {
+                    @Override
+                    protected void paint(javax.swing.plaf.synth.SynthContext context, java.awt.Graphics g) {
+                        g.setColor(Color.GRAY);
+                        g.fillRect(0, 0, getComponent().getWidth(), getComponent().getHeight());
+                        super.paint(context, g);
+                    }
+                });
+            }
+        }
+
+        final JComponent editor3 = this.jSpinner_adv_rate.getEditor();
+        int c3 = editor3.getComponentCount();
+        for (int i = 0; i < c3; i++) {
+            final Component comp = editor3.getComponent(i);
+            if (comp instanceof JTextComponent) {
+                ((JTextComponent) comp).setUI(new SynthFormattedTextFieldUI() {
+                    @Override
+                    protected void paint(javax.swing.plaf.synth.SynthContext context, java.awt.Graphics g) {
+                        g.setColor(Color.GRAY);
+                        g.fillRect(0, 0, getComponent().getWidth(), getComponent().getHeight());
+                        super.paint(context, g);
+                    }
+                });
+            }
+        }
+
         EventManager.getInstance().addSolutionListener(this);
         panel.getMixedPanel().LEFT_MARGIN = 40;
         panel.getMixedPanel().setStartRange(0);
@@ -76,10 +108,10 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
 
         LinearDataSupporter s = new LinearDataSupporter("Soluzione");
         s.setColorToSubChart("Best Fitness", Color.RED);
-        s.setColorToSubChart("AVG fitness", Color.BLUE);
+        s.setColorToSubChart("AVG Fitness", Color.BLUE);
         s.setDotVisible(true);
         s.setSubChartWithDots("Best Fitness", true);
-        s.setSubChartWithDots("AVG fitness", false);
+        s.setSubChartWithDots("AVG Fitness", false);
         s.setOrder(1);
         s.setDiscret(false);
 //        s.setMaxValueToShow(10);
@@ -128,6 +160,10 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         jSpinner_avg = new javax.swing.JSpinner();
         jLabel4 = new javax.swing.JLabel();
         jCheckBox_validation = new javax.swing.JCheckBox();
+        jCheckBox_kalergi = new javax.swing.JCheckBox();
+        jSpinner_eachNoImprovement = new javax.swing.JSpinner();
+        jSpinner_adv_rate = new javax.swing.JSpinner();
+        jLabel7 = new javax.swing.JLabel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel_nothing = new javax.swing.JPanel();
@@ -202,12 +238,40 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         jLabel4.setText("avg each");
 
         jCheckBox_validation.setSelected(true);
-        jCheckBox_validation.setText("validation for each solution");
+        jCheckBox_validation.setText("validate each solution");
         jCheckBox_validation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox_validationActionPerformed(evt);
             }
         });
+
+        jCheckBox_kalergi.setSelected(true);
+        jCheckBox_kalergi.setText("Kalergi each: ");
+        jCheckBox_kalergi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_kalergiActionPerformed(evt);
+            }
+        });
+
+        jSpinner_eachNoImprovement.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jSpinner_eachNoImprovement.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        jSpinner_eachNoImprovement.setBorder(null);
+        jSpinner_eachNoImprovement.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner_eachNoImprovementStateChanged(evt);
+            }
+        });
+
+        jSpinner_adv_rate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jSpinner_adv_rate.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        jSpinner_adv_rate.setBorder(null);
+        jSpinner_adv_rate.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner_adv_rateStateChanged(evt);
+            }
+        });
+
+        jLabel7.setText("kalergi %");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -220,20 +284,10 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jCheckBox1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jCheckBox_AVG)
-                                .addGap(25, 25, 25)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSpinner_avg, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jCheckBox_validation))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel_Iterazioni, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
+                                .addComponent(jLabel_Iterazioni, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel_startFitness, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -244,7 +298,25 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
                                 .addGap(116, 116, 116)
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel_elapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel_elapsed, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jCheckBox1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jCheckBox_AVG)
+                                .addGap(25, 25, 25)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSpinner_avg, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jCheckBox_validation)
+                                .addGap(31, 31, 31)
+                                .addComponent(jCheckBox_kalergi)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSpinner_eachNoImprovement, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSpinner_adv_rate, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -271,7 +343,11 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
                     .addComponent(jCheckBox_AVG)
                     .addComponent(jSpinner_avg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(jCheckBox_validation))
+                    .addComponent(jCheckBox_validation)
+                    .addComponent(jCheckBox_kalergi)
+                    .addComponent(jSpinner_eachNoImprovement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinner_adv_rate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -291,7 +367,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         jPanel_nothing.setLayout(jPanel_nothingLayout);
         jPanel_nothingLayout.setHorizontalGroup(
             jPanel_nothingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel_runningMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 827, Short.MAX_VALUE)
+            .addComponent(jLabel_runningMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 884, Short.MAX_VALUE)
         );
         jPanel_nothingLayout.setVerticalGroup(
             jPanel_nothingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,16 +405,31 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox_validationActionPerformed
 
+    private void jSpinner_eachNoImprovementStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_eachNoImprovementStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSpinner_eachNoImprovementStateChanged
+
+    private void jSpinner_adv_rateStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_adv_rateStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSpinner_adv_rateStateChanged
+
+    private void jCheckBox_kalergiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_kalergiActionPerformed
+        this.jSpinner_adv_rate.setEnabled(this.jCheckBox_kalergi.isSelected());
+        this.jSpinner_eachNoImprovement.setEnabled(this.jCheckBox_kalergi.isSelected());
+    }//GEN-LAST:event_jCheckBox_kalergiActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox_AVG;
+    private javax.swing.JCheckBox jCheckBox_kalergi;
     private javax.swing.JCheckBox jCheckBox_validation;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel_Iterazioni;
     private javax.swing.JLabel jLabel_currentFitness;
     private javax.swing.JLabel jLabel_elapsed;
@@ -350,7 +441,9 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane_solutionContainer;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSpinner jSpinner_adv_rate;
     private javax.swing.JSpinner jSpinner_avg;
+    private javax.swing.JSpinner jSpinner_eachNoImprovement;
     private javax.swing.JSplitPane jSplitPane1;
     // End of variables declaration//GEN-END:variables
 
@@ -441,7 +534,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
             System.out.println(bestone);
             System.out.println("--------------------------------------------------------------------");
             GeneticManipulator.getInstance().interrupt();
-             
+
             JOptionPane.showMessageDialog(null, "La soluzione non è valida. ", "Errore", JOptionPane.ERROR_MESSAGE);
 
         } else {
@@ -464,7 +557,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
     public void newAVG(int avg) {
         if (this.jCheckBox_AVG.isSelected()) {
             if (x % this.avgEach == 0) {
-                TimeValueSupporterClass ds1 = new TimeValueSupporterClass(avg, "AVG fitness", new Date(x));
+                TimeValueSupporterClass ds1 = new TimeValueSupporterClass(avg, "AVG Fitness", new Date(x));
                 try {
                     panel.getMixedPanel().addLinearData("Soluzione", ds1, true);
                 } catch (TypeDataMismatchException ex) {
