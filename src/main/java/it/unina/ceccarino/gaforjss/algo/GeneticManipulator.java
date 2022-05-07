@@ -45,6 +45,7 @@ public class GeneticManipulator {
     private Population population;
     private boolean sorted = false;
     private StopWatch watch = new StopWatch();
+    private boolean interrupt = false;
 
     public static GeneticManipulator getInstance() {
         if (_instance == null) {
@@ -57,6 +58,7 @@ public class GeneticManipulator {
      * main method which launch the whole experiment
      */
     public void launch() throws Exception {
+        this.interrupt = false;
         if (this.population == null) {
             throw new GeneticPoolNotLoadedException();
         }
@@ -84,6 +86,12 @@ public class GeneticManipulator {
                 int maxIteration = Settings.getInstance().getMaxIteration();
 
                 for (int k = 0; k < maxIteration; k++) {
+                    
+                    if(interrupt){
+                        watch.stop();
+                        System.out.println("<<<<< INTERRUPTED >>>>>");
+                        return;
+                    }
 
                     EventManager.getInstance().nextCycle(k);
 
@@ -93,22 +101,21 @@ public class GeneticManipulator {
                     }
 
                     //creo un array di dimensione doppia rispetto al numero di immuni
-                    JobIndividual[] immunesClones = new JobIndividual[immunes.length*2];
+                    JobIndividual[] immunesClones = new JobIndividual[immunes.length * 2];
                     for (int i = 0; i < immunesClones.length; i++) {
-                        immunesClones[i] = (JobIndividual)POPULATION[0].clone();
-                        
+                        immunesClones[i] = (JobIndividual) POPULATION[0].clone();
+
                         immunesClones[i].setExperimental(true);
                         immunesClones[i].setMutated(true);
-                        if(i<immunesClones.length/2){
+                        if (i < immunesClones.length / 2) {
                             immunesClones[i].swap(15);
-                        }else{
+                        } else {
                             immunesClones[i].swap(40);
                         }
                     }
-                    
 
                     JobIndividual[] normalPeople = evict(POPULATION, immunes.length);
-                    
+
                     Collections.shuffle(Arrays.asList(normalPeople));
 
                     Pair<JobIndividual[], JobIndividual[]> crossoverPoolPair = evictAndShrink(normalPeople, getPeopleSizeForCrossoverSize());
@@ -183,13 +190,13 @@ public class GeneticManipulator {
                         String kid = jobIndividual.isKid() ? "kid" : "";
                         String parent = jobIndividual.isParent() ? "parent" : "";
                         String immune = jobIndividual.isImmune() ? "immune" : "";
-                        String experimental = jobIndividual.isExperimental()? "experimental" : "";
-                        avg+=jobIndividual.getFitness();
+                        String experimental = jobIndividual.isExperimental() ? "experimental" : "";
+                        avg += jobIndividual.getFitness();
                         if (Settings.getInstance().isVerbose()) {
                             System.out.println(jobIndividual.getFitness() + " " + mutated + " " + kid + " " + parent + " " + immune + " " + experimental);
                         }
                     }
-                    avg/=resultPopulation.size();
+                    avg /= resultPopulation.size();
                     EventManager.getInstance().newAVG(avg);
 
                     if (Settings.getInstance().isVerbose()) {
@@ -210,7 +217,7 @@ public class GeneticManipulator {
                             String kid = jobIndividual.isKid() ? "kid" : "";
                             String parent = jobIndividual.isParent() ? "parent" : "";
                             String immune = jobIndividual.isImmune() ? "immune" : "";
-                            String experimental = jobIndividual.isExperimental()? "experimental" : "";
+                            String experimental = jobIndividual.isExperimental() ? "experimental" : "";
 
                             System.out.println(jobIndividual.getFitness() + " " + mutated + " " + kid + " " + parent + " " + immune + " " + experimental);
 
@@ -230,7 +237,7 @@ public class GeneticManipulator {
                     int newFitness = POPULATION[0].getFitness();
                     if (newFitness < currentFitness) {
                         currentFitness = newFitness;
-                        EventManager.getInstance().newImprovement(newFitness);
+                        EventManager.getInstance().newImprovement(POPULATION[0],newFitness);
                     }
 
                 }
@@ -277,7 +284,6 @@ public class GeneticManipulator {
         JobIndividual[] remaining = new JobIndividual[sizeToEvict];
 
         List<JobIndividual> list = new LinkedList<JobIndividual>(Arrays.asList(initialPopulation));
-        
 
 //        System.out.println("list size: "+list.size());
 //        System.out.println("size to evict : "+sizeToEvict);
@@ -506,6 +512,30 @@ public class GeneticManipulator {
         return baby;
     }
 
+    public boolean validateSolution(JobIndividual solution) {
+
+        Map<Integer, Integer> jobQuantityMap = InputManager.getInstance().getJobQuantityMap();
+        int[] jobPermutation = solution.getJobPermutation();
+
+        for (Map.Entry<Integer, Integer> entry : jobQuantityMap.entrySet()) {
+            int occ = 0;
+            for (int i : jobPermutation) {
+                if (i == entry.getKey()) {
+                    occ++;
+                }
+                if (occ > entry.getValue()) {
+                    return false;
+                }
+
+            }
+            if (occ < entry.getValue()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
         PriorityQueue<Integer> prova = new PriorityQueue<>();
 
@@ -518,6 +548,10 @@ public class GeneticManipulator {
             System.out.println("p: " + integer);
         }
 
+    }
+
+    public void interrupt() {
+       this.interrupt = true;
     }
 
 }

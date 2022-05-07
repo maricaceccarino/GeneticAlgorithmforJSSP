@@ -304,7 +304,7 @@ public class PopulationPanel extends javax.swing.JPanel implements SolutionListe
     }
 
     @Override
-    public void newImprovement(int newFitness) {
+    public void newImprovement(JobIndividual bestone,int newFitness) {
     }
 
     @Override

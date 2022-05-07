@@ -16,7 +16,7 @@ public interface SolutionListener {
     
     public void end(JobIndividual bestone);
     
-    public void newImprovement(int newFitness);
+    public void newImprovement(JobIndividual bestone, int newFitness);
     
     public void nextCycle(int cycle);
     

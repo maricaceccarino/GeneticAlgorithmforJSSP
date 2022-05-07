@@ -49,9 +49,9 @@ public class EventManager {
         }
     }
 
-    public void newImprovement(int newFitness) {
+    public void newImprovement(JobIndividual bestone, int newFitness) {
         for (SolutionListener listener : solutionListeners) {
-            listener.newImprovement(newFitness);
+            listener.newImprovement(bestone,newFitness);
         }
     }
 

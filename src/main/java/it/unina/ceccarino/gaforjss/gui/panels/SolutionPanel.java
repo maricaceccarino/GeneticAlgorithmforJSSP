@@ -23,6 +23,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.util.Date;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.plaf.synth.SynthFormattedTextFieldUI;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -126,6 +127,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         jCheckBox_AVG = new javax.swing.JCheckBox();
         jSpinner_avg = new javax.swing.JSpinner();
         jLabel4 = new javax.swing.JLabel();
+        jCheckBox_validation = new javax.swing.JCheckBox();
         jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel_nothing = new javax.swing.JPanel();
@@ -199,6 +201,14 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
 
         jLabel4.setText("avg each");
 
+        jCheckBox_validation.setSelected(true);
+        jCheckBox_validation.setText("validation for each solution");
+        jCheckBox_validation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_validationActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -216,7 +226,9 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
                                 .addGap(25, 25, 25)
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSpinner_avg, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jSpinner_avg, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jCheckBox_validation))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -258,7 +270,8 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
                     .addComponent(jCheckBox1)
                     .addComponent(jCheckBox_AVG)
                     .addComponent(jSpinner_avg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(jCheckBox_validation))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -312,10 +325,15 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         this.avgEach = (Integer) this.jSpinner_avg.getValue();
     }//GEN-LAST:event_jSpinner_avgStateChanged
 
+    private void jCheckBox_validationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_validationActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox_validationActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox_AVG;
+    private javax.swing.JCheckBox jCheckBox_validation;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -361,6 +379,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
 
     @Override
     public void end(JobIndividual bestone) {
+
         System.out.println("<<SOLUTION with finess: " + bestone.getFitness() + " >>");
         System.out.println(bestone);
 
@@ -406,7 +425,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
     }
 
     @Override
-    public void newImprovement(int newFitness) {
+    public void newImprovement(JobIndividual bestone, int newFitness) {
         this.currentFitness = newFitness;
         this.jLabel_currentFitness.setText("" + newFitness + " ");
         TimeValueSupporterClass ds1 = new TimeValueSupporterClass(newFitness, "Best Fitness", new Date(x));
@@ -414,6 +433,17 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
             panel.getMixedPanel().addLinearData("Soluzione", ds1, true);
         } catch (TypeDataMismatchException ex) {
             ex.printStackTrace();
+        }
+        if (!GeneticManipulator.getInstance().validateSolution(bestone)) {
+            System.out.println("SOLUZIONE INVALIDA: ");
+            System.out.println("FITNESS: " + bestone.getFitness());
+            System.out.println(bestone);
+            System.out.println("--------------------------------------------------------------------");
+            GeneticManipulator.getInstance().interrupt();
+            JOptionPane.showMessageDialog(null, "La soluzione non è valida. ", "Errore", JOptionPane.ERROR_MESSAGE);
+
+        } else {
+            System.out.println("[OK] SOLUZIONE VALIDA A FITNESS: " + bestone.getFitness());
         }
         // panel.getMixedPanel().addICVAnnotation(new ICVAnnotation("Soluzione", x, "" + x, true));
 
