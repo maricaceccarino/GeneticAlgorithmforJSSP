@@ -27,6 +27,7 @@ import javax.swing.JTable;
 import javax.swing.plaf.synth.SynthFormattedTextFieldUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.text.JTextComponent;
+import javax.swing.tree.TreePath;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
@@ -56,7 +57,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
                     @Override
                     protected void paint(javax.swing.plaf.synth.SynthContext context, java.awt.Graphics g) {
                         g.setColor(Color.GRAY);
-                        g.fillRect(0, 0, getComponent().getWidth() , getComponent().getHeight());
+                        g.fillRect(0, 0, getComponent().getWidth(), getComponent().getHeight());
                         super.paint(context, g);
                     }
                 });
@@ -87,7 +88,6 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
 //        LinearDataSupporter s2 = new LinearDataSupporter("AVG fitness");
 //        s2.setOrder(2);
 //        s2.setDiscret(false);
-
         panel.getMixedPanel().addDataBar(s);
 //        panel.getMixedPanel().addDataBar(s2);
 //        MyLayer<JPanel> layerUI = new ZoomLabeledLayer(panel);
@@ -374,6 +374,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
         node.addChild(new DataNode(bestone.getMachinesSelected(), TreeTableCellRenderer.HTML_DEOCORATION_2 + "machines"));
         node.addChild(new DataNode(ArrayUtils.toObject(bestone.getComplationArray()), TreeTableCellRenderer.HTML_DEOCORATION_2 + "completion"));
         root.addChild(node);
+
         AbstractTreeTableModel treeTableModel = new DataModel(root);
         final TreeTable solutionTreeTable = new TreeTable(treeTableModel);
         solutionTreeTable.getColumnModel().getColumn(0).setMinWidth(140);
@@ -398,6 +399,7 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
 
             });
         }
+        solutionTreeTable.expandRoot();
         this.jScrollPane_solutionContainer.setViewportView(solutionTreeTable);
         this.jSplitPane1.setLeftComponent(this.jPanel_Solution);
 

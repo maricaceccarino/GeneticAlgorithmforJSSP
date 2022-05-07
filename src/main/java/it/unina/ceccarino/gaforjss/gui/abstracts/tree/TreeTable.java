@@ -52,6 +52,10 @@ public class TreeTable extends JTable {
 
     }
     
+    public void expandRoot(){
+        this.tree.expandRow(0);
+    }
+    
     public boolean isRowExpanded(int row){
         return this.tree.isExpanded(row);
     }
