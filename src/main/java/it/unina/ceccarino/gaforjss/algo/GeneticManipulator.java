@@ -523,12 +523,8 @@ public class GeneticManipulator {
                 if (i == entry.getKey()) {
                     occ++;
                 }
-                if (occ > entry.getValue()) {
-                    return false;
-                }
-
             }
-            if (occ < entry.getValue()) {
+            if (occ != entry.getValue()*6) {
                 return false;
             }
         }

@@ -435,11 +435,13 @@ public class SolutionPanel extends javax.swing.JPanel implements SolutionListene
             ex.printStackTrace();
         }
         if (!GeneticManipulator.getInstance().validateSolution(bestone)) {
+            this.jLabel_runningMessage.setText("Soluzione invalida. Algoritmo interrotto.");
             System.out.println("SOLUZIONE INVALIDA: ");
             System.out.println("FITNESS: " + bestone.getFitness());
             System.out.println(bestone);
             System.out.println("--------------------------------------------------------------------");
             GeneticManipulator.getInstance().interrupt();
+             
             JOptionPane.showMessageDialog(null, "La soluzione non è valida. ", "Errore", JOptionPane.ERROR_MESSAGE);
 
         } else {

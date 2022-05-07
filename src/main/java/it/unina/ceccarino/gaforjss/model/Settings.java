@@ -68,6 +68,9 @@ public class Settings {
     }
     
     public void setMaxJobOveralQuantity(int maxJobOveralQuantity){
+        if(maxJobOveralQuantity < 10){
+            throw new IllegalArgumentException("L'input non può essere minore di 10");
+        }
         this.MAX_JOB_OVERAL_QUANTITY = maxJobOveralQuantity;
         InputManager.getInstance().randomizeJobQuantity();
     }

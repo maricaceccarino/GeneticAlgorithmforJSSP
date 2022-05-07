@@ -39,6 +39,8 @@ public class Utils {
      * @return un numero intero casuale tra min e max
      */
     public static int randomInRange(int min, int max) {
+//        System.out.println("min: "+min);
+//        System.out.println("max: "+max);
         Random random = new Random();
         return random.ints(min, max)
                 .findFirst()

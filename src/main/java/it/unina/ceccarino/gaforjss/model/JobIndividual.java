@@ -153,7 +153,7 @@ public class JobIndividual implements Comparable<JobIndividual>, Cloneable {
             int r2 = Utils.randomInRange(0, this.jobPermutation.length);
             int t = this.jobPermutation[r1];
             this.jobPermutation[r1] = this.jobPermutation[r2];
-            this.jobPermutation[r2] = this.jobPermutation[t];
+            this.jobPermutation[r2] = t;
         }
         this.mutated = true;
         //QUESTION: devo richiamare la #initCompletionArray ? 
