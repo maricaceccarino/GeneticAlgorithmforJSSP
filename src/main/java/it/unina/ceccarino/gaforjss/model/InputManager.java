@@ -137,7 +137,7 @@ public class InputManager {
         this.jobTypes[9] = new JobType(10, new MachineStep[]{
             new MachineStep(Machine.M1, 6),
             new MachineStep(Machine.M3, 5),
-            new MachineStep(Machine.M3, 2),
+            new MachineStep(Machine.M5, 2),
             new MachineStep(Machine.M9, 5),
             new MachineStep(Machine.M11, 5),
             new MachineStep(Machine.M14, 2)
