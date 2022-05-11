@@ -270,6 +270,23 @@ public class InputManager {
     public void randomizeJobQuantity() {
         //1 2 3 4 5 6 7 8 9 10
         //2 1 1 1 1 1 1 1 1 1   = 10
+        
+        if(true){
+            JOB_TOTAL_QUANTITY = 25;
+            jobQuantityMap.put(1, 1);
+            jobQuantityMap.put(2, 3);
+            jobQuantityMap.put(3, 4);
+            jobQuantityMap.put(4, 2);
+            jobQuantityMap.put(5, 1);
+            jobQuantityMap.put(6, 3);
+            jobQuantityMap.put(7, 4);
+            jobQuantityMap.put(8, 1);
+            jobQuantityMap.put(9, 2);
+            jobQuantityMap.put(10, 4);
+            
+            return;
+            
+        }
 
         JOB_TOTAL_QUANTITY = 0;
         jobQuantityMap.clear();
@@ -287,6 +304,7 @@ public class InputManager {
             jobQuantityMap.put(randomIndex, jobQuantityMap.get(randomIndex) + 1);
             JOB_TOTAL_QUANTITY++;
         }
+        System.out.println("JOB_TOTAL_QUANTITY = "+JOB_TOTAL_QUANTITY);
         EventManager.getInstance().settingsChanged();
 
     }
